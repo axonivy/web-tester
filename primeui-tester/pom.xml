@@ -11,6 +11,13 @@
 	<description>API that simplifies testing of JSF pages that contain Primefaces Widgets.</description>
 	<url>https://github.com/ivy-supplements/primeui-tester/</url>
 
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
 	<developers>
 		<developer>
 			<name>Denis Huelin</name>
