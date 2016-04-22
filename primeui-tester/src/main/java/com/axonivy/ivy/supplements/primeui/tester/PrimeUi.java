@@ -8,7 +8,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-
+/**
+ * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
+ * with Primefaces {@link org.openqa.selenium.WebElement WebElements}.
+ * 
+ * @author Denis Huelin
+ * @since 6.0.0
+ */
 public class PrimeUi
 {
   private AjaxHelper ajax;

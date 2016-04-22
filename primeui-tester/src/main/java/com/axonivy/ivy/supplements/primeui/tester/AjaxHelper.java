@@ -7,6 +7,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+/**
+ * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to wait for a
+ * {@link org.openqa.selenium.WebElement WebElement} to reach an
+ * {@link org.openqa.selenium.support.ui.ExpectedCondition ExpectedCondition}.
+ * 
+ * @author Denis Huelin
+ * @since 6.0.0
+ */
 public class AjaxHelper
 {
   private WebDriver driver;
