@@ -6,9 +6,25 @@
 	<artifactId>primeui-tester</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
+	
 	<name>primeui-tester</name>
-	<url>http://maven.apache.org</url>
+
+	<developers>
+		<developer>
+			<email>support@ivyteam.ch</email>
+			<organization>AXON IVY AG</organization>
+			<organizationUrl>http://www.axonivy.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:ivy-supplements/primeui-tester.git</connection>
+		<developerConnection>scm:git:git@github.com:ivy-supplements/primeui-tester.git</developerConnection>
+		<url>git@github.com:ivy-supplements/primeui-tester.git</url>
+	</scm>
+
+	<organization>
+	</organization>
 
 	<distributionManagement>
 		<repository>
