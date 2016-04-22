@@ -8,9 +8,12 @@
 	<packaging>jar</packaging>
 	
 	<name>primeui-tester</name>
+	<description>API that simplifies testing of JSF pages that contain Primefaces Widgets.</description>
+	<url>https://github.com/ivy-supplements/primeui-tester/</url>
 
 	<developers>
 		<developer>
+			<name>Denis Huelin</name>
 			<email>support@ivyteam.ch</email>
 			<organization>AXON IVY AG</organization>
 			<organizationUrl>http://www.axonivy.com</organizationUrl>
@@ -24,6 +27,8 @@
 	</scm>
 
 	<organization>
+		<name>The open source community of Axon.ivy</name>
+		<url>https://github.com/ivy-supplements</url>
 	</organization>
 
 	<distributionManagement>
