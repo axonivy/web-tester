@@ -105,25 +105,20 @@ public class PrimeUi
                       + label + "']"))));
       item.click();
 
-      await(new ExpectedCondition<Boolean>()
+      await(driver -> {
+        try
         {
-          @Override
-          public Boolean apply(WebDriver driver)
+          if (ObjectUtils.notEqual(getFocusSelection(), startValue))
           {
-            try
-            {
-              if (ObjectUtils.notEqual(getFocusSelection(), startValue))
-              {
-                return true;
-              }
-              return null;
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
+            return true;
           }
-        });
+          return null;
+        }
+        catch (StaleElementReferenceException ex)
+        {
+          return null;
+        }
+      });
     }
 
     private WebElement getFocusSelection()
@@ -139,22 +134,17 @@ public class PrimeUi
 
     private void expandSelectableItems()
     {
-      await(new ExpectedCondition<WebElement>()
+      await(driver -> {
+        try
         {
-          @Override
-          public WebElement apply(WebDriver driver)
-          {
-            try
-            {
-              return webDriver.findElement(By.id(oneMenuId))
-                      .findElement(By.cssSelector("span.ui-icon.ui-icon-triangle-1-s"));
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-        }).click();
+          return webDriver.findElement(By.id(oneMenuId))
+                  .findElement(By.cssSelector("span.ui-icon.ui-icon-triangle-1-s"));
+        }
+        catch (StaleElementReferenceException ex)
+        {
+          return null;
+        }
+      }).click();
       awaitItemsCollapsed(false);
     }
 
