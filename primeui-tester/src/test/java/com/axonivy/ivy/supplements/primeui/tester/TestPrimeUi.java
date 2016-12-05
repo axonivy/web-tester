@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
@@ -146,8 +147,8 @@ public class TestPrimeUi
 
   @Before
   public void setUp()
-  {
-    driver = new FirefoxDriver();
+  {	
+    driver = new HtmlUnitDriver();
     prime = new PrimeUi(driver);
   }
 
