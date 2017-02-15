@@ -17,7 +17,7 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectCheckboxMenu;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;
 
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.

@@ -86,7 +86,11 @@ public class PrimeUi
 
     public void selectItemByLabel(String label)
     {
-      if (getFocusSelection().getAttribute("aria-activedescendant").toString().equals(label))
+      if (label==null)
+      {
+        throw new IllegalArgumentException("Label must not be null!");
+      }
+      if (label.equals(getFocusSelection().getAttribute("aria-activedescendant")))
       {
         return;
       }
