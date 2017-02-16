@@ -15,8 +15,6 @@
  */
 package com.axonivy.ivy.supplements.primeui.tester;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -163,7 +161,7 @@ public class PrimeUi
     }
   }
 
-  public class SelectCheckboxMenu implements Serializable
+  public class SelectCheckboxMenu
   {
     private String checkBoxMenuId;
     private final String checkAll = "U4VLuW0S0ncz2fbqQ7Kz";
@@ -286,7 +284,7 @@ public class PrimeUi
     private boolean isCheckedInternal(WebDriver driver)
     {
       return driver
-              .findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/../../div[2]"))
+              .findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]"))
               .getAttribute("class")
               .contains("ui-state-active");
     }
@@ -406,7 +404,8 @@ public class PrimeUi
               return driver
                       .findElement(
                               By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue
-                                      + "']/..")).getAttribute("aria-selected").contains("true");
+                                      + "']/.."))
+                      .getAttribute("aria-selected").contains("true");
             }
             catch (StaleElementReferenceException ex)
             {

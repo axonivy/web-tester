@@ -76,7 +76,7 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/input/booleanCheckbox.xhtml");
 
-    SelectBooleanCheckbox selectBooleanCheckbox = prime.selectBooleanCheckbox(By.id("j_idt87:j_idt90_input"));
+    SelectBooleanCheckbox selectBooleanCheckbox = prime.selectBooleanCheckbox(By.id("j_idt87:j_idt90"));
     assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(false);
 
     selectBooleanCheckbox.setChecked();
