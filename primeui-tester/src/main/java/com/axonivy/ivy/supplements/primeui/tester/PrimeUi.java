@@ -86,7 +86,7 @@ public class PrimeUi
 
     public void selectItemByLabel(String label)
     {
-      if (label==null)
+      if (label == null)
       {
         throw new IllegalArgumentException("Label must not be null!");
       }
@@ -390,6 +390,30 @@ public class PrimeUi
     {
       await(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
               By.id(tableId), checkText)));
+    }
+
+    public void select(String cellValue)
+    {
+      webDriver.findElement(By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue + "']"))
+              .click();
+      await(new ExpectedCondition<Boolean>()
+        {
+          @Override
+          public Boolean apply(WebDriver driver)
+          {
+            try
+            {
+              return driver
+                      .findElement(
+                              By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue
+                                      + "']/..")).getAttribute("aria-selected").contains("true");
+            }
+            catch (StaleElementReferenceException ex)
+            {
+              return null;
+            }
+          }
+        });
     }
 
     public String valueAt(int row, int column) throws Exception
