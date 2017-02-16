@@ -7,9 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
@@ -115,7 +114,8 @@ public class TestPrimeUi {
 	}
 
 	private void searchTable(String firstBrand) {
-		driver.findElement(By.id("j_idt89:j_idt90:globalFilter")).sendKeys(Keys.chord(Keys.CONTROL, "a"), firstBrand);
+                driver.findElement(By.id("j_idt89:j_idt90:globalFilter")).clear();
+		driver.findElement(By.id("j_idt89:j_idt90:globalFilter")).sendKeys(firstBrand);
 	}
 
 	@Test
@@ -132,7 +132,7 @@ public class TestPrimeUi {
 
 	@Before
 	public void setUp() {
-		driver = new FirefoxDriver();
+		driver = new HtmlUnitDriver(true);
 		prime = new PrimeUi(driver);
 	}
 

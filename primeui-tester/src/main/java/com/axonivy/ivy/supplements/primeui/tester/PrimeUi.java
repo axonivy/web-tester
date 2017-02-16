@@ -389,7 +389,7 @@ public class PrimeUi
     public void containsNot(String checkText)
     {
       await(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
-              By.id(tableId), checkText)));
+              By.id(tableId + "_data"), checkText)));
     }
 
     public void select(String cellValue)
