@@ -252,8 +252,15 @@ public class PrimeUi
 
     public void setChecked()
     {
-      webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/../../div[2]/span")).click();
-      waitIsChecked();
+      if (isChecked())
+      {
+        return;
+      }
+      else
+      {
+        webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]/span")).click();
+        waitIsChecked();
+      }
     }
 
     public void waitIsChecked()
