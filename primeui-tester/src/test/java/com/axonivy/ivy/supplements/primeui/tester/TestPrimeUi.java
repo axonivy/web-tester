@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectCheckboxMenu;
@@ -67,7 +68,7 @@ public class TestPrimeUi
 
   private void outputContains(String chosenValue)
   {
-    prime.await(ExpectedConditions.textToBePresentInElementLocated(By.id("j_idt87:j_idt92_content"),
+    prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(By.id("j_idt87:j_idt92_content"),
             chosenValue));
   }
 
@@ -141,6 +142,17 @@ public class TestPrimeUi
 
     driver.findElement(By.xpath("//*[@id='j_idt92']/div[1]/a")).click();
     dialog.waitToBeClosedOrError();
+  }
+  
+  @Test
+  public void testAccordion()
+  {
+    driver.get("http://primefaces.org/showcase/ui/panel/accordionPanel.xhtml");
+    
+    Accordion accordion = prime.accordion(By.id("form:j_idt88"));
+    accordion.toggleTab("Godfather Part II");
+    assertThat(accordion.isTabOpen("Godfather Part II")).isTrue();
+    assertThat(accordion.isTabOpen("Godfather Part I")).isFalse();
   }
 
   @Before

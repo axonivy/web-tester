@@ -15,6 +15,8 @@
  */
 package com.axonivy.ivy.supplements.primeui.tester;
 
+import java.util.function.Function;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -107,12 +109,12 @@ public class PrimeUi
     {
       final String startValue = getFocusSelection().getAttribute("aria-activedescendant").toString();
 
-      WebElement item = await(ExpectedConditions.elementToBeClickable(webDriver.findElement(
+      WebElement item = awaitCondition(ExpectedConditions.elementToBeClickable(webDriver.findElement(
               By.xpath("//div[@id='" + oneMenuId + "_panel']/div/ul/li[@data-label='" + label + "'][text()='"
                       + label + "']"))));
       item.click();
 
-      await(driver -> {
+      awaitCondition(driver -> {
         try
         {
           if (ObjectUtils.notEqual(getFocusSelection(), startValue))
@@ -135,13 +137,13 @@ public class PrimeUi
 
     private void awaitItemsCollapsed(boolean collapsed)
     {
-      await(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='" + oneMenuId
+      awaitCondition(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='" + oneMenuId
               + "_focus'][@aria-expanded= '" + !collapsed + "']")));
     }
 
     private void expandSelectableItems()
     {
-      await(driver -> {
+      awaitCondition(driver -> {
         try
         {
           return webDriver.findElement(By.id(oneMenuId))
@@ -157,7 +159,7 @@ public class PrimeUi
 
     public void waitForLabel(String selectLabel)
     {
-      await(ExpectedConditions.textToBePresentInElementLocated(locatorLabel, selectLabel));
+      awaitCondition(ExpectedConditions.textToBePresentInElementLocated(locatorLabel, selectLabel));
     }
 
     public String getSelectedItem()
@@ -211,26 +213,10 @@ public class PrimeUi
 
     private void waitForChosenInternal(final String value)
     {
-      await(new ExpectedCondition<Boolean>()
-        {
-          @Override
-          public Boolean apply(WebDriver driver)
-          {
-            try
-            {
-              return driver
-                      .findElement(
-                              By.xpath("//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/" + value
-                                      + "div/div[2]"))
-                      .getAttribute("class")
-                      .contains("state-active");
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-        });
+      await(driver -> driver
+              .findElement(By.xpath("//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/" +
+                      value + "div/div[2]"))
+              .getAttribute("class").contains("state-active"));
     }
 
     private void openCheckboxPanel()
@@ -270,22 +256,7 @@ public class PrimeUi
 
     public void waitIsChecked()
     {
-      await(new ExpectedCondition<Boolean>()
-        {
-          @Override
-          public Boolean apply(WebDriver driver)
-          {
-            try
-            {
-              return isCheckedInternal(driver);
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-        });
-      return;
+      await(driver -> isCheckedInternal(driver));
     }
 
     public boolean isChecked()
@@ -317,24 +288,8 @@ public class PrimeUi
               .findElement(getRadioLocator("id", id))
               .click();
 
-      await(new ExpectedCondition<Boolean>()
-        {
-          @Override
-          public Boolean apply(WebDriver driver)
-          {
-            try
-            {
-              return driver.findElement(By.id(oneRadioId))
-                      .findElement(getRadioLocator("id", id)).getAttribute("class")
-                      .contains("state-active");
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-
-        });
+      await(driver -> driver.findElement(By.id(oneRadioId)).findElement(getRadioLocator("id", id))
+              .getAttribute("class").contains("state-active"));
     }
 
     public void selectItemByValue(final String value)
@@ -343,23 +298,9 @@ public class PrimeUi
               .findElement(getRadioLocator("value", value));
       item.click();
 
-      await(new ExpectedCondition<Boolean>()
-        {
-          @Override
-          public Boolean apply(WebDriver driver)
-          {
-            try
-            {
-              return driver.findElement(By.id(oneRadioId))
-                      .findElement(getRadioLocator("value", value))
-                      .getAttribute("class").contains("ui-state-active");
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-        });
+      await(driver -> driver.findElement(By.id(oneRadioId))
+              .findElement(getRadioLocator("value", value))
+              .getAttribute("class").contains("ui-state-active"));
     }
 
     private By getRadioLocator(String attribute, String value)
@@ -386,19 +327,19 @@ public class PrimeUi
 
     public void firstRowContains(String expectedText)
     {
-      await(ExpectedConditions.textToBePresentInElementLocated(
+      awaitCondition(ExpectedConditions.textToBePresentInElementLocated(
               By.xpath("//*[@id='" + tableId + "_data']/tr[1]"), expectedText));
     }
 
     public void contains(String checkText)
     {
-      await(ExpectedConditions.textToBePresentInElementLocated(
+      awaitCondition(ExpectedConditions.textToBePresentInElementLocated(
               By.id(tableId), checkText));
     }
 
     public void containsNot(String checkText)
     {
-      await(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
+      awaitCondition(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
               By.id(tableId + "_data"), checkText)));
     }
 
@@ -406,25 +347,10 @@ public class PrimeUi
     {
       webDriver.findElement(By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue + "']"))
               .click();
-      await(new ExpectedCondition<Boolean>()
-        {
-          @Override
-          public Boolean apply(WebDriver driver)
-          {
-            try
-            {
-              return driver
-                      .findElement(
-                              By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue
-                                      + "']/.."))
-                      .getAttribute("aria-selected").contains("true");
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-        });
+
+      await(driver -> driver
+              .findElement(By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue + "']/.."))
+              .getAttribute("aria-selected").contains("true"));
     }
 
     public String valueAt(int row, int column) throws Exception
@@ -443,34 +369,20 @@ public class PrimeUi
 
     public Dialog(final By dialogLocator)
     {
-      dialogId = await(new ExpectedCondition<String>()
-        {
-          @Override
-          public String apply(WebDriver driver)
-          {
-            try
-            {
-              return driver.findElement(dialogLocator).getAttribute("id");
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-        });
+      dialogId = await(driver -> driver.findElement(dialogLocator).getAttribute("id"));
     }
 
     public void waitForVisibility(boolean visible)
     {
-      await(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='" + dialogId + "'][@aria-hidden='"
+      awaitCondition(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='" + dialogId
+              + "'][@aria-hidden='"
               + !visible + "']")));
     }
 
     public void waitToBeClosedOrError()
     {
-      await(new ExpectedCondition<Boolean>()
+      awaitCondition(new ExpectedCondition<Boolean>()
         {
-
           @Override
           public Boolean apply(WebDriver driver)
           {
@@ -482,30 +394,31 @@ public class PrimeUi
             return null;
           }
 
-          private boolean isClosed(WebElement dialog)
-          {
-            try
-            {
-              return dialog.getAttribute("aria-hidden").equals(Boolean.TRUE.toString());
-            }
-            catch (Exception ex)
-            {
-              return false;
-            }
-          }
-
-          private boolean hasErrors(WebElement dialog)
-          {
-            try
-            {
-              return dialog.findElement(By.className("ui-state-error")) != null;
-            }
-            catch (Exception ex)
-            {
-              return false;
-            }
-          }
         });
+    }
+    
+    private boolean isClosed(WebElement dialog)
+    {
+      try
+      {
+        return dialog.getAttribute("aria-hidden").equals(Boolean.TRUE.toString());
+      }
+      catch (Exception ex)
+      {
+        return false;
+      }
+    }
+    
+    private boolean hasErrors(WebElement dialog)
+    {
+      try
+      {
+        return dialog.findElement(By.className("ui-state-error")) != null;
+      }
+      catch (Exception ex)
+      {
+        return false;
+      }
     }
   }
 
@@ -513,45 +426,50 @@ public class PrimeUi
   {
     private String accordionId;
 
-    public Accordion(final By dialogLocator)
+    public Accordion(final By accordionLocator)
     {
-      accordionId = await(new ExpectedCondition<String>()
-        {
-          @Override
-          public String apply(WebDriver driver)
-          {
-            try
-            {
-              return driver.findElement(dialogLocator).getAttribute("id");
-            }
-            catch (StaleElementReferenceException ex)
-            {
-              return null;
-            }
-          }
-        });
+      accordionId = await(driver -> driver.findElement(accordionLocator).getAttribute("id"));
     }
 
     public void toggleTab(String tabName)
     {
-      By tabLocator = By.xpath("//*[@id='" + accordionId + "']/h3[contains(., '" + tabName + "')]");
+      By tabLocator = By.xpath("//*[@id='" + accordionId + "']/*[contains(., '" + tabName + "')]");
       String expansionAttribute = "aria-expanded";
       String previousState = webDriver.findElement(tabLocator).getAttribute(expansionAttribute);
       webDriver.findElement(tabLocator).click();
-      await(ExpectedConditions.not(ExpectedConditions.attributeContains(tabLocator, expansionAttribute,
-              previousState)));
-      webDriver.findElement(tabLocator).getAttribute(expansionAttribute);
+
+      await(driver -> !driver.findElement(tabLocator).getAttribute(expansionAttribute)
+              .contains(previousState));
     }
 
     public boolean isTabOpen(String tabName)
     {
       return webDriver
-              .findElement(By.xpath("//*[@id='" + accordionId + "']/h3[contains(., '" + tabName + "')]"))
+              .findElement(By.xpath("//*[@id='" + accordionId + "']/*[contains(., '" + tabName + "')]"))
               .getAttribute("aria-expanded").contains("true");
     }
   }
 
-  protected <T> T await(ExpectedCondition<T> condition)
+  protected <T> T await(Function<WebDriver, T> condition)
+  {
+    return awaitCondition(new ExpectedCondition<T>()
+      {
+        @Override
+        public T apply(WebDriver driver)
+        {
+          try
+          {
+            return condition.apply(driver);
+          }
+          catch (StaleElementReferenceException ex)
+          {
+            return null;
+          }
+        }
+      });
+  }
+
+  protected <T> T awaitCondition(ExpectedCondition<T> condition)
   {
     return ajax.await(condition);
   }
