@@ -71,6 +71,11 @@ public class PrimeUi
     return new Dialog(dialog);
   }
 
+  public Accordion accordion(By locator)
+  {
+    return new Accordion(locator);
+  }
+
   public class SelectOneMenu
   {
     private final String oneMenuId;
@@ -501,6 +506,48 @@ public class PrimeUi
             }
           }
         });
+    }
+  }
+
+  public class Accordion
+  {
+    private String accordionId;
+
+    public Accordion(final By dialogLocator)
+    {
+      accordionId = await(new ExpectedCondition<String>()
+        {
+          @Override
+          public String apply(WebDriver driver)
+          {
+            try
+            {
+              return driver.findElement(dialogLocator).getAttribute("id");
+            }
+            catch (StaleElementReferenceException ex)
+            {
+              return null;
+            }
+          }
+        });
+    }
+
+    public void toggleTab(String tabName)
+    {
+      By tabLocator = By.xpath("//*[@id='" + accordionId + "']/h3[contains(., '" + tabName + "')]");
+      String expansionAttribute = "aria-expanded";
+      String previousState = webDriver.findElement(tabLocator).getAttribute(expansionAttribute);
+      webDriver.findElement(tabLocator).click();
+      await(ExpectedConditions.not(ExpectedConditions.attributeContains(tabLocator, expansionAttribute,
+              previousState)));
+      webDriver.findElement(tabLocator).getAttribute(expansionAttribute);
+    }
+
+    public boolean isTabOpen(String tabName)
+    {
+      return webDriver
+              .findElement(By.xpath("//*[@id='" + accordionId + "']/h3[contains(., '" + tabName + "')]"))
+              .getAttribute("aria-expanded").contains("true");
     }
   }
 
