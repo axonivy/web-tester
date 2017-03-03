@@ -372,11 +372,23 @@ public class PrimeUi
       dialogId = await(driver -> driver.findElement(dialogLocator).getAttribute("id"));
     }
 
-    public void waitForVisibility(boolean visible)
+    public void waitForVisibility(Boolean visible)
     {
-      awaitCondition(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='" + dialogId
-              + "'][@aria-hidden='"
-              + !visible + "']")));
+      await(driver -> {
+    	  WebElement dialog = driver.findElement(By.id(dialogId));
+    	  String hidden = dialog.getAttribute("aria-hidden");
+		return !visible.toString().equals(hidden);
+      });
+    }
+    
+    public void waitVisible()
+    {
+    	waitForVisibility(true);
+    }
+    
+    public void waitHidden()
+    {
+    	waitForVisibility(false);
     }
 
     public void waitToBeClosedOrError()
