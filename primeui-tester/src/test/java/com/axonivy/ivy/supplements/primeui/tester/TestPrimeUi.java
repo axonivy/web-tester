@@ -49,9 +49,7 @@ public class TestPrimeUi
 
     SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(By.id("j_idt87:menu"));
     selectCheckBox.selectAllItems();
-    By submitButton = By.id("j_idt87:j_idt91");
-    driver.findElement(submitButton).click();
-    outputContains("Brasilia");
+    submitAndCheck("Brasilia");
   }
 
   @Test
@@ -61,14 +59,19 @@ public class TestPrimeUi
 
     SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(By.id("j_idt87:menu"));
     selectCheckBox.selectItemByValue("Miami");
-    By submitButton = By.id("j_idt87:j_idt91");
+    submitAndCheck("Miami");
+  }
+
+  private void submitAndCheck(String selected)
+  {
+    By submitButton = By.id("j_idt87:j_idt93");
     driver.findElement(submitButton).click();
-    outputContains("Miami");
+    outputContains(selected);
   }
 
   private void outputContains(String chosenValue)
   {
-    prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(By.id("j_idt87:j_idt92_content"),
+    prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(By.id("j_idt87:j_idt95_content"),
             chosenValue));
   }
 
