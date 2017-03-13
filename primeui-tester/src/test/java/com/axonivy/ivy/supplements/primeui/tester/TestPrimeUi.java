@@ -139,8 +139,9 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/overlay/dialog/basic.xhtml");
 
-    driver.findElement(By.id("j_idt89")).click();
     Dialog dialog = prime.dialog(By.id("j_idt92"));
+    dialog.waitForVisibility(false);
+    driver.findElement(By.id("j_idt89")).click();
     dialog.waitForVisibility(true);
 
     driver.findElement(By.xpath("//*[@id='j_idt92']/div[1]/a")).click();
