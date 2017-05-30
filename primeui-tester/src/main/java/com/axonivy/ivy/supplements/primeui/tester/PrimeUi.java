@@ -375,20 +375,20 @@ public class PrimeUi
     public void waitForVisibility(Boolean visible)
     {
       await(driver -> {
-    	  WebElement dialog = driver.findElement(By.id(dialogId));
-    	  String hidden = dialog.getAttribute("aria-hidden");
-		return !visible.toString().equals(hidden);
+        WebElement dialog = driver.findElement(By.id(dialogId));
+        String hidden = dialog.getAttribute("aria-hidden");
+        return !visible.toString().equals(hidden);
       });
     }
-    
+
     public void waitVisible()
     {
-    	waitForVisibility(true);
+      waitForVisibility(true);
     }
-    
+
     public void waitHidden()
     {
-    	waitForVisibility(false);
+      waitForVisibility(false);
     }
 
     public void waitToBeClosedOrError()
@@ -408,7 +408,7 @@ public class PrimeUi
 
         });
     }
-    
+
     private boolean isClosed(WebElement dialog)
     {
       try
@@ -420,7 +420,7 @@ public class PrimeUi
         return false;
       }
     }
-    
+
     private boolean hasErrors(WebElement dialog)
     {
       try
@@ -445,7 +445,8 @@ public class PrimeUi
 
     public void toggleTab(String tabName)
     {
-      By tabLocator = By.xpath("//*[@id='" + accordionId + "']/*[contains(., '" + tabName + "')]");
+      By tabLocator = By.xpath("//*[@id='" + accordionId + "']/*[contains(., '" + tabName
+              + "')][@role='tab']");
       String expansionAttribute = "aria-expanded";
       String previousState = webDriver.findElement(tabLocator).getAttribute(expansionAttribute);
       webDriver.findElement(tabLocator).click();
@@ -459,6 +460,18 @@ public class PrimeUi
       return webDriver
               .findElement(By.xpath("//*[@id='" + accordionId + "']/*[contains(., '" + tabName + "')]"))
               .getAttribute("aria-expanded").contains("true");
+    }
+
+    public void openTab(String tabName)
+    {
+      if (isTabOpen(tabName))
+      {
+        return;
+      }
+      else
+      {
+        toggleTab(tabName);
+      }
     }
   }
 

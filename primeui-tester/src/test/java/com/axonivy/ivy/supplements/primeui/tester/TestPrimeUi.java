@@ -147,16 +147,27 @@ public class TestPrimeUi
     driver.findElement(By.xpath("//*[@id='j_idt92']/div[1]/a")).click();
     dialog.waitToBeClosedOrError();
   }
-  
+
   @Test
   public void testAccordion()
   {
     driver.get("http://primefaces.org/showcase/ui/panel/accordionPanel.xhtml");
-    
+
     Accordion accordion = prime.accordion(By.id("form:j_idt88"));
     accordion.toggleTab("Godfather Part II");
-    assertThat(accordion.isTabOpen("Godfather Part II")).isTrue();
-    assertThat(accordion.isTabOpen("Godfather Part I")).isFalse();
+    validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
+
+    accordion.openTab("Godfather Part II");
+    validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
+
+    accordion.openTab("Godfather Part I");
+    validateTabOpen(accordion, "Godfather Part I", "Godfather Part II");
+  }
+
+  private void validateTabOpen(Accordion accordion, String openTab, String closedTab)
+  {
+    assertThat(accordion.isTabOpen(openTab)).isTrue();
+    assertThat(accordion.isTabOpen(closedTab)).isFalse();
   }
 
   @Before
