@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -61,6 +62,17 @@ public class TestPrimeUi
     selectCheckBox.selectItemByValue("Miami");
     submitAndCheck("Miami");
   }
+  
+  @Test
+  public void selectCheckBoxMenu_itemsByValue() throws Exception
+  {
+    driver.get("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
+
+    SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(By.id("j_idt87:menu"));
+    selectCheckBox.selectItemsByValue("Miami", "Brasilia");
+    submitAndCheck("Miami\n"
+            + "Brasilia");
+  }
 
   private void submitAndCheck(String selected)
   {
@@ -71,8 +83,17 @@ public class TestPrimeUi
 
   private void outputContains(String chosenValue)
   {
-    prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(By.id("j_idt87:j_idt95_content"),
-            chosenValue));
+    By contentId = By.id("j_idt87:j_idt95_content");
+    try
+    {
+      prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(contentId,
+              chosenValue));
+    }
+    catch (TimeoutException ex)
+    {
+      String text = driver.findElement(contentId).getText();
+      throw new RuntimeException("Could not find text '"+chosenValue+"' in '"+text+"'", ex);
+    }
   }
 
   @Test

@@ -170,8 +170,7 @@ public class PrimeUi
 
   public class SelectCheckboxMenu
   {
-    private String checkBoxMenuId;
-    private final String checkAll = "U4VLuW0S0ncz2fbqQ7Kz";
+    private final String checkBoxMenuId;
 
     public SelectCheckboxMenu(By locator)
     {
@@ -182,33 +181,33 @@ public class PrimeUi
     {
       openCheckboxPanel();
       webDriver.findElement(By.xpath("//*[@id='" + checkBoxMenuId + "_panel']/div[1]/div/div[2]")).click();
-
-      waitForChosen(checkAll);
-
+      waitForChosenInternal("");
       closeCheckboxPanel();
     }
 
     public void selectItemByValue(String labelValue)
     {
       openCheckboxPanel();
-      webDriver.findElement(By.xpath(
-              "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']"))
-              .click();
-
-      waitForChosen(labelValue);
+      selectItemInternal(labelValue);
+      closeCheckboxPanel();
+    }
+    
+    public void selectItemsByValue(String... labelValues)
+    {
+      openCheckboxPanel();
+      for(String label : labelValues)
+      {
+        selectItemInternal(label);
+      }
       closeCheckboxPanel();
     }
 
-    private void waitForChosen(String value)
+    private void selectItemInternal(String labelValue)
     {
-      if (value.equalsIgnoreCase(checkAll))
-      {
-        waitForChosenInternal("");
-      }
-      else
-      {
-        waitForChosenInternal("label[.='" + value + "']/../");
-      }
+      webDriver.findElement(By.xpath(
+         "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']")
+      ).click();
+      waitForChosenInternal("label[.='" + labelValue + "']/../");
     }
 
     private void waitForChosenInternal(final String value)
@@ -219,16 +218,17 @@ public class PrimeUi
               .getAttribute("class").contains("state-active"));
     }
 
-    private void openCheckboxPanel()
+    protected void openCheckboxPanel()
     {
       webDriver.findElement(By.id(checkBoxMenuId)).findElement(By.className("ui-icon-triangle-1-s")).click();
     }
 
-    private void closeCheckboxPanel()
+    protected void closeCheckboxPanel()
     {
       String panelId = checkBoxMenuId + "_panel";
       WebElement panel = ajax.await(ExpectedConditions.visibilityOfElementLocated(By.id(panelId)));
       panel.findElement(By.className("ui-selectcheckboxmenu-close")).click();
+      ajax.await(ExpectedConditions.invisibilityOfElementLocated(By.id(panelId)));
     }
   }
 
