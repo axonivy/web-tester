@@ -191,11 +191,11 @@ public class PrimeUi
       selectItemInternal(labelValue);
       closeCheckboxPanel();
     }
-    
+
     public void selectItemsByValue(String... labelValues)
     {
       openCheckboxPanel();
-      for(String label : labelValues)
+      for (String label : labelValues)
       {
         selectItemInternal(label);
       }
@@ -205,8 +205,8 @@ public class PrimeUi
     private void selectItemInternal(String labelValue)
     {
       webDriver.findElement(By.xpath(
-         "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']")
-      ).click();
+              "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']")
+              ).click();
       waitForChosenInternal("label[.='" + labelValue + "']/../");
     }
 
@@ -398,8 +398,7 @@ public class PrimeUi
           @Override
           public Boolean apply(WebDriver driver)
           {
-            WebElement dialog = driver.findElement(By.id(dialogId));
-            if (hasErrors(dialog) || isClosed(dialog))
+            if (hasErrors(driver) || isClosed(driver))
             {
               return true;
             }
@@ -409,11 +408,12 @@ public class PrimeUi
         });
     }
 
-    private boolean isClosed(WebElement dialog)
+    private boolean isClosed(WebDriver driver)
     {
       try
       {
-        return dialog.getAttribute("aria-hidden").equals(Boolean.TRUE.toString());
+        return driver.findElement(By.id(dialogId)).getAttribute("aria-hidden")
+                .equals(Boolean.TRUE.toString());
       }
       catch (Exception ex)
       {
@@ -421,11 +421,11 @@ public class PrimeUi
       }
     }
 
-    private boolean hasErrors(WebElement dialog)
+    private boolean hasErrors(WebDriver driver)
     {
       try
       {
-        return dialog.findElement(By.className("ui-state-error")) != null;
+        return driver.findElement(By.id(dialogId)).findElement(By.className("ui-state-error")) != null;
       }
       catch (Exception ex)
       {
