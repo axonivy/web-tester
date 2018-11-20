@@ -27,7 +27,7 @@ pipeline {
     stage('build') {
       steps {
         script {
-    	  script { maven cmd: 'clean deploy -f primeui-tester/pom.xml -P --activate-profiles ${DEPLOY_PROFILES}' }
+    	  script { maven cmd: 'clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES}' }
           archiveArtifacts '*/target/*.zip, */target/fop.log'
           analyzeFopLogs()
         }
