@@ -13,8 +13,7 @@ pipeline {
   	choice(
       name: 'DEPLOY_PROFILES',
       description: 'Choose where the built plugin should be deployed to',
-      choices: 'build\ncentral',
-      description: 'zugpronexus.snapshots, oss.sonatype.org.snapshots'
+      choices: 'build\ncentral'
     )
   }
   options {
