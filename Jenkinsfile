@@ -23,7 +23,7 @@ pipeline {
     cron '@midnight'
   }
   stages {    
-    stage('build') {
+    stage('build and deploy') {
       steps {
         withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
           script {
