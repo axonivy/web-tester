@@ -5,12 +5,13 @@ pipeline {
     }
   }
   parameters {
-  	choice(
+    booleanParam(defaultValue: false, description: 'If checked the plugin does not sign the plugin', name: 'skipGPGSign')
+    choice(
       name: 'engineSource',
       description: 'Engine to use for build',
       choices: 'Linux_Trunk_DesignerAndServer\nTrunk_DesignerAndServer\nTrunk_All'
     )
-  	choice(
+    choice(
       name: 'DEPLOY_PROFILES',
       description: 'Choose where the built plugin should be deployed to',
       choices: 'build\ncentral'
@@ -26,11 +27,16 @@ pipeline {
   stages {    
     stage('build') {
       steps {
-        script {
-    	  script { maven cmd: 'clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES}' }
-          archiveArtifacts '*/target/*.zip, */target/fop.log'
-          analyzeFopLogs()
-        }
+	withCredentials([string(credentialsId: 'gpg.password.primeui.tester', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
+          script {
+    	    script {
+	      sh "gpg --batch --import ${env.GPG_FILE}"
+	      maven cmd: 'clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.project-build.password='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign}'
+	    }
+	    archiveArtifacts '*/target/*.zip, */target/fop.log'
+	    analyzeFopLogs()
+	  }
+	}
       }
     }
   }
