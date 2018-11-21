@@ -26,8 +26,8 @@ pipeline {
     stage('build') {
       steps {
         withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
-                script {
-                script {
+          script {
+            script {
               sh "gpg --batch --import ${env.GPG_FILE}"
               maven cmd: 'clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign}'
             }
