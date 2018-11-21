@@ -31,7 +31,7 @@ pipeline {
               sh "gpg --batch --import ${env.GPG_FILE}"
               maven cmd: "clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign}"
             }
-            archiveArtifacts '*/target/*.zip, */target/fop.log'
+            archiveArtifacts '*/target/*.jar'
             analyzeFopLogs()
           }
         }
@@ -39,27 +39,3 @@ pipeline {
     }
   }
 }
-
-def analyzeFopLogs() {
-    analyzeFopLog('primeui-tester/target/fop.log')
-}
-
-def analyzeFopLog(logFile) {
-  println "Analyze ${logFile}"
-
-  def content = readFile(logFile)
-
-  def errors = content.split("\\n").findAll { line -> 
-    line.contains('ERROR') && !line.contains('Couldn\'t find hyphenation pattern')
-  }
-
-  if (errors.size() > 0) {
-    println "==========================================="
-    println "FOUND ${errors.size()} ERRORS in ${logFile}"
-    println "BUILD WILL BE MAKRED AS UNSTABLE"
-    println errors
-    println "==========================================="
-    currentBuild.result = 'UNSTABLE'
-  }
-}
-
