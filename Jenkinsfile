@@ -29,7 +29,7 @@ pipeline {
                 script {
                 script {
               sh "gpg --batch --import ${env.GPG_FILE}"
-              maven cmd: 'clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.project-build.password='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign}'
+              maven cmd: 'clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign}'
             }
             archiveArtifacts '*/target/*.zip, */target/fop.log'
             analyzeFopLogs()
