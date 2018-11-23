@@ -29,10 +29,15 @@ pipeline {
           script {
             script {
               sh "gpg --batch --import ${env.GPG_FILE}"
-              maven cmd: "clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign}"
+              maven cmd: "clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign} -Dmaven.test.failure.ignore=true"
             }
             archiveArtifacts '*/target/*.jar'
           }
+        }
+      }
+      post {
+        success {
+          junit '**/target/surefire-reports/**/*.xml' 
         }
       }
     }
