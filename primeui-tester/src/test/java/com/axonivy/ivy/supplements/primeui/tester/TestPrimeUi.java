@@ -28,6 +28,8 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;
  */
 public class TestPrimeUi
 {
+  private static final By SELECT_MENU_LOCATOR = By
+          .xpath("/html/body/div[1]/div[3]/div[3]/form/table/tbody/tr[1]/td[2]/div");
   private WebDriver driver;
   private PrimeUi prime;
 
@@ -36,7 +38,7 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/input/oneMenu.xhtml");
 
-    SelectOneMenu selectOne = prime.selectOne(By.id("j_idt692:console"));
+    SelectOneMenu selectOne = prime.selectOne(SELECT_MENU_LOCATOR);
     assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
     String ps4 = "PS4";
     selectOne.selectItemByLabel(ps4);
@@ -48,7 +50,7 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
 
-    SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(By.id("j_idt691:menu"));
+    SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(SELECT_MENU_LOCATOR);
     selectCheckBox.selectAllItems();
     submitAndCheck("Brasilia");
   }
@@ -58,17 +60,17 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
 
-    SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(By.id("j_idt691:menu"));
+    SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(SELECT_MENU_LOCATOR);
     selectCheckBox.selectItemByValue("Miami");
     submitAndCheck("Miami");
   }
-  
+
   @Test
   public void testSelectCheckBoxMenu_itemsByValue() throws Exception
   {
     driver.get("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
 
-    SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(By.id("j_idt691:menu"));
+    SelectCheckboxMenu selectCheckBox = prime.selectCheckboxMenu(SELECT_MENU_LOCATOR);
     selectCheckBox.selectItemsByValue("Miami", "Brasilia");
     submitAndCheck("Miami\n"
             + "Brasilia");
@@ -76,23 +78,23 @@ public class TestPrimeUi
 
   private void submitAndCheck(String selected)
   {
-    By submitButton = By.id("j_idt691:j_idt699");
+    By submitButton = By.xpath("/html/body/div[1]/div[3]/div[3]/form/button");
     driver.findElement(submitButton).click();
     outputContains(selected);
   }
 
   private void outputContains(String chosenValue)
   {
-    By contentId = By.id("j_idt691:j_idt701_content");
+    By contentLocator = By.xpath("/html/body/div[1]/div[3]/div[3]/form/div/div[2]");
     try
     {
-      prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(contentId,
+      prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(contentLocator,
               chosenValue));
     }
     catch (TimeoutException ex)
     {
-      String text = driver.findElement(contentId).getText();
-      throw new RuntimeException("Could not find text '"+chosenValue+"' in '"+text+"'", ex);
+      String text = driver.findElement(contentLocator).getText();
+      throw new RuntimeException("Could not find text '" + chosenValue + "' in '" + text + "'", ex);
     }
   }
 
@@ -101,7 +103,8 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/input/booleanCheckbox.xhtml");
 
-    SelectBooleanCheckbox selectBooleanCheckbox = prime.selectBooleanCheckbox(By.id("j_idt691:j_idt694"));
+    SelectBooleanCheckbox selectBooleanCheckbox = prime
+            .selectBooleanCheckbox(By.xpath("/html/body/div[1]/div[3]/div[3]/form/table/tbody/tr[1]/td/div"));
     assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(false);
 
     selectBooleanCheckbox.setChecked();
@@ -113,8 +116,9 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/input/oneRadio.xhtml");
 
-    SelectOneRadio selectOneRadio = prime.selectOneRadio(By.id("j_idt692:console"));
-    selectOneRadio.selectItemById("j_idt692:console:1");
+    String elementId = getElementId("/html/body/div[1]/div[3]/div[3]/form/table[1]/tbody/tr/td[2]/table");
+    SelectOneRadio selectOneRadio = prime.selectOneRadio(By.id(elementId));
+    selectOneRadio.selectItemById(elementId + ":1");
     assertThat(selectOneRadio.getSelected()).isEqualTo("PS4");
     selectOneRadio.selectItemByValue("Wii U");
     assertThat(selectOneRadio.getSelected()).isEqualTo("Wii U");
@@ -125,7 +129,8 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/data/datatable/filter.xhtml");
 
-    Table table = prime.table(By.id("j_idt693:j_idt694"));
+    String tableId = getElementId("/html/body/div[1]/div[3]/div[3]/form/div");
+    Table table = prime.table(By.id(tableId));
     int brandColumn = 2;
 
     String firstBrand = table.valueAt(0, brandColumn);
@@ -139,20 +144,20 @@ public class TestPrimeUi
         lastBrand = table.valueAt(lastRow, brandColumn);
       }
     }
-    searchTable(firstBrand);
+    searchTable(firstBrand, tableId);
 
     table.contains(firstBrand);
     table.containsNot(lastBrand);
 
-    searchTable(lastBrand);
+    searchTable(lastBrand, tableId);
     table.firstRowContains(lastBrand);
     table.containsNot(firstBrand);
   }
 
-  private void searchTable(String firstBrand)
+  private void searchTable(String firstBrand, String tableId)
   {
-    driver.findElement(By.id("j_idt693:j_idt694:globalFilter")).clear();
-    driver.findElement(By.id("j_idt693:j_idt694:globalFilter")).sendKeys(firstBrand);
+    driver.findElement(By.id(tableId + ":globalFilter")).clear();
+    driver.findElement(By.id(tableId + ":globalFilter")).sendKeys(firstBrand);
   }
 
   @Test
@@ -160,12 +165,12 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/overlay/dialog/basic.xhtml");
 
-    Dialog dialog = prime.dialog(By.id("j_idt696"));
+    Dialog dialog = prime.dialog(By.xpath("/html/body/div[1]/div[3]/div[3]/div[1]"));
     dialog.waitForVisibility(false);
-    driver.findElement(By.id("j_idt693")).click();
+    driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[3]/table/tbody/tr[1]/td/button")).click();
     dialog.waitForVisibility(true);
 
-    driver.findElement(By.xpath("//*[@id='j_idt696']/div[1]/a")).click();
+    driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[3]/div[1]/div[1]/a")).click();
     dialog.waitToBeClosedOrError();
   }
 
@@ -174,7 +179,7 @@ public class TestPrimeUi
   {
     driver.get("http://primefaces.org/showcase/ui/panel/accordionPanel.xhtml");
 
-    Accordion accordion = prime.accordion(By.id("form:j_idt692"));
+    Accordion accordion = prime.accordion(By.xpath("/html/body/div[1]/div[3]/div[3]/form/div[1]"));
     accordion.toggleTab("Godfather Part II");
     validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
 
@@ -189,6 +194,14 @@ public class TestPrimeUi
   {
     assertThat(accordion.isTabOpen(openTab)).isTrue();
     assertThat(accordion.isTabOpen(closedTab)).isFalse();
+  }
+
+  private String getElementId(String xPath)
+  {
+    String elementId = driver
+            .findElement(By.xpath(xPath))
+            .getAttribute("id");
+    return elementId;
   }
 
   @Before
