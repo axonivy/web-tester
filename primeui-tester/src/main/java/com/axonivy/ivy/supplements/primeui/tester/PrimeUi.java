@@ -15,7 +15,9 @@
  */
 package com.axonivy.ivy.supplements.primeui.tester;
 
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
@@ -56,6 +58,11 @@ public class PrimeUi
   public SelectBooleanCheckbox selectBooleanCheckbox(By checks)
   {
     return new SelectBooleanCheckbox(checks);
+  }
+  
+  public SelectManyCheckbox selectManyCheckbox(By manyCheckbox)
+  {
+    return new SelectManyCheckbox(manyCheckbox);
   }
 
   public SelectOneRadio selectOneRadio(By oneRadio)
@@ -253,15 +260,35 @@ public class PrimeUi
         waitIsChecked();
       }
     }
+    
+    public void removeChecked()
+    {
+      if (!isChecked())
+      {
+        return;
+      }
+      webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]/span")).click();
+      waitIsUnChecked();
+    }
 
     public void waitIsChecked()
     {
       await(driver -> isCheckedInternal(driver));
     }
+    
+    public void waitIsUnChecked()
+    {
+      await(driver -> !isCheckedInternal(driver));
+    }
 
     public boolean isChecked()
     {
       return isCheckedInternal(webDriver);
+    }
+    
+    public boolean isDisabled()
+    {
+      return isDisabledInternal(webDriver);
     }
 
     private boolean isCheckedInternal(WebDriver driver)
@@ -271,6 +298,43 @@ public class PrimeUi
               .getAttribute("class")
               .contains("ui-state-active");
     }
+    
+    private boolean isDisabledInternal(WebDriver driver)
+    {
+      return driver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]"))
+              .getAttribute("class")
+              .contains("ui-state-disabled");
+    }
+  }
+  
+  public class SelectManyCheckbox
+  {
+    private String manyCheckboxId;
+    
+    public SelectManyCheckbox(By manyCheckbox)
+    {
+      manyCheckboxId = webDriver.findElement(manyCheckbox).getAttribute("id");
+    }
+    
+    public List<String> getSelectedCheckboxes()
+    {
+      return webDriver.findElements(By.xpath("//*[@id='" + manyCheckboxId + "']/div/div/div/div[2]")).stream()
+              .filter(e -> e.getAttribute("class").contains("ui-state-active"))
+              .map(e -> e.findElement(By.xpath("../../label")).getText())
+              .collect(Collectors.toList());
+    }
+    
+    public boolean isManyCheckboxDisabled()
+    {
+      return webDriver.findElements(By.xpath("//*[@id='" + manyCheckboxId + "']/div/div/div/div[2]")).stream()
+              .anyMatch(e -> e.getAttribute("class").contains("ui-state-disabled"));
+    }
+    
+    public void setCheckboxes(List<String> values)
+    {
+      values.stream().forEach(v -> webDriver.findElement(By.xpath("//*[@id='" + manyCheckboxId + "']/div/div/label[text()='" + v + "']/../div/div[2]")).click());
+    }
+    
   }
 
   public class SelectOneRadio
