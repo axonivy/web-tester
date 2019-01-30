@@ -335,6 +335,15 @@ public class PrimeUi
       values.stream().forEach(v -> webDriver.findElement(By.xpath("//*[@id='" + manyCheckboxId + "']/div/div/label[text()='" + v + "']/../div/div[2]")).click());
     }
     
+    public void clear()
+    {
+      if (isManyCheckboxDisabled())
+      {
+        return;
+      }
+      setCheckboxes(getSelectedCheckboxes());
+    }
+    
   }
 
   public class SelectOneRadio
