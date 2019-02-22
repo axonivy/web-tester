@@ -137,15 +137,12 @@ public class TestPrimeUi
     String lastBrand = table.valueAt(8, brandColumn);
 
     int lastRow = 7;
-    if (StringUtils.equals(firstBrand, lastBrand))
+    while (StringUtils.equals(firstBrand, lastBrand))
     {
-      for (; (!StringUtils.equals(firstBrand, lastBrand)); lastRow--)
-      {
-        lastBrand = table.valueAt(lastRow, brandColumn);
-      }
+      lastBrand = table.valueAt(lastRow, brandColumn);
+      lastRow --;
     }
     searchTable(firstBrand, tableId);
-
     table.contains(firstBrand);
     table.containsNot(lastBrand);
 
