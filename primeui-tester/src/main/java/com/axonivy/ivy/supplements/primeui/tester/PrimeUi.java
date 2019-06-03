@@ -212,7 +212,7 @@ public class PrimeUi
     private void selectItemInternal(String labelValue)
     {
       webDriver.findElement(By.xpath(
-              "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']")
+              "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']/../div/div[2]")
               ).click();
       waitForChosenInternal("label[.='" + labelValue + "']/../");
     }
