@@ -522,12 +522,16 @@ public class PrimeUi
 
     public void toggleTab(String tabName)
     {
-      By tabLocator = By.xpath("//*[@id='" + accordionId + "']/*[contains(., '" + tabName
-              + "')][@role='tab']");
+      String xPath = "//*[@id='" + accordionId + "']/*[contains(., '" + tabName + "')][@role='tab']";
+      By tabLocator = By.xpath(xPath);
       String expansionAttribute = "aria-expanded";
-      String previousState = webDriver.findElement(tabLocator).getAttribute(expansionAttribute);
+      WebElement item = awaitCondition(ExpectedConditions.elementToBeClickable(webDriver.findElement(
+              tabLocator)));
+      String previousState = item.getAttribute(expansionAttribute);
       webDriver.findElement(tabLocator).click();
 
+      By nextSibling = By.xpath(xPath + "/following-sibling::*[contains(@role,'tabpanel')]");
+      await(driver -> !driver.findElements(nextSibling).get(0).getAttribute("style").contains("overflow"));
       await(driver -> !driver.findElement(tabLocator).getAttribute(expansionAttribute)
               .contains(previousState));
     }
