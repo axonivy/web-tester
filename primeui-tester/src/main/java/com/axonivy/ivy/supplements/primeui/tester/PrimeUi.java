@@ -116,6 +116,10 @@ public class PrimeUi
     {
       final String startValue = getFocusSelection().getAttribute("aria-activedescendant").toString();
 
+      // With PrimeFaces 7 it seems that a list gets blended in and the a click on an element of the list
+      // only has an effect if opacity=1, meaning there is no opacity value in the element.
+      awaitCondition(ExpectedConditions.numberOfElementsToBe(
+              By.xpath("//div[@id='" + oneMenuId + "_panel' and not(contains(@style,'opacity'))]"), 1));
       WebElement item = awaitCondition(ExpectedConditions.elementToBeClickable(webDriver.findElement(
               By.xpath("//div[@id='" + oneMenuId + "_panel']/div/ul/li[@data-label='" + label + "'][text()='"
                       + label + "']"))));
