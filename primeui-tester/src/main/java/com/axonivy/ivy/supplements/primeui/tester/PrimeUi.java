@@ -531,9 +531,10 @@ public class PrimeUi
       item.click();
 
       By nextSibling = By.xpath(xPath + "/following-sibling::*[contains(@role,'tabpanel')]");
-      await(driver -> !driver.findElements(nextSibling).get(0).getAttribute("style").contains("overflow"));
-      await(driver -> !driver.findElement(tabLocator).getAttribute(expansionAttribute)
-              .contains(previousState));
+      await(driver ->
+              !driver.findElements(nextSibling).get(0).getAttribute("style").matches(".*overflow:.?hidden;.*height:.*"));
+      await(driver -> 
+              !driver.findElement(tabLocator).getAttribute(expansionAttribute).contains(previousState));
     }
 
     public boolean isTabOpen(String tabName)
