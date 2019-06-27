@@ -528,7 +528,7 @@ public class PrimeUi
       WebElement item = awaitCondition(ExpectedConditions.elementToBeClickable(webDriver.findElement(
               tabLocator)));
       String previousState = item.getAttribute(expansionAttribute);
-      webDriver.findElement(tabLocator).click();
+      item.click();
 
       By nextSibling = By.xpath(xPath + "/following-sibling::*[contains(@role,'tabpanel')]");
       await(driver -> !driver.findElements(nextSibling).get(0).getAttribute("style").contains("overflow"));
