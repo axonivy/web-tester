@@ -26,6 +26,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
@@ -382,9 +383,10 @@ public class PrimeUi
     
     public void selectItemByCss(final String selector)
     {
-      webDriver.findElement(By.id(oneRadioId))
-              .findElement(By.cssSelector(selector))
-              .click();
+      WebElement radio = webDriver.findElement(By.id(oneRadioId))
+              .findElement(By.cssSelector(selector));
+      new WebDriverWait(webDriver, 10).until(ExpectedConditions.elementToBeClickable(radio));
+      radio.click();
     }
 
     private By getRadioLocator(String attribute, String value)
