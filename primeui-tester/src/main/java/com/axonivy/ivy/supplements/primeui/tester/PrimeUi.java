@@ -379,6 +379,13 @@ public class PrimeUi
               .findElement(getRadioLocator("value", value))
               .getAttribute("class").contains("ui-state-active"));
     }
+    
+    public void selectItemByCss(final String selector)
+    {
+      webDriver.findElement(By.id(oneRadioId))
+              .findElement(By.cssSelector(selector))
+              .click();
+    }
 
     private By getRadioLocator(String attribute, String value)
     {
