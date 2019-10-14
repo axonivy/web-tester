@@ -260,7 +260,7 @@ public class PrimeUi
       }
       else
       {
-        webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]/span")).click();
+        webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]")).click();
         waitIsChecked();
       }
     }
@@ -271,7 +271,7 @@ public class PrimeUi
       {
         return;
       }
-      webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]/span")).click();
+      webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]")).click();
       waitIsUnChecked();
     }
 
