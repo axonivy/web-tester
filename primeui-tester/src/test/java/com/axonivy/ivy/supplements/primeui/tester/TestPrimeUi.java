@@ -122,7 +122,7 @@ public class TestPrimeUi
     assertThat(selectOneRadio.getSelected()).isEqualTo("PS4");
     selectOneRadio.selectItemByValue("Wii U");
     assertThat(selectOneRadio.getSelected()).isEqualTo("Wii U");
-    selectOneRadio.selectItemByCss("label[for=j_idt701\\:console\\:0]");
+    selectOneRadio.selectItemByCss("label[for=" + elementId.replace(":", "\\:") + "\\:0]");
     assertThat(selectOneRadio.getSelected()).isEqualTo("Xbox One");
   }
 
