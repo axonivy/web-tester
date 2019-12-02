@@ -1,7 +1,10 @@
 pipeline {
   agent {
-    dockerfile true
+    docker {
+      image 'axonivy/build-container:web-1.0'
+    }
   }
+  
   parameters {
     booleanParam(defaultValue: false, description: 'If checked the plugin does not sign the plugin', name: 'skipGPGSign')
     choice(
