@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -47,12 +46,6 @@ public class TestPrimeUi
     driver = WebDriverRunner.getWebDriver();
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     prime = new PrimeUi(driver);
-  }
-  
-  @AfterEach
-  public void cleanup()
-  {
-    driver.quit();
   }
   
   @Test
