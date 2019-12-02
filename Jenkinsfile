@@ -1,10 +1,7 @@
 pipeline {
   agent {
-    docker {
-      image 'axonivy/build-container:web-1.0'
-    }
+    dockerfile true
   }
-
   parameters {
     booleanParam(defaultValue: false, description: 'If checked the plugin does not sign the plugin', name: 'skipGPGSign')
     string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
