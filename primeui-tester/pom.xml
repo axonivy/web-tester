@@ -40,8 +40,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.engine.version>5.5.2</junit.engine.version>
-    <maven.surefire.version>3.0.0-M3</maven.surefire.version>
+		<junit.engine.version>5.5.2</junit.engine.version>
+		<maven.surefire.version>3.0.0-M3</maven.surefire.version>
 	</properties>
 
 	<profiles>
@@ -68,21 +68,21 @@
 	</profiles>
 
 	<dependencies>
-	  <dependency>
-      <groupId>com.codeborne</groupId>
-      <artifactId>selenide</artifactId>
-      <version>5.5.0</version>
-    </dependency>
+		<dependency>
+			<groupId>com.codeborne</groupId>
+			<artifactId>selenide</artifactId>
+			<version>5.5.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>3.141.59</version>
 		</dependency>
 		<dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>${junit.engine.version}</version>
-    </dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.engine.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
@@ -120,52 +120,52 @@
 				</executions>
 			</plugin>
 			<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surefire.version}</version>
-        <configuration>
-          <testFailureIgnore>true</testFailureIgnore>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>1.2.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>${junit.engine.version}</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <id>default-test</id>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-          </execution>
-          <execution>
-            <id>selenium.web.test</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <includes>
-                <include>**/TestPrimeUi.java</include>
-              </includes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.2.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.junit.vintage</groupId>
+						<artifactId>junit-vintage-engine</artifactId>
+						<version>${junit.engine.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+				<execution>
+					<id>default-test</id>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</execution>
+				<execution>
+					<id>selenium.web.test</id>
+					<phase>integration-test</phase>
+					<goals>
+						<goal>test</goal>
+					</goals>
+					<configuration>
+						<includes>
+							<include>**/TestPrimeUi.java</include>
+						</includes>
+					</configuration>
+				</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>3.1.1</version>
 				<configuration>
-		      <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-		    </configuration>
+					<javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
