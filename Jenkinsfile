@@ -4,11 +4,7 @@ pipeline {
   }
   parameters {
     booleanParam(defaultValue: false, description: 'If checked the plugin does not sign the plugin', name: 'skipGPGSign')
-    choice(
-      name: 'engineSource',
-      description: 'Engine to use for build',
-      choices: 'Linux_Trunk_DesignerAndServer\nTrunk_DesignerAndServer\nTrunk_All'
-    )
+    string(name: 'engineSource', defaultValue: 'http://zugprojenkins/job/ivy-core_product/job/master/lastSuccessfulBuild/', description: 'Engine page url')
     choice(
       name: 'DEPLOY_PROFILES',
       description: 'Choose where the built plugin should be deployed to',
