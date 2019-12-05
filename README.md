@@ -9,7 +9,7 @@ Simply add this library to your dependencies in the pom.xml
       <dependency>
         <groupId>com.axonivy.ivy.supplements</groupId>
     	  <artifactId>primeui-tester</artifactId>
-    	  <version>0.0.4-SNAPSHOT</version>
+    	  <version>0.0.5-SNAPSHOT</version>
         <scope>tests</scope>
       </dependency>
     </dependencies>
