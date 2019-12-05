@@ -1,7 +1,4 @@
-FROM selenium/standalone-firefox:3.141.59
+FROM maven:3.5.2-jdk-8
 
-RUN \
-    sudo apt-get -y update && \
-    sudo apt-get install -y maven && \
-    sudo apt-get install -y openjdk-11-jdk-headless && \
-    sudo apt-get install -y gnupg2
+RUN addgroup --gid 1000 build && adduser --uid 1000 --gid 1000 --disabled-password --gecos "" build
+RUN apt-get -y update && apt-get -y install gnupg2
