@@ -29,7 +29,14 @@ pipeline {
           script {
             script {
               sh "gpg --batch --import ${env.GPG_FILE}"
-              maven cmd: "clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign} -Dmaven.test.failure.ignore=true"
+              if (env.BRANCH_NAME == 'master')
+              {
+                maven cmd: "clean deploy -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign} -Dmaven.test.failure.ignore=true"
+              }
+              else
+              {
+                maven cmd: "clean verify -f primeui-tester/pom.xml --activate-profiles ${DEPLOY_PROFILES} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=${params.skipGPGSign} -Dmaven.test.failure.ignore=true"
+              }
             }
             archiveArtifacts '*/target/*.jar'
           }
