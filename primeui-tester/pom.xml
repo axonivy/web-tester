@@ -23,7 +23,7 @@
 			<name>Denis Huelin</name>
 			<email>support@ivyteam.ch</email>
 			<organization>AXON Ivy AG</organization>
-			<organizationUrl>http://www.axonivy.com</organizationUrl>
+			<organizationUrl>https://www.axonivy.com</organizationUrl>
 		</developer>
 	</developers>
 
@@ -44,29 +44,14 @@
 		<maven.surefire.version>3.0.0-M3</maven.surefire.version>
 	</properties>
 
-	<profiles>
-		<profile>
-			<id>build</id>
-			<distributionManagement>
-				<repository>
-					<id>zugpronexus.snapshots</id>
-					<name>Internal Build Integration Repository</name>
-					<url>http://zugpronexus:8081/nexus/content/repositories/build-snapshots/</url>
-				</repository>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>central</id>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>ossrh</id>
-					<name>Maven Central Snapshots Repo</name>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-	</profiles>
-
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<name>Maven Central Snapshots Repo</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.codeborne</groupId>
