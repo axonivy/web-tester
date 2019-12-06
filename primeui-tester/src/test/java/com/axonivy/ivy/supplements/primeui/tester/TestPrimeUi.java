@@ -2,14 +2,14 @@ package com.axonivy.ivy.supplements.primeui.tester;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
@@ -19,6 +19,9 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectCheckboxMenu;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
@@ -33,6 +36,18 @@ public class TestPrimeUi
   private WebDriver driver;
   private PrimeUi prime;
 
+  @BeforeEach
+  public void setUp()
+  {
+    Configuration.browser = "firefox";
+    Configuration.headless = true;
+    Configuration.reportsFolder = "target/senenide/reports";
+    Selenide.open();
+    driver = WebDriverRunner.getWebDriver();
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    prime = new PrimeUi(driver);
+  }
+  
   @Test
   public void testSelectOneMenu() throws Exception
   {
@@ -203,16 +218,4 @@ public class TestPrimeUi
     return elementId;
   }
 
-  @Before
-  public void setUp()
-  {
-    driver = new HtmlUnitDriver(true);
-    prime = new PrimeUi(driver);
-  }
-
-  @After
-  public void quitDriver()
-  {
-    driver.quit();
-  }
 }
