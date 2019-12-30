@@ -19,13 +19,15 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectCheckboxMenu;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 
 /**
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
@@ -85,163 +87,7 @@ public class PrimeUi
     return new Accordion(locator);
   }
 
-  public class SelectOneMenu
-  {
-    private final String oneMenuId;
-    private final By locatorLabel;
-
-    public SelectOneMenu(By locator)
-    {
-      oneMenuId = webDriver.findElement(locator).getAttribute("id");
-      locatorLabel = By.id(oneMenuId + "_label");
-    }
-
-    public void selectItemByLabel(String label)
-    {
-      if (label == null)
-      {
-        throw new IllegalArgumentException("Label must not be null!");
-      }
-      if (label.equals(getFocusSelection().getAttribute("aria-activedescendant")))
-      {
-        return;
-      }
-      expandSelectableItems();
-      selectInternal(label);
-      awaitItemsCollapsed(true);
-      waitForLabel(label);
-    }
-
-    private void selectInternal(final String label)
-    {
-      final String startValue = getFocusSelection().getAttribute("aria-activedescendant").toString();
-
-      // With PrimeFaces 7 it seems that a list gets blended in and the a click on an element of the list
-      // only has an effect if opacity=1, meaning there is no opacity value in the element.
-      awaitCondition(ExpectedConditions.numberOfElementsToBe(
-              By.xpath("//div[@id='" + oneMenuId + "_panel' and not(contains(@style,'opacity'))]"), 1));
-      WebElement item = awaitCondition(ExpectedConditions.elementToBeClickable(webDriver.findElement(
-              By.xpath("//div[@id='" + oneMenuId + "_panel']/div/ul/li[@data-label='" + label + "'][text()='"
-                      + label + "']"))));
-      item.click();
-
-      awaitCondition(driver -> {
-        try
-        {
-          if (ObjectUtils.notEqual(getFocusSelection(), startValue))
-          {
-            return true;
-          }
-          return null;
-        }
-        catch (StaleElementReferenceException ex)
-        {
-          return null;
-        }
-      });
-    }
-
-    private WebElement getFocusSelection()
-    {
-      return webDriver.findElement(By.id(oneMenuId + "_focus"));
-    }
-
-    private void awaitItemsCollapsed(boolean collapsed)
-    {
-      awaitCondition(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='" + oneMenuId
-              + "_focus'][@aria-expanded= '" + !collapsed + "']")));
-    }
-
-    private void expandSelectableItems()
-    {
-      awaitCondition(driver -> {
-        try
-        {
-          return webDriver.findElement(By.id(oneMenuId))
-                  .findElement(By.cssSelector("span.ui-icon.ui-icon-triangle-1-s"));
-        }
-        catch (StaleElementReferenceException ex)
-        {
-          return null;
-        }
-      }).click();
-      awaitItemsCollapsed(false);
-    }
-
-    public void waitForLabel(String selectLabel)
-    {
-      awaitCondition(ExpectedConditions.textToBePresentInElementLocated(locatorLabel, selectLabel));
-    }
-
-    public String getSelectedItem()
-    {
-      return webDriver.findElement(locatorLabel).getText();
-    }
-  }
-
-  public class SelectCheckboxMenu
-  {
-    private final String checkBoxMenuId;
-
-    public SelectCheckboxMenu(By locator)
-    {
-      checkBoxMenuId = webDriver.findElement(locator).getAttribute("id");
-    }
-
-    public void selectAllItems()
-    {
-      openCheckboxPanel();
-      webDriver.findElement(By.xpath("//*[@id='" + checkBoxMenuId + "_panel']/div[1]/div/div[2]")).click();
-      waitForChosenInternal("");
-      closeCheckboxPanel();
-    }
-
-    public void selectItemByValue(String labelValue)
-    {
-      openCheckboxPanel();
-      selectItemInternal(labelValue);
-      closeCheckboxPanel();
-    }
-
-    public void selectItemsByValue(String... labelValues)
-    {
-      openCheckboxPanel();
-      for (String label : labelValues)
-      {
-        selectItemInternal(label);
-      }
-      closeCheckboxPanel();
-    }
-
-    private void selectItemInternal(String labelValue)
-    {
-      webDriver.findElement(By.xpath(
-              "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']/../div/div[2]")
-              ).click();
-      waitForChosenInternal("label[.='" + labelValue + "']/../");
-    }
-
-    private void waitForChosenInternal(final String value)
-    {
-      await(driver -> driver
-              .findElement(By.xpath("//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/" +
-                      value + "div/div[2]"))
-              .getAttribute("class").contains("state-active"));
-    }
-
-    protected void openCheckboxPanel()
-    {
-      webDriver.findElement(By.id(checkBoxMenuId)).findElement(By.className("ui-icon-triangle-1-s")).click();
-    }
-
-    protected void closeCheckboxPanel()
-    {
-      String panelId = checkBoxMenuId + "_panel";
-      WebElement panel = ajax.await(ExpectedConditions.visibilityOfElementLocated(By.id(panelId)));
-      panel.findElement(By.className("ui-selectcheckboxmenu-close")).click();
-      ajax.await(ExpectedConditions.invisibilityOfElementLocated(By.id(panelId)));
-    }
-  }
+  
 
   public class SelectBooleanCheckbox
   {
