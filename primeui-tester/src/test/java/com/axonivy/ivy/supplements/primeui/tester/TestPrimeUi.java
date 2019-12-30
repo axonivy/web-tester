@@ -15,14 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -54,7 +53,7 @@ public class TestPrimeUi
   public void testSelectOneMenu() throws Exception
   {
     open("http://primefaces.org/showcase/ui/input/oneMenu.xhtml");
-    SelectOneMenu selectOne = prime.selectOne(getElementForLabel("Basic:"));
+    SelectOneMenu selectOne = PrimeUi.selectOne(selectMenuForLabel("Basic:"));
     assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
     String ps4 = "PS4";
     selectOne.selectItemByLabel(ps4);
@@ -65,58 +64,48 @@ public class TestPrimeUi
   public void testSelectCheckBoxMenu_all() throws Exception
   {
     open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-    prime.selectCheckboxMenu(getElementForLabel("Basic:")).selectAllItems();
-    submitAndCheck("Brasilia");
+    PrimeUi.selectCheckboxMenu(selectMenuForLabel("Basic:")).selectAllItems();
+    assertSelectMenu("Brasilia");
   }
 
   @Test
   public void testSelectCheckBoxMenu_itemByValue() throws Exception
   {
     open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-    prime.selectCheckboxMenu(getElementForLabel("Basic:")).selectItemByValue("Miami");
-    submitAndCheck("Miami");
+    PrimeUi.selectCheckboxMenu(selectMenuForLabel("Basic:")).selectItemByValue("Miami");
+    assertSelectMenu("Miami");
   }
 
   @Test
   public void testSelectCheckBoxMenu_itemsByValue() throws Exception
   {
     open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-    prime.selectCheckboxMenu(getElementForLabel("Multiple:")).selectItemsByValue("Miami", "Brasilia");
-    submitAndCheck("Miami\nBrasilia");
+    PrimeUi.selectCheckboxMenu(selectMenuForLabel("Multiple:")).selectItemsByValue("Miami", "Brasilia");
+    assertSelectMenu("Miami\nBrasilia");
   }
 
-  private void submitAndCheck(String selected)
-  {
-    $$(".ui-button").find(exactText("Submit")).shouldBe(visible).click();
-    $(".ui-dialog-content").shouldHave(text(selected));
-  }
-  
   @Test
   public void testSelectBooleanCheckBox() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/input/booleanCheckbox.xhtml");
-
-    SelectBooleanCheckbox selectBooleanCheckbox = prime
-            .selectBooleanCheckbox(By.xpath("//div[span/text()='Basic']"));
+    open("http://primefaces.org/showcase/ui/input/booleanCheckbox.xhtml");
+    SelectBooleanCheckbox selectBooleanCheckbox = PrimeUi.selectBooleanCheckbox(checkboxForLabel("Basic"));
     assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(false);
-
     selectBooleanCheckbox.setChecked();
     assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(true);
+    selectBooleanCheckbox.removeChecked();
+    assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(false);
   }
 
   @Test
   public void testSelectOneRadio() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/input/oneRadio.xhtml");
-
-    String elementId = getElementId("//table[//label/text()='Console:']//table");
-    SelectOneRadio selectOneRadio = prime.selectOneRadio(By.id(elementId));
-    selectOneRadio.selectItemById(elementId + ":1");
+    open("http://primefaces.org/showcase/ui/input/oneRadio.xhtml");
+    SelectOneRadio selectOneRadio = PrimeUi.selectOneRadio(radioForLabel("Console:"));
+    String radioId = $(radioForLabel("Console:")).attr("id") + ":1";
+    selectOneRadio.selectItemById(radioId);
     assertThat(selectOneRadio.getSelected()).isEqualTo("PS4");
     selectOneRadio.selectItemByValue("Wii U");
     assertThat(selectOneRadio.getSelected()).isEqualTo("Wii U");
-    selectOneRadio.selectItemByCss("label[for=" + elementId.replace(":", "\\:") + "\\:0]");
-    assertThat(selectOneRadio.getSelected()).isEqualTo("Xbox One");
   }
 
   @Test
@@ -195,13 +184,26 @@ public class TestPrimeUi
             .getAttribute("id");
     return elementId;
   }
+  
+  private By radioForLabel(String label)
+  {
+    return By.id($$("label").find(text(label)).parent().parent().find(".ui-selectoneradio").attr("id"));
+  }
+  
+  private By checkboxForLabel(String label)
+  {
+    return By.id($$(".ui-selectbooleancheckbox").find(text(label)).attr("id"));
+  }
 
-  private By getElementForLabel(String label)
+  private By selectMenuForLabel(String label)
   {
-    return By.id(getElementWithLabel(label).getAttribute("id"));
+    return By.id($$("tr label").find(text(label)).parent().parent().find("div.ui-widget").attr("id"));
   }
-  private WebElement getElementWithLabel(String labelText)
+  
+  private void assertSelectMenu(String selected)
   {
-    return driver.findElement(By.xpath("//tr[td[1]/label/text()='" + labelText + "']/td[2]/div"));
+    $$(".ui-button").find(exactText("Submit")).shouldBe(visible).click();
+    $(".ui-dialog-content").shouldHave(text(selected));
   }
+  
 }

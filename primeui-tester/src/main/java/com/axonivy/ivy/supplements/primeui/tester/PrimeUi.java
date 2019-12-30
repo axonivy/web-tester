@@ -26,8 +26,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectCheckboxMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 
 /**
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
@@ -47,17 +49,17 @@ public class PrimeUi
     this.ajax = new AjaxHelper(driver);
   }
 
-  public SelectOneMenu selectOne(By locator)
+  public static SelectOneMenu selectOne(By locator)
   {
     return new SelectOneMenu(locator);
   }
 
-  public SelectCheckboxMenu selectCheckboxMenu(By locator)
+  public static SelectCheckboxMenu selectCheckboxMenu(By locator)
   {
     return new SelectCheckboxMenu(locator);
   }
 
-  public SelectBooleanCheckbox selectBooleanCheckbox(By checks)
+  public static SelectBooleanCheckbox selectBooleanCheckbox(By checks)
   {
     return new SelectBooleanCheckbox(checks);
   }
@@ -67,7 +69,7 @@ public class PrimeUi
     return new SelectManyCheckbox(manyCheckbox);
   }
 
-  public SelectOneRadio selectOneRadio(By oneRadio)
+  public static SelectOneRadio selectOneRadio(By oneRadio)
   {
     return new SelectOneRadio(oneRadio);
   }
@@ -89,73 +91,7 @@ public class PrimeUi
 
   
 
-  public class SelectBooleanCheckbox
-  {
-    private String booleanCheckboxId;
-
-    public SelectBooleanCheckbox(By booleanCheckbox)
-    {
-      this.booleanCheckboxId = webDriver.findElement(booleanCheckbox).getAttribute("id");
-    }
-
-    public void setChecked()
-    {
-      if (isChecked())
-      {
-        return;
-      }
-      else
-      {
-        webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]")).click();
-        waitIsChecked();
-      }
-    }
-    
-    public void removeChecked()
-    {
-      if (!isChecked())
-      {
-        return;
-      }
-      webDriver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]")).click();
-      waitIsUnChecked();
-    }
-
-    public void waitIsChecked()
-    {
-      await(driver -> isCheckedInternal(driver));
-    }
-    
-    public void waitIsUnChecked()
-    {
-      await(driver -> !isCheckedInternal(driver));
-    }
-
-    public boolean isChecked()
-    {
-      return isCheckedInternal(webDriver);
-    }
-    
-    public boolean isDisabled()
-    {
-      return isDisabledInternal(webDriver);
-    }
-
-    private boolean isCheckedInternal(WebDriver driver)
-    {
-      return driver
-              .findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]"))
-              .getAttribute("class")
-              .contains("ui-state-active");
-    }
-    
-    private boolean isDisabledInternal(WebDriver driver)
-    {
-      return driver.findElement(By.xpath("//*[@id='" + booleanCheckboxId + "']/div[2]"))
-              .getAttribute("class")
-              .contains("ui-state-disabled");
-    }
-  }
+  
   
   public class SelectManyCheckbox
   {
@@ -194,56 +130,6 @@ public class PrimeUi
       setCheckboxes(getSelectedCheckboxes());
     }
     
-  }
-
-  public class SelectOneRadio
-  {
-    private String oneRadioId;
-
-    public SelectOneRadio(By oneRadio)
-    {
-      oneRadioId = webDriver.findElement(oneRadio).getAttribute("id");
-    }
-
-    public void selectItemById(final String id)
-    {
-      webDriver.findElement(By.id(oneRadioId))
-              .findElement(getRadioLocator("id", id))
-              .click();
-
-      await(driver -> driver.findElement(By.id(oneRadioId)).findElement(getRadioLocator("id", id))
-              .getAttribute("class").contains("state-active"));
-    }
-
-    public void selectItemByValue(final String value)
-    {
-      WebElement item = webDriver.findElement(By.id(oneRadioId))
-              .findElement(getRadioLocator("value", value));
-      item.click();
-
-      await(driver -> driver.findElement(By.id(oneRadioId))
-              .findElement(getRadioLocator("value", value))
-              .getAttribute("class").contains("ui-state-active"));
-    }
-    
-    public void selectItemByCss(final String selector)
-    {
-      webDriver.findElement(By.id(oneRadioId))
-              .findElement(By.cssSelector(selector))
-              .click();
-    }
-
-    private By getRadioLocator(String attribute, String value)
-    {
-      return By.xpath("//input[@" + attribute + "='" + value + "']/../../div[2]");
-    }
-
-    public String getSelected()
-    {
-      return webDriver.findElement(By.id(oneRadioId))
-              .findElement(By.xpath("//div[contains(@class, 'ui-state-active')]/../div[1]/input"))
-              .getAttribute("value");
-    }
   }
 
   public class Table

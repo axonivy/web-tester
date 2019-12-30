@@ -13,7 +13,7 @@ public class SelectCheckboxMenu
 
   public SelectCheckboxMenu(By locator)
   {
-    checkBoxMenuId = $(locator).getAttribute("id");
+    checkBoxMenuId = $(locator).shouldBe(visible).attr("id");
   }
 
   public void selectAllItems()

@@ -18,7 +18,7 @@ public class SelectOneMenu
 
   public SelectOneMenu(By locator)
   {
-    oneMenuId = $(locator).attr("id");
+    oneMenuId = $(locator).shouldBe(visible).attr("id");
     locatorLabel = By.id(oneMenuId + "_label");
   }
 
