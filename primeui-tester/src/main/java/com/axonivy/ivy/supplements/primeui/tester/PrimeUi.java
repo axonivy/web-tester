@@ -24,6 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.axonivy.ivy.supplements.primeui.tester.widget.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectCheckboxMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
@@ -79,7 +80,7 @@ public class PrimeUi
     return new Table(dataTable);
   }
 
-  public Dialog dialog(By dialog)
+  public static Dialog dialog(By dialog)
   {
     return new Dialog(dialog);
   }
@@ -91,76 +92,7 @@ public class PrimeUi
 
   
 
-  public class Dialog
-  {
-    private String dialogId;
-
-    public Dialog(final By dialogLocator)
-    {
-      dialogId = await(driver -> driver.findElement(dialogLocator).getAttribute("id"));
-    }
-
-    public void waitForVisibility(Boolean visible)
-    {
-      await(driver -> {
-        WebElement dialog = driver.findElement(By.id(dialogId));
-        String hidden = dialog.getAttribute("aria-hidden");
-        return !visible.toString().equals(hidden);
-      });
-    }
-
-    public void waitVisible()
-    {
-      waitForVisibility(true);
-    }
-
-    public void waitHidden()
-    {
-      waitForVisibility(false);
-    }
-
-    public void waitToBeClosedOrError()
-    {
-      awaitCondition(new ExpectedCondition<Boolean>()
-        {
-          @Override
-          public Boolean apply(WebDriver driver)
-          {
-            if (hasErrors(driver) || isClosed(driver))
-            {
-              return true;
-            }
-            return null;
-          }
-
-        });
-    }
-
-    private boolean isClosed(WebDriver driver)
-    {
-      try
-      {
-        return driver.findElement(By.id(dialogId)).getAttribute("aria-hidden")
-                .equals(Boolean.TRUE.toString());
-      }
-      catch (Exception ex)
-      {
-        return false;
-      }
-    }
-
-    private boolean hasErrors(WebDriver driver)
-    {
-      try
-      {
-        return driver.findElement(By.id(dialogId)).findElement(By.className("ui-state-error")) != null;
-      }
-      catch (Exception ex)
-      {
-        return false;
-      }
-    }
-  }
+  
 
   public class Accordion
   {

@@ -18,7 +18,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
+import com.axonivy.ivy.supplements.primeui.tester.widget.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
@@ -113,7 +113,7 @@ public class TestPrimeUi
   @Test
   public void testSelectOneRadio() throws Exception
   {
-    open("http://primefaces.org/showcase/ui/input/oneRadio.xhtml");
+    open("https://primefaces.org/showcase/ui/input/oneRadio.xhtml");
     SelectOneRadio selectOneRadio = PrimeUi.selectOneRadio(radioForLabel("Console:"));
     String radioId = $(radioForLabel("Console:")).attr("id") + ":1";
     selectOneRadio.selectItemById(radioId);
@@ -125,7 +125,7 @@ public class TestPrimeUi
   @Test
   public void testTableWithValue() throws Exception
   {
-    open("http://primefaces.org/showcase/ui/data/datatable/filter.xhtml");
+    open("https://primefaces.org/showcase/ui/data/datatable/filter.xhtml");
 
     Table table = PrimeUi.table(By.id(firstDataTableId()));
     int brandColumn = 2;
@@ -157,15 +157,13 @@ public class TestPrimeUi
   @Test
   public void testDialog() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/overlay/dialog/basic.xhtml");
-
-    Dialog dialog = prime.dialog(By.xpath("//div[div/span/text()='Basic Dialog']"));
+    open("https://primefaces.org/showcase/ui/overlay/dialog/basic.xhtml");
+    Dialog dialog = PrimeUi.dialog(firstDialog());
     dialog.waitForVisibility(false);
-    driver.findElement(By.xpath("//button[span/text()='Basic']")).click();
+    $$("button").find(text("Basic")).shouldBe(visible).click();
     dialog.waitForVisibility(true);
-
-    driver.findElement(By.xpath("//a[@aria-label='Close']")).click();
-    dialog.waitToBeClosedOrError();
+    dialog.close();
+    dialog.waitHidden();
   }
 
   @Test
@@ -188,6 +186,11 @@ public class TestPrimeUi
   {
     assertThat(accordion.isTabOpen(openTab)).isTrue();
     assertThat(accordion.isTabOpen(closedTab)).isFalse();
+  }
+  
+  private By firstDialog()
+  {
+    return By.id($$(".ui-dialog").first().attr("id"));
   }
   
   private String firstDataTableId()
