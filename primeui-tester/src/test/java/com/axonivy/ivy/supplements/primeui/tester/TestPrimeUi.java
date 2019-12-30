@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,7 @@ import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 import com.codeborne.selenide.Configuration;
@@ -50,9 +52,9 @@ public class TestPrimeUi
   }
   
   @Test
-  public void testSelectOneMenu() throws Exception
+  public void testSelectOneMenu()
   {
-    open("http://primefaces.org/showcase/ui/input/oneMenu.xhtml");
+    open("https://primefaces.org/showcase/ui/input/oneMenu.xhtml");
     SelectOneMenu selectOne = PrimeUi.selectOne(selectMenuForLabel("Basic:"));
     assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
     String ps4 = "PS4";
@@ -61,39 +63,49 @@ public class TestPrimeUi
   }
 
   @Test
-  public void testSelectCheckBoxMenu_all() throws Exception
+  public void testSelectCheckBoxMenu_all()
   {
-    open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
+    open("https://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
     PrimeUi.selectCheckboxMenu(selectMenuForLabel("Basic:")).selectAllItems();
     assertSelectMenu("Brasilia");
   }
 
   @Test
-  public void testSelectCheckBoxMenu_itemByValue() throws Exception
+  public void testSelectCheckBoxMenu_itemByValue()
   {
-    open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
+    open("https://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
     PrimeUi.selectCheckboxMenu(selectMenuForLabel("Basic:")).selectItemByValue("Miami");
     assertSelectMenu("Miami");
   }
 
   @Test
-  public void testSelectCheckBoxMenu_itemsByValue() throws Exception
+  public void testSelectCheckBoxMenu_itemsByValue()
   {
-    open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
+    open("https://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
     PrimeUi.selectCheckboxMenu(selectMenuForLabel("Multiple:")).selectItemsByValue("Miami", "Brasilia");
     assertSelectMenu("Miami\nBrasilia");
   }
 
   @Test
-  public void testSelectBooleanCheckBox() throws Exception
+  public void testSelectBooleanCheckBox()
   {
-    open("http://primefaces.org/showcase/ui/input/booleanCheckbox.xhtml");
-    SelectBooleanCheckbox selectBooleanCheckbox = PrimeUi.selectBooleanCheckbox(checkboxForLabel("Basic"));
-    assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(false);
-    selectBooleanCheckbox.setChecked();
-    assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(true);
-    selectBooleanCheckbox.removeChecked();
-    assertThat(selectBooleanCheckbox.isChecked()).isEqualTo(false);
+    open("https://primefaces.org/showcase/ui/input/booleanCheckbox.xhtml");
+    SelectBooleanCheckbox booleanCheckbox = PrimeUi.selectBooleanCheckbox(checkboxForLabel("Basic"));
+    assertThat(booleanCheckbox.isChecked()).isEqualTo(false);
+    booleanCheckbox.setChecked();
+    assertThat(booleanCheckbox.isChecked()).isEqualTo(true);
+    booleanCheckbox.removeChecked();
+    assertThat(booleanCheckbox.isChecked()).isEqualTo(false);
+  }
+  
+  @Test
+  public void testSelectManyCheckbox()
+  {
+    open("https://www.primefaces.org/showcase/ui/input/manyCheckbox.xhtml");
+    SelectManyCheckbox manyCheckbox = PrimeUi.selectManyCheckbox(firstManyCheckbox());
+    assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
+    manyCheckbox.setCheckboxes(Arrays.asList("Xbox One", "Wii U"));
+    assertThat(manyCheckbox.getSelectedCheckboxes()).contains("Xbox One", "Wii U");
   }
 
   @Test
@@ -183,6 +195,11 @@ public class TestPrimeUi
             .findElement(By.xpath(xPath))
             .getAttribute("id");
     return elementId;
+  }
+  
+  private By firstManyCheckbox()
+  {
+    return By.id($$(".ui-selectmanycheckbox").first().attr("id"));
   }
   
   private By radioForLabel(String label)

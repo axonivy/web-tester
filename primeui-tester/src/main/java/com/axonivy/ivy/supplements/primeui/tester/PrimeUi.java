@@ -15,9 +15,7 @@
  */
 package com.axonivy.ivy.supplements.primeui.tester;
 
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -28,6 +26,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectCheckboxMenu;
+import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 
@@ -64,7 +63,7 @@ public class PrimeUi
     return new SelectBooleanCheckbox(checks);
   }
   
-  public SelectManyCheckbox selectManyCheckbox(By manyCheckbox)
+  public static SelectManyCheckbox selectManyCheckbox(By manyCheckbox)
   {
     return new SelectManyCheckbox(manyCheckbox);
   }
@@ -87,49 +86,6 @@ public class PrimeUi
   public Accordion accordion(By locator)
   {
     return new Accordion(locator);
-  }
-
-  
-
-  
-  
-  public class SelectManyCheckbox
-  {
-    private String manyCheckboxId;
-    
-    public SelectManyCheckbox(By manyCheckbox)
-    {
-      manyCheckboxId = webDriver.findElement(manyCheckbox).getAttribute("id");
-    }
-    
-    public List<String> getSelectedCheckboxes()
-    {
-      return webDriver.findElements(By.xpath("//*[@id='" + manyCheckboxId + "']/div/div/div/div[2]")).stream()
-              .filter(e -> e.getAttribute("class").contains("ui-state-active"))
-              .map(e -> e.findElement(By.xpath("../../label")).getText())
-              .collect(Collectors.toList());
-    }
-    
-    public boolean isManyCheckboxDisabled()
-    {
-      return webDriver.findElements(By.xpath("//*[@id='" + manyCheckboxId + "']/div/div/div/div[2]")).stream()
-              .anyMatch(e -> e.getAttribute("class").contains("ui-state-disabled"));
-    }
-    
-    public void setCheckboxes(List<String> values)
-    {
-      values.stream().forEach(v -> webDriver.findElement(By.xpath("//*[@id='" + manyCheckboxId + "']/div/div/label[text()='" + v + "']/../div/div[2]")).click());
-    }
-    
-    public void clear()
-    {
-      if (isManyCheckboxDisabled())
-      {
-        return;
-      }
-      setCheckboxes(getSelectedCheckboxes());
-    }
-    
   }
 
   public class Table
