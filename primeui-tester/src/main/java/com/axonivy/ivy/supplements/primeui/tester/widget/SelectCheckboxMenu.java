@@ -1,8 +1,11 @@
 package com.axonivy.ivy.supplements.primeui.tester.widget;
 
+import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SelectCheckboxMenu
 {
@@ -10,14 +13,14 @@ public class SelectCheckboxMenu
 
   public SelectCheckboxMenu(By locator)
   {
-    checkBoxMenuId = webDriver.findElement(locator).getAttribute("id");
+    checkBoxMenuId = $(locator).getAttribute("id");
   }
 
   public void selectAllItems()
   {
     openCheckboxPanel();
-    webDriver.findElement(By.xpath("//*[@id='" + checkBoxMenuId + "_panel']/div[1]/div/div[2]")).click();
-    waitForChosenInternal("");
+    $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box").shouldBe(visible).click();
+    $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
     closeCheckboxPanel();
   }
 
@@ -40,30 +43,21 @@ public class SelectCheckboxMenu
 
   private void selectItemInternal(String labelValue)
   {
-    webDriver.findElement(By.xpath(
-            "//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/label[text()='" + labelValue + "']/../div/div[2]")
-            ).click();
-    waitForChosenInternal("label[.='" + labelValue + "']/../");
+    $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
+            .find(text(labelValue)).find(".ui-chkbox-box").shouldBe(visible).click();
+    $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
+            .find(text(labelValue)).find(".ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
   }
 
-  private void waitForChosenInternal(final String value)
+  private void openCheckboxPanel()
   {
-    await(driver -> driver
-            .findElement(By.xpath("//*[@id='" + checkBoxMenuId + "_panel']/div[2]/ul/li/" +
-                    value + "div/div[2]"))
-            .getAttribute("class").contains("state-active"));
+    $(By.id(checkBoxMenuId)).shouldBe(visible).find(".ui-icon-triangle-1-s").click();
   }
 
-  protected void openCheckboxPanel()
-  {
-    webDriver.findElement(By.id(checkBoxMenuId)).findElement(By.className("ui-icon-triangle-1-s")).click();
-  }
-
-  protected void closeCheckboxPanel()
+  private void closeCheckboxPanel()
   {
     String panelId = checkBoxMenuId + "_panel";
-    WebElement panel = ajax.await(ExpectedConditions.visibilityOfElementLocated(By.id(panelId)));
-    panel.findElement(By.className("ui-selectcheckboxmenu-close")).click();
-    ajax.await(ExpectedConditions.invisibilityOfElementLocated(By.id(panelId)));
+    $(By.id(panelId)).shouldBe(visible).find(".ui-selectcheckboxmenu-close").click();
+    $(By.id(panelId)).shouldNotBe(visible);
   }
 }

@@ -1,5 +1,11 @@
 package com.axonivy.ivy.supplements.primeui.tester;
 
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.concurrent.TimeUnit;
@@ -8,17 +14,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.SelectOneRadio;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;
-import com.axonivy.ivy.supplements.primeui.tester.widget.SelectCheckboxMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
@@ -50,82 +53,44 @@ public class TestPrimeUi
   @Test
   public void testSelectOneMenu() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/input/oneMenu.xhtml");
-
-    SelectOneMenu selectOne = getSelectOneMenu();
+    open("http://primefaces.org/showcase/ui/input/oneMenu.xhtml");
+    SelectOneMenu selectOne = prime.selectOne(getElementForLabel("Basic:"));
     assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
     String ps4 = "PS4";
     selectOne.selectItemByLabel(ps4);
     assertThat(selectOne.getSelectedItem()).isEqualTo(ps4);
   }
 
-  private SelectOneMenu getSelectOneMenu()
-  {
-    WebElement selectOne = getElementWithBasicLabel();
-    return prime.selectOne(By.id(selectOne.getAttribute("id")));
-  }
-
   @Test
   public void testSelectCheckBoxMenu_all() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-    
-    getCheckboxMenu().selectAllItems();
+    open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
+    prime.selectCheckboxMenu(getElementForLabel("Basic:")).selectAllItems();
     submitAndCheck("Brasilia");
   }
 
   @Test
   public void testSelectCheckBoxMenu_itemByValue() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-
-    getCheckboxMenu().selectItemByValue("Miami");
+    open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
+    prime.selectCheckboxMenu(getElementForLabel("Basic:")).selectItemByValue("Miami");
     submitAndCheck("Miami");
-  }
-
-  private SelectCheckboxMenu getCheckboxMenu()
-  {
-    WebElement checkbox = getElementWithBasicLabel();
-    return prime.selectCheckboxMenu(By.id(checkbox.getAttribute("id")));
   }
 
   @Test
   public void testSelectCheckBoxMenu_itemsByValue() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-
-    getMultipleCheckboxMenu().selectItemsByValue("Miami", "Brasilia");
-    submitAndCheck("Miami\n"
-            + "Brasilia");
-  }
-
-  private SelectCheckboxMenu getMultipleCheckboxMenu()
-  {
-    WebElement checkbox = getElementWithLabel("Multiple:");
-    return prime.selectCheckboxMenu(By.id(checkbox.getAttribute("id")));
+    open("http://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
+    prime.selectCheckboxMenu(getElementForLabel("Multiple:")).selectItemsByValue("Miami", "Brasilia");
+    submitAndCheck("Miami\nBrasilia");
   }
 
   private void submitAndCheck(String selected)
   {
-    driver.findElement(By.xpath("//span[text()='Submit']")).click();
-    outputContains(selected);
+    $$(".ui-button").find(exactText("Submit")).shouldBe(visible).click();
+    $(".ui-dialog-content").shouldHave(text(selected));
   }
-
-  private void outputContains(String chosenValue)
-  {
-    By contentLocator = By.xpath("//div[@aria-modal='true' and @role='dialog']/div[2]");
-    try
-    {
-      prime.awaitCondition(ExpectedConditions.textToBePresentInElementLocated(contentLocator,
-              chosenValue));
-    }
-    catch (TimeoutException ex)
-    {
-      String text = driver.findElement(contentLocator).getText();
-      throw new RuntimeException("Could not find text '" + chosenValue + "' in '" + text + "'", ex);
-    }
-  }
-
+  
   @Test
   public void testSelectBooleanCheckBox() throws Exception
   {
@@ -231,9 +196,9 @@ public class TestPrimeUi
     return elementId;
   }
 
-  private WebElement getElementWithBasicLabel()
+  private By getElementForLabel(String label)
   {
-    return getElementWithLabel("Basic:");
+    return By.id(getElementWithLabel(label).getAttribute("id"));
   }
   private WebElement getElementWithLabel(String labelText)
   {
