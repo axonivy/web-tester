@@ -29,6 +29,7 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.SelectCheckboxMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
+import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
 
 /**
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
@@ -73,7 +74,7 @@ public class PrimeUi
     return new SelectOneRadio(oneRadio);
   }
 
-  public Table table(By dataTable)
+  public static Table table(By dataTable)
   {
     return new Table(dataTable);
   }
@@ -88,52 +89,7 @@ public class PrimeUi
     return new Accordion(locator);
   }
 
-  public class Table
-  {
-    private String tableId;
-
-    public Table(By dataTable)
-    {
-      tableId = webDriver.findElement(dataTable).getAttribute("id");
-    }
-
-    public void firstRowContains(String expectedText)
-    {
-      awaitCondition(ExpectedConditions.textToBePresentInElementLocated(
-              By.xpath("//*[@id='" + tableId + "_data']/tr[1]"), expectedText));
-    }
-
-    public void contains(String checkText)
-    {
-      awaitCondition(ExpectedConditions.textToBePresentInElementLocated(
-              By.id(tableId), checkText));
-    }
-
-    public void containsNot(String checkText)
-    {
-      awaitCondition(ExpectedConditions.not(ExpectedConditions.textToBePresentInElementLocated(
-              By.id(tableId + "_data"), checkText)));
-    }
-
-    public void select(String cellValue)
-    {
-      webDriver.findElement(By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue + "']"))
-              .click();
-
-      await(driver -> driver
-              .findElement(By.xpath("//*[@id='" + tableId + "_data']/tr/td[text()='" + cellValue + "']/.."))
-              .getAttribute("aria-selected").contains("true"));
-    }
-
-    public String valueAt(int row, int column) throws Exception
-    {
-      column += 1;
-      String cellValue = webDriver.findElement(
-              By.xpath("//*[@id='" + tableId + "_data']/tr[@data-ri='" + row + "']/td[" + column + "]"))
-              .getText();
-      return cellValue;
-    }
-  }
+  
 
   public class Dialog
   {

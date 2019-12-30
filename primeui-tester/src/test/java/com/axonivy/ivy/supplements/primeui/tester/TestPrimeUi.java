@@ -19,11 +19,11 @@ import org.openqa.selenium.WebDriver;
 
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Dialog;
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Table;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
+import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
@@ -106,6 +106,8 @@ public class TestPrimeUi
     assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
     manyCheckbox.setCheckboxes(Arrays.asList("Xbox One", "Wii U"));
     assertThat(manyCheckbox.getSelectedCheckboxes()).contains("Xbox One", "Wii U");
+    manyCheckbox.clear();
+    assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
   }
 
   @Test
@@ -123,10 +125,9 @@ public class TestPrimeUi
   @Test
   public void testTableWithValue() throws Exception
   {
-    driver.get("http://primefaces.org/showcase/ui/data/datatable/filter.xhtml");
+    open("http://primefaces.org/showcase/ui/data/datatable/filter.xhtml");
 
-    String tableId = getElementId("//form/div[1]");
-    Table table = prime.table(By.id(tableId));
+    Table table = PrimeUi.table(By.id(firstDataTableId()));
     int brandColumn = 2;
 
     String firstBrand = table.valueAt(0, brandColumn);
@@ -138,19 +139,19 @@ public class TestPrimeUi
       lastBrand = table.valueAt(lastRow, brandColumn);
       lastRow --;
     }
-    searchTable(firstBrand, tableId);
+    searchTable(firstBrand);
     table.contains(firstBrand);
     table.containsNot(lastBrand);
 
-    searchTable(lastBrand, tableId);
+    searchTable(lastBrand);
     table.firstRowContains(lastBrand);
     table.containsNot(firstBrand);
   }
 
-  private void searchTable(String firstBrand, String tableId)
+  private void searchTable(String firstBrand)
   {
-    driver.findElement(By.id(tableId + ":globalFilter")).clear();
-    driver.findElement(By.id(tableId + ":globalFilter")).sendKeys(firstBrand);
+    driver.findElement(By.id(firstDataTableId() + ":globalFilter")).clear();
+    driver.findElement(By.id(firstDataTableId() + ":globalFilter")).sendKeys(firstBrand);
   }
 
   @Test
@@ -188,13 +189,10 @@ public class TestPrimeUi
     assertThat(accordion.isTabOpen(openTab)).isTrue();
     assertThat(accordion.isTabOpen(closedTab)).isFalse();
   }
-
-  private String getElementId(String xPath)
+  
+  private String firstDataTableId()
   {
-    String elementId = driver
-            .findElement(By.xpath(xPath))
-            .getAttribute("id");
-    return elementId;
+    return $$(".ui-datatable").first().attr("id");
   }
   
   private By firstManyCheckbox()
