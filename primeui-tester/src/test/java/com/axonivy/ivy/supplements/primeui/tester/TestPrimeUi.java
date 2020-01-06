@@ -34,7 +34,7 @@ public class TestPrimeUi
   public void setUp()
   {
     Configuration.browser = "firefox";
-    //Configuration.headless = true;
+    Configuration.headless = true;
     Configuration.reportsFolder = "target/senenide/reports";
     Selenide.open();
   }
