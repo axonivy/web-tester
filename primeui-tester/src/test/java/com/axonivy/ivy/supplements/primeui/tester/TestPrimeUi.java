@@ -9,15 +9,13 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
-import com.axonivy.ivy.supplements.primeui.tester.PrimeUi.Accordion;
+import com.axonivy.ivy.supplements.primeui.tester.widget.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
@@ -26,7 +24,6 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
@@ -36,9 +33,6 @@ import com.codeborne.selenide.WebDriverRunner;
  */
 public class TestPrimeUi
 {
-  private WebDriver driver;
-  private PrimeUi prime;
-
   @BeforeEach
   public void setUp()
   {
@@ -46,9 +40,6 @@ public class TestPrimeUi
     //Configuration.headless = true;
     Configuration.reportsFolder = "target/senenide/reports";
     Selenide.open();
-    driver = WebDriverRunner.getWebDriver();
-    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    prime = new PrimeUi(driver);
   }
   
   @Test
@@ -150,8 +141,8 @@ public class TestPrimeUi
 
   private void searchTable(String firstBrand)
   {
-    driver.findElement(By.id(firstDataTableId() + ":globalFilter")).clear();
-    driver.findElement(By.id(firstDataTableId() + ":globalFilter")).sendKeys(firstBrand);
+    $(By.id(firstDataTableId() + ":globalFilter")).clear();
+    $(By.id(firstDataTableId() + ":globalFilter")).sendKeys(firstBrand);
   }
 
   @Test
@@ -169,15 +160,12 @@ public class TestPrimeUi
   @Test
   public void testAccordion()
   {
-    driver.get("http://primefaces.org/showcase/ui/panel/accordionPanel.xhtml");
-
-    Accordion accordion = prime.accordion(By.xpath("//h3[text()='Basic']/following-sibling::div"));
+    open("https://primefaces.org/showcase/ui/panel/accordionPanel.xhtml");
+    Accordion accordion = PrimeUi.accordion(firstAccordion());
     accordion.toggleTab("Godfather Part II");
     validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
-
     accordion.openTab("Godfather Part II");
     validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
-
     accordion.openTab("Godfather Part I");
     validateTabOpen(accordion, "Godfather Part I", "Godfather Part II");
   }
@@ -186,6 +174,11 @@ public class TestPrimeUi
   {
     assertThat(accordion.isTabOpen(openTab)).isTrue();
     assertThat(accordion.isTabOpen(closedTab)).isFalse();
+  }
+  
+  private By firstAccordion()
+  {
+    return By.id($$(".ui-accordion").first().attr("id"));
   }
   
   private By firstDialog()

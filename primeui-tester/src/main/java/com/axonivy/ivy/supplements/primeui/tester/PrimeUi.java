@@ -20,10 +20,9 @@ import java.util.function.Function;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import com.axonivy.ivy.supplements.primeui.tester.widget.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectCheckboxMenu;
@@ -42,11 +41,9 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
 public class PrimeUi
 {
   private AjaxHelper ajax;
-  private WebDriver webDriver;
 
   public PrimeUi(WebDriver driver)
   {
-    this.webDriver = driver;
     this.ajax = new AjaxHelper(driver);
   }
 
@@ -85,59 +82,9 @@ public class PrimeUi
     return new Dialog(dialog);
   }
 
-  public Accordion accordion(By locator)
+  public static Accordion accordion(By locator)
   {
     return new Accordion(locator);
-  }
-
-  
-
-  
-
-  public class Accordion
-  {
-    private String accordionId;
-
-    public Accordion(final By accordionLocator)
-    {
-      accordionId = await(driver -> driver.findElement(accordionLocator).getAttribute("id"));
-    }
-
-    public void toggleTab(String tabName)
-    {
-      String xPath = "//*[@id='" + accordionId + "']/*[contains(., '" + tabName + "')][@role='tab']";
-      By tabLocator = By.xpath(xPath);
-      String expansionAttribute = "aria-expanded";
-      WebElement item = awaitCondition(ExpectedConditions.elementToBeClickable(webDriver.findElement(
-              tabLocator)));
-      String previousState = item.getAttribute(expansionAttribute);
-      item.click();
-
-      By nextSibling = By.xpath(xPath + "/following-sibling::*[contains(@role,'tabpanel')]");
-      await(driver ->
-              !driver.findElements(nextSibling).get(0).getAttribute("style").matches(".*overflow:.?hidden;.*height:.*"));
-      await(driver -> 
-              !driver.findElement(tabLocator).getAttribute(expansionAttribute).contains(previousState));
-    }
-
-    public boolean isTabOpen(String tabName)
-    {
-      return webDriver
-              .findElement(By.xpath("//*[@id='" + accordionId + "']/*[contains(., '" + tabName + "')]"))
-              .getAttribute("aria-expanded").contains("true");
-    }
-
-    public void openTab(String tabName)
-    {
-      if (isTabOpen(tabName))
-      {
-        return;
-      }
-      else
-      {
-        toggleTab(tabName);
-      }
-    }
   }
 
   protected <T> T await(Function<WebDriver, T> condition)
