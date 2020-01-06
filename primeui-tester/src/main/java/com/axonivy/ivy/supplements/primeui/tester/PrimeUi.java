@@ -15,12 +15,8 @@
  */
 package com.axonivy.ivy.supplements.primeui.tester;
 
-import java.util.function.Function;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import com.axonivy.ivy.supplements.primeui.tester.widget.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Dialog;
@@ -34,19 +30,10 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
 /**
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
  * with Primefaces {@link org.openqa.selenium.WebElement WebElements}.
- * 
- * @author Denis Huelin
- * @since 6.0.0
  */
 public class PrimeUi
 {
-  private AjaxHelper ajax;
-
-  public PrimeUi(WebDriver driver)
-  {
-    this.ajax = new AjaxHelper(driver);
-  }
-
+  
   public static SelectOneMenu selectOne(By locator)
   {
     return new SelectOneMenu(locator);
@@ -86,28 +73,10 @@ public class PrimeUi
   {
     return new Accordion(locator);
   }
-
-  protected <T> T await(Function<WebDriver, T> condition)
+  
+  public static AjaxHelper ajax(WebDriver driver)
   {
-    return awaitCondition(new ExpectedCondition<T>()
-      {
-        @Override
-        public T apply(WebDriver driver)
-        {
-          try
-          {
-            return condition.apply(driver);
-          }
-          catch (StaleElementReferenceException ex)
-          {
-            return null;
-          }
-        }
-      });
+    return new AjaxHelper(driver);
   }
 
-  protected <T> T awaitCondition(ExpectedCondition<T> condition)
-  {
-    return ajax.await(condition);
-  }
 }

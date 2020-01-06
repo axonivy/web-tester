@@ -27,9 +27,6 @@ import com.codeborne.selenide.Selenide;
 
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
- * 
- * @author dhu
- * @since Apr 28, 2016
  */
 public class TestPrimeUi
 {

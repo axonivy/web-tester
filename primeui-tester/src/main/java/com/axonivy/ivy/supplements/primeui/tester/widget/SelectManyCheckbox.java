@@ -1,6 +1,7 @@
 package com.axonivy.ivy.supplements.primeui.tester.widget;
 
 import static com.codeborne.selenide.Condition.cssClass;
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -9,7 +10,7 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 
 public class SelectManyCheckbox
 {
@@ -37,11 +38,23 @@ public class SelectManyCheckbox
   {
     for (String value : values)
     {
-      $(By.id(manyCheckboxId)).findAll("label").find(Condition.exactText(value)).parent().find(".ui-chkbox-box")
-              .shouldBe(visible).click();
-      $(By.id(manyCheckboxId)).findAll("label").find(Condition.exactText(value)).parent().find(".ui-chkbox-box")
-              .shouldHave(cssClass("ui-state-active"));
+      boolean active = getCheckboxForLabel(value).has(cssClass("ui-state-active"));
+      getCheckboxForLabel(value).click();
+      if (active)
+      {
+        getCheckboxForLabel(value).shouldNotHave(cssClass("ui-state-active"));
+      }
+      else
+      {
+        getCheckboxForLabel(value).shouldHave(cssClass("ui-state-active"));
+      }
     }
+  }
+
+  private SelenideElement getCheckboxForLabel(String value)
+  {
+    return $(By.id(manyCheckboxId)).findAll("label").find(exactText(value)).parent().find(".ui-chkbox-box")
+            .shouldBe(visible);
   }
   
   public void clear()

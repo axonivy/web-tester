@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.axonivy.ivy.supplements.primeui.tester.AjaxHelper;
+import com.axonivy.ivy.supplements.primeui.tester.PrimeUi;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 
@@ -30,8 +30,7 @@ public class Accordion
     String tabContentId = StringUtils.removeEnd(accorionTab(tabName).getAttribute("id"), "_header");
 
     //Selenide doesn't support if a style is set or not. Primefaces 7 needs to wait for full visibility (no opacity).
-    AjaxHelper ajax = new AjaxHelper(WebDriverRunner.getWebDriver());
-    ajax.await(ExpectedConditions.numberOfElementsToBe(
+    PrimeUi.ajax(WebDriverRunner.getWebDriver()).await(ExpectedConditions.numberOfElementsToBe(
             By.xpath("//div[@id='" + tabContentId + "' and not(contains(@style,'overflow'))]"), 1));
     $(By.id(tabContentId)).shouldBe(attribute("aria-hidden", previousState));
   }
