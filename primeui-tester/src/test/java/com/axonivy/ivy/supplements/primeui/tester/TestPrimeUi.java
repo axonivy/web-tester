@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
@@ -23,20 +23,18 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
  */
 public class TestPrimeUi
 {
-  @BeforeEach
-  public void setUp()
+  @BeforeAll
+  public static void setUp()
   {
     Configuration.browser = "firefox";
     Configuration.headless = true;
     Configuration.reportsFolder = "target/senenide/reports";
-    Selenide.open();
   }
   
   @Test
