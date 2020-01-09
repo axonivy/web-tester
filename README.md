@@ -13,21 +13,6 @@ the pom.xml:
 <dependencies>
 ...
   <dependency>
-    <groupId>com.codeborne</groupId>
-    <artifactId>selenide</artifactId>
-    <version>5.5.0</version>
-  </dependency>
-  <dependency>
-    <groupId>org.seleniumhq.selenium</groupId>
-    <artifactId>selenium-java</artifactId>
-    <version>3.141.59</version>
-  </dependency>
-  <dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter-engine</artifactId>
-    <version>5.5.2</version>
-  </dependency>
-  <dependency>
     <groupId>com.axonivy.ivy.supplements</groupId>
     <artifactId>primeui-tester</artifactId>
     <version>1.0.0-SNAPSHOT</version>
