@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 
 public class Dialog
 {
-  private String dialogId;
+  private final String dialogId;
 
   public Dialog(By dialogLocator)
   {

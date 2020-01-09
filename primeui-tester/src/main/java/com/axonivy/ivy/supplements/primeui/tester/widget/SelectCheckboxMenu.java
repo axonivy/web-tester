@@ -26,9 +26,7 @@ public class SelectCheckboxMenu
 
   public void selectItemByValue(String labelValue)
   {
-    openCheckboxPanel();
-    selectItemInternal(labelValue);
-    closeCheckboxPanel();
+    selectItemsByValue(labelValue);
   }
 
   public void selectItemsByValue(String... labelValues)

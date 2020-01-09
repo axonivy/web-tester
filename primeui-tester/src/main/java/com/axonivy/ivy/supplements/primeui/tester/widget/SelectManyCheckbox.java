@@ -14,7 +14,7 @@ import com.codeborne.selenide.SelenideElement;
 
 public class SelectManyCheckbox
 {
-  private String manyCheckboxId;
+  private final String manyCheckboxId;
   
   public SelectManyCheckbox(By manyCheckbox)
   {

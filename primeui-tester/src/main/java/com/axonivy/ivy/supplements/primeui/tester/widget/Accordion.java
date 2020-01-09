@@ -16,7 +16,7 @@ import com.codeborne.selenide.WebDriverRunner;
 
 public class Accordion
 {
-  private String accordionId;
+  private final String accordionId;
 
   public Accordion(final By accordionLocator)
   {
@@ -25,9 +25,9 @@ public class Accordion
 
   public void toggleTab(String tabName)
   {
-    String previousState = accorionTab(tabName).getAttribute("aria-expanded");
-    accorionTab(tabName).click();
-    String tabContentId = StringUtils.removeEnd(accorionTab(tabName).getAttribute("id"), "_header");
+    String previousState = accordionTab(tabName).getAttribute("aria-expanded");
+    accordionTab(tabName).click();
+    String tabContentId = StringUtils.removeEnd(accordionTab(tabName).getAttribute("id"), "_header");
 
     //Selenide doesn't support if a style is set or not. Primefaces 7 needs to wait for full visibility (no opacity).
     PrimeUi.ajax(WebDriverRunner.getWebDriver()).await(ExpectedConditions.numberOfElementsToBe(
@@ -35,14 +35,14 @@ public class Accordion
     $(By.id(tabContentId)).shouldBe(attribute("aria-hidden", previousState));
   }
 
-  private SelenideElement accorionTab(String tabName)
+  private SelenideElement accordionTab(String tabName)
   {
     return $(By.id(accordionId)).findAll(".ui-accordion-header").find(text(tabName)).shouldBe(visible, enabled);
   }
 
   public boolean isTabOpen(String tabName)
   {
-    return accorionTab(tabName).getAttribute("aria-expanded").contains("true");
+    return accordionTab(tabName).getAttribute("aria-expanded").contains("true");
   }
 
   public void openTab(String tabName)

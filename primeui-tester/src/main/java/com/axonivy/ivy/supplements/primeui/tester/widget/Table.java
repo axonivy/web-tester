@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 
 public class Table
 {
-  private String tableId;
+  private final String tableId;
 
   public Table(By dataTable)
   {
@@ -34,6 +34,12 @@ public class Table
   public String valueAt(int row, int column) throws Exception
   {
     return $(By.id(tableId + "_data")).findAll("tr")
-            .find(attribute("data-ri", String.valueOf(row))).find("td", column + 1).getText();
+            .find(attribute("data-ri", String.valueOf(row))).find("td", column + 1).shouldBe(visible).getText();
+  }
+  
+  public void searchGlobal(String search)
+  {
+    $(By.id(tableId + ":globalFilter")).shouldBe(visible).clear();
+    $(By.id(tableId + ":globalFilter")).shouldBe(visible).sendKeys(search);
   }
 }

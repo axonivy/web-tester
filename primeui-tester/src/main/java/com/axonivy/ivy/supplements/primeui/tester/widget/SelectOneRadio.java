@@ -12,7 +12,7 @@ import com.codeborne.selenide.SelenideElement;
 
 public class SelectOneRadio
 {
-  private String oneRadioId;
+  private final String oneRadioId;
 
   public SelectOneRadio(By oneRadio)
   {
@@ -31,7 +31,7 @@ public class SelectOneRadio
     $(radioByLabel(value)).shouldHave(cssClass("ui-state-active"));
   }
   
-  public String getSelected()
+  public String getSelectedValue()
   {
     return $(By.id(oneRadioId)).findAll(".ui-radiobutton-box").find(Condition.cssClass("ui-state-active"))
             .parent().find("div > input").getValue();

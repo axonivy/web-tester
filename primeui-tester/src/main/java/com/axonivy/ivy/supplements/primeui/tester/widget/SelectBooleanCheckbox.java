@@ -10,7 +10,7 @@ import com.codeborne.selenide.SelenideElement;
 
 public class SelectBooleanCheckbox
 {
-  private String booleanCheckboxId;
+  private final String booleanCheckboxId;
 
   public SelectBooleanCheckbox(By booleanCheckbox)
   {

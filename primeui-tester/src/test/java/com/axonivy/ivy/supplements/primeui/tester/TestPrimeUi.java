@@ -5,7 +5,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
@@ -13,8 +12,8 @@ import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 
+import com.axonivy.ivy.supplements.primeui.tester.ShowcaseUtil.Showcase;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Dialog;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectBooleanCheckbox;
@@ -40,8 +39,7 @@ public class TestPrimeUi
   @Test
   public void testSelectOneMenu()
   {
-    open("https://primefaces.org/showcase/ui/input/oneMenu.xhtml");
-    SelectOneMenu selectOne = PrimeUi.selectOne(selectMenuForLabel("Basic:"));
+    SelectOneMenu selectOne = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Basic:");
     assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
     String ps4 = "PS4";
     selectOne.selectItemByLabel(ps4);
@@ -51,32 +49,34 @@ public class TestPrimeUi
   @Test
   public void testSelectCheckBoxMenu_all()
   {
-    open("https://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-    PrimeUi.selectCheckboxMenu(selectMenuForLabel("Basic:")).selectAllItems();
+    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu("Basic:").selectAllItems();
     assertSelectMenu("Brasilia");
   }
 
   @Test
   public void testSelectCheckBoxMenu_itemByValue()
   {
-    open("https://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-    PrimeUi.selectCheckboxMenu(selectMenuForLabel("Basic:")).selectItemByValue("Miami");
+    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu("Basic:").selectItemByValue("Miami");
     assertSelectMenu("Miami");
   }
 
   @Test
   public void testSelectCheckBoxMenu_itemsByValue()
   {
-    open("https://primefaces.org/showcase/ui/input/checkboxMenu.xhtml");
-    PrimeUi.selectCheckboxMenu(selectMenuForLabel("Multiple:")).selectItemsByValue("Miami", "Brasilia");
+    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu("Multiple:").selectItemsByValue("Miami", "Brasilia");
     assertSelectMenu("Miami\nBrasilia");
+  }
+
+  private void assertSelectMenu(String selected)
+  {
+    $$(".ui-button").find(exactText("Submit")).shouldBe(visible).click();
+    $(".ui-dialog-content").shouldHave(text(selected));
   }
 
   @Test
   public void testSelectBooleanCheckBox()
   {
-    open("https://primefaces.org/showcase/ui/input/booleanCheckbox.xhtml");
-    SelectBooleanCheckbox booleanCheckbox = PrimeUi.selectBooleanCheckbox(checkboxForLabel("Basic"));
+    SelectBooleanCheckbox booleanCheckbox = ShowcaseUtil.open(Showcase.CHECKBOX).checkbox("Basic");
     assertThat(booleanCheckbox.isChecked()).isEqualTo(false);
     booleanCheckbox.setChecked();
     assertThat(booleanCheckbox.isChecked()).isEqualTo(true);
@@ -87,8 +87,7 @@ public class TestPrimeUi
   @Test
   public void testSelectManyCheckbox()
   {
-    open("https://www.primefaces.org/showcase/ui/input/manyCheckbox.xhtml");
-    SelectManyCheckbox manyCheckbox = PrimeUi.selectManyCheckbox(firstManyCheckbox());
+    SelectManyCheckbox manyCheckbox = ShowcaseUtil.open(Showcase.MANYCHECKBOX).manyCheckbox();
     assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
     manyCheckbox.setCheckboxes(Arrays.asList("Xbox One", "Wii U"));
     assertThat(manyCheckbox.getSelectedCheckboxes()).contains("Xbox One", "Wii U");
@@ -99,21 +98,18 @@ public class TestPrimeUi
   @Test
   public void testSelectOneRadio() throws Exception
   {
-    open("https://primefaces.org/showcase/ui/input/oneRadio.xhtml");
-    SelectOneRadio selectOneRadio = PrimeUi.selectOneRadio(radioForLabel("Console:"));
-    String radioId = $(radioForLabel("Console:")).attr("id") + ":1";
+    SelectOneRadio selectOneRadio = ShowcaseUtil.open(Showcase.ONERADIO).radio("Console:");
+    String radioId = $$(".ui-selectoneradio").first().attr("id") + ":1";
     selectOneRadio.selectItemById(radioId);
-    assertThat(selectOneRadio.getSelected()).isEqualTo("PS4");
+    assertThat(selectOneRadio.getSelectedValue()).isEqualTo("PS4");
     selectOneRadio.selectItemByValue("Wii U");
-    assertThat(selectOneRadio.getSelected()).isEqualTo("Wii U");
+    assertThat(selectOneRadio.getSelectedValue()).isEqualTo("Wii U");
   }
 
   @Test
   public void testTableWithValue() throws Exception
   {
-    open("https://primefaces.org/showcase/ui/data/datatable/filter.xhtml");
-
-    Table table = PrimeUi.table(By.id(firstDataTableId()));
+    Table table = ShowcaseUtil.open(Showcase.TABLE).table();
     int brandColumn = 2;
 
     String firstBrand = table.valueAt(0, brandColumn);
@@ -125,26 +121,19 @@ public class TestPrimeUi
       lastBrand = table.valueAt(lastRow, brandColumn);
       lastRow --;
     }
-    searchTable(firstBrand);
+    table.searchGlobal(firstBrand);
     table.contains(firstBrand);
     table.containsNot(lastBrand);
 
-    searchTable(lastBrand);
+    table.searchGlobal(lastBrand);
     table.firstRowContains(lastBrand);
     table.containsNot(firstBrand);
-  }
-
-  private void searchTable(String firstBrand)
-  {
-    $(By.id(firstDataTableId() + ":globalFilter")).clear();
-    $(By.id(firstDataTableId() + ":globalFilter")).sendKeys(firstBrand);
   }
 
   @Test
   public void testDialog() throws Exception
   {
-    open("https://primefaces.org/showcase/ui/overlay/dialog/basic.xhtml");
-    Dialog dialog = PrimeUi.dialog(firstDialog());
+    Dialog dialog = ShowcaseUtil.open(Showcase.DIALOG).dialog();
     dialog.waitForVisibility(false);
     $$("button").find(text("Basic")).shouldBe(visible).click();
     dialog.waitForVisibility(true);
@@ -155,8 +144,7 @@ public class TestPrimeUi
   @Test
   public void testAccordion()
   {
-    open("https://primefaces.org/showcase/ui/panel/accordionPanel.xhtml");
-    Accordion accordion = PrimeUi.accordion(firstAccordion());
+    Accordion accordion = ShowcaseUtil.open(Showcase.ACCORDION).accordion();
     accordion.toggleTab("Godfather Part II");
     validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
     accordion.openTab("Godfather Part II");
@@ -169,47 +157,6 @@ public class TestPrimeUi
   {
     assertThat(accordion.isTabOpen(openTab)).isTrue();
     assertThat(accordion.isTabOpen(closedTab)).isFalse();
-  }
-  
-  private By firstAccordion()
-  {
-    return By.id($$(".ui-accordion").first().attr("id"));
-  }
-  
-  private By firstDialog()
-  {
-    return By.id($$(".ui-dialog").first().attr("id"));
-  }
-  
-  private String firstDataTableId()
-  {
-    return $$(".ui-datatable").first().attr("id");
-  }
-  
-  private By firstManyCheckbox()
-  {
-    return By.id($$(".ui-selectmanycheckbox").first().attr("id"));
-  }
-  
-  private By radioForLabel(String label)
-  {
-    return By.id($$("label").find(text(label)).parent().parent().find(".ui-selectoneradio").attr("id"));
-  }
-  
-  private By checkboxForLabel(String label)
-  {
-    return By.id($$(".ui-selectbooleancheckbox").find(text(label)).attr("id"));
-  }
-
-  private By selectMenuForLabel(String label)
-  {
-    return By.id($$("tr label").find(text(label)).parent().parent().find("div.ui-widget").attr("id"));
-  }
-  
-  private void assertSelectMenu(String selected)
-  {
-    $$(".ui-button").find(exactText("Submit")).shouldBe(visible).click();
-    $(".ui-dialog-content").shouldHave(text(selected));
   }
   
 }
