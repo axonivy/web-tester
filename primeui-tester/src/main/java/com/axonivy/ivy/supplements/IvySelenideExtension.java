@@ -19,13 +19,13 @@ class IvySelenideExtension implements BeforeEachCallback, BeforeAllCallback
   {
     Configuration.browser = browser(context);
     Configuration.headless = headless(context);
-    Selenide.open();
   }
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception
   {
     Configuration.reportsFolder = reportFolder(context);
+    Selenide.open();
   }
   
   private boolean headless(ExtensionContext context)
