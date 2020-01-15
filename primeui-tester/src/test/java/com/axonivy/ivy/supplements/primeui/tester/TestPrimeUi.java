@@ -11,7 +11,6 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.axonivy.ivy.supplements.primeui.tester.ShowcaseUtil.Showcase;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Accordion;
@@ -25,7 +24,7 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
  */
-@ExtendWith(IvySelenideExtension.class)
+@IvySelenide
 public class TestPrimeUi
 {
   

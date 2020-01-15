@@ -1,45 +1,61 @@
 package com.axonivy.ivy.supplements.primeui.tester;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
 
-/**
- * IvySelenideExtension is an JUnit5 extension which can be used for Selenide test setup.
- * 
- * <p>It can be configured over the following system properties:
- * <ul>
- *   <li><b>ivy.selenide.browser: </b>e.g chrome, firefox (default)</li>
- *   <li><b>ivy.selenide.headless: </b>false or true (default)</li>
- *   <li><b>ivy.selenide.reportfolder: </b>e.g target/senenide/reports/&lt;testclass&gt;/&lt;testmethod&gt; (default)</li>
- * </ul>
- * </p>
- * 
- * @see WebDriverRunner#getWebDriver() use 'WebDriverRunner' to get the WebDriver
- * @see Selenide#open() use 'open' to browse a webpage
- * @see Selenide#$ use '$' to get an element by a select
- * @see Selenide#$$ use '$$' to get all elements found by a selector
- * @see SelenideElement#should(com.codeborne.selenide.Condition...) use '$.should()' to test element
- */
-public class IvySelenideExtension implements BeforeEachCallback
+class IvySelenideExtension implements BeforeEachCallback, BeforeAllCallback
 {
+  
+  @Override
+  public void beforeAll(ExtensionContext context) throws Exception
+  {
+    Configuration.browser = browser(context);
+    Configuration.headless = headless(context);
+    Selenide.open();
+  }
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception
   {
-    String reportDir = context.getTestClass().map(c -> c.getName() + "/").orElse("");
-    reportDir += context.getTestMethod().map(m -> m.getName()).orElse("");
-    Configuration.browser = context.getConfigurationParameter("ivy.selenide.browser").orElse("firefox");
-    Configuration.headless = BooleanUtils.toBoolean(context.getConfigurationParameter("ivy.selenide.headless")
-            .orElse("true"));
-    Configuration.reportsFolder = context.getConfigurationParameter("ivy.selenide.reportfolder")
-            .orElse("target/senenide/reports/" + reportDir);
-    Selenide.open();
+    Configuration.reportsFolder = reportFolder(context);
+  }
+  
+  private boolean headless(ExtensionContext context)
+  {
+    return context.getConfigurationParameter("ivy.selenide.headless")
+            .map(param -> BooleanUtils.toBoolean(param))
+            .orElseGet(() -> findAnnotation(context).map(a -> a.headless())
+                    .orElse(IvySelenide.HEADLESS_DEFAULT));
+  }
+  
+  private String browser(ExtensionContext context)
+  {
+    return context.getConfigurationParameter("ivy.selenide.browser")
+            .orElseGet(() -> findAnnotation(context).map(a -> a.browser())
+                    .orElse(IvySelenide.BROWSER_DEFAULT));
+  }
+  
+  private String reportFolder(ExtensionContext context)
+  {
+    String methodDir = context.getTestClass().map(c -> c.getName() + "/").orElse("") + 
+            context.getTestMethod().map(m -> m.getName()).orElse("");
+    String reportDir = context.getConfigurationParameter("ivy.selenide.reportfolder")
+            .orElseGet(() -> findAnnotation(context).map(a -> a.reportFolder())
+                    .orElse(IvySelenide.REPORT_FOLDER_DEFAULT));
+    return StringUtils.appendIfMissing(reportDir, "/") + methodDir;
+  }
+  
+  private Optional<IvySelenide> findAnnotation(ExtensionContext context)
+  {
+    return context.getTestClass().map(c -> c.getAnnotation(IvySelenide.class));
   }
 
 }
