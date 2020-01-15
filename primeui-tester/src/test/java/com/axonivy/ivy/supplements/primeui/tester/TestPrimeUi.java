@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.supplements.primeui.tester.ShowcaseUtil.Showcase;
@@ -21,20 +20,13 @@ import com.axonivy.ivy.supplements.primeui.tester.widget.SelectManyCheckbox;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneMenu;
 import com.axonivy.ivy.supplements.primeui.tester.widget.SelectOneRadio;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Table;
-import com.codeborne.selenide.Configuration;
 
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
  */
+@IvySelenide
 public class TestPrimeUi
 {
-  @BeforeAll
-  public static void setUp()
-  {
-    Configuration.browser = "firefox";
-    Configuration.headless = true;
-    Configuration.reportsFolder = "target/senenide/reports";
-  }
   
   @Test
   public void testSelectOneMenu()
