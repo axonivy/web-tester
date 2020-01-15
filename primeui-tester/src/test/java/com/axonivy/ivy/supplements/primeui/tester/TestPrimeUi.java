@@ -12,6 +12,7 @@ import java.util.Arrays;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
+import com.axonivy.ivy.supplements.IvySelenide;
 import com.axonivy.ivy.supplements.primeui.tester.ShowcaseUtil.Showcase;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Accordion;
 import com.axonivy.ivy.supplements.primeui.tester.widget.Dialog;

@@ -1,4 +1,4 @@
-package com.axonivy.ivy.supplements.primeui.tester;
+package com.axonivy.ivy.supplements;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
