@@ -4,7 +4,7 @@
 
 	<groupId>com.axonivy.ivy.supplements</groupId>
 	<artifactId>primeui-tester</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>primeui-tester</name>
@@ -20,7 +20,7 @@
 
 	<developers>
 		<developer>
-			<name>Denis Huelin</name>
+			<name>IvyTeam</name>
 			<email>support@ivyteam.ch</email>
 			<organization>AXON Ivy AG</organization>
 			<organizationUrl>https://www.axonivy.com</organizationUrl>
