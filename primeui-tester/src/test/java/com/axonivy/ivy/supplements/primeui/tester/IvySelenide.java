@@ -3,6 +3,7 @@ package com.axonivy.ivy.supplements.primeui.tester;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -34,6 +35,7 @@ import com.codeborne.selenide.WebDriverRunner;
  */
 @Retention(RUNTIME)
 @Target({ElementType.TYPE, ElementType.PARAMETER})
+@Inherited
 @ExtendWith(IvySelenideExtension.class)
 public @interface IvySelenide
 {
