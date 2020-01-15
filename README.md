@@ -24,15 +24,9 @@ the pom.xml:
 To test you're primefaces widgets add a new test class: e.g. [TestPrimeUi.java](https://github.com/ivy-supplements/primeui-tester/blob/master/primeui-tester/src/test/java/com/axonivy/ivy/supplements/primeui/tester/TestPrimeUi.java)
 
 ```java
+@IvySelenide
 public class TestPrimeUi
 {
-  @BeforeAll
-  public static void setUp()
-  {
-    Configuration.browser = "firefox";
-    Configuration.headless = true;
-    Configuration.reportsFolder = "target/senenide/reports";
-  }
 
   @Test
   public void testSelectOneMenu()
