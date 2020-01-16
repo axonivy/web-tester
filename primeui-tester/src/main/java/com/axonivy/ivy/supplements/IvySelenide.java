@@ -20,11 +20,11 @@ import com.codeborne.selenide.WebDriverRunner;
  * <ul>
  *   <li><b>ivy.selenide.browser: </b>e.g chrome, firefox (default)</li>
  *   <li><b>ivy.selenide.headless: </b>false or true (default)</li>
- *   <li><b>ivy.selenide.reportfolder: </b>e.g target/senenide/reports/&lt;testclass&gt;/&lt;testmethod&gt; (default)</li>
+ *   <li><b>ivy.selenide.reportfolder: </b>e.g target/selenide/reports/&lt;testclass&gt;/&lt;testmethod&gt; (default)</li>
  * </ul>
  * 
  * or annotation parameters:
- * <b>@IvySelenide(browser = "firefox", headless = true, reportFolder = "target/senenide/reports")</b>
+ * <b>@IvySelenide(browser = "firefox", headless = true, reportFolder = "target/selenide/reports")</b>
  * </p>
  * 
  * @see WebDriverRunner#getWebDriver() use 'WebDriverRunner' to get the WebDriver
