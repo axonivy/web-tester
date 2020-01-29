@@ -16,7 +16,7 @@
 package com.axonivy.ivy.supplements.engine;
 
 /**
- * This is a Util to build URLs against the designer or a test engine.
+ * This is a Util to build URLs against the designer (localhost:8081) or a test engine.
  * 
  * To run a test engine have a look at the project-build-plugin: https://github.com/axonivy/project-build-plugin
  */
