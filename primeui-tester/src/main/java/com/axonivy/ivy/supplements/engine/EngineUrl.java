@@ -22,7 +22,7 @@ package com.axonivy.ivy.supplements.engine;
  */
 public class EngineUrl
 {
-  private static final String DESIGNER = "designer";
+  public static final String DESIGNER = "designer";
 
   public static String base()
   {
