@@ -22,11 +22,13 @@ package com.axonivy.ivy.supplements.engine;
  */
 public class EngineUrl
 {
+  static final String TEST_ENGINE_APP = "test.engine.app";
+  static final String TEST_ENGINE_URL = "test.engine.url";
   public static final String DESIGNER = "designer";
 
   public static String base()
   {
-    return System.getProperty("test.engine.url", "http://localhost:8081/ivy/");
+    return System.getProperty(TEST_ENGINE_URL, "http://localhost:8081/ivy/");
   }
 
   public static String rest()
@@ -51,7 +53,7 @@ public class EngineUrl
 
   public static String applicationName()
   {
-    return System.getProperty("test.engine.app", DESIGNER);
+    return System.getProperty(TEST_ENGINE_APP, DESIGNER);
   }
 
   public static Boolean isDesigner()

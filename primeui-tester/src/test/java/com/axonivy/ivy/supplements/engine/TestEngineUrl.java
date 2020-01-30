@@ -2,10 +2,18 @@ package com.axonivy.ivy.supplements.engine;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class TestEngineUrl
 {
+  
+  @AfterEach
+  void cleanup()
+  {
+    System.clearProperty(EngineUrl.TEST_ENGINE_URL);
+    System.clearProperty(EngineUrl.TEST_ENGINE_APP);
+  }
 
   @Test
   void testDesignerUrls()
@@ -22,8 +30,8 @@ public class TestEngineUrl
   {
     String baseUrl = "http://www.axonivy.com:8080/ivy/";
     String app = "test";
-    System.setProperty("test.engine.url", baseUrl);
-    System.setProperty("test.engine.app", app);
+    System.setProperty(EngineUrl.TEST_ENGINE_URL, baseUrl);
+    System.setProperty(EngineUrl.TEST_ENGINE_APP, app);
     assertThat(EngineUrl.rest()).isEqualTo(baseUrl + "api/" + app);
     assertThat(EngineUrl.process()).isEqualTo(baseUrl + "pro/" + app);
     assertThat(EngineUrl.staticView()).isEqualTo(baseUrl + "faces/view/" + app);
