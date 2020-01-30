@@ -20,6 +20,7 @@ public class TestEngineUrl
   {
     String baseUrl = "http://localhost:8081/ivy/";
     assertThat(EngineUrl.rest()).isEqualTo(baseUrl + "api/" + EngineUrl.DESIGNER);
+    assertThat(EngineUrl.soap()).isEqualTo(baseUrl + "ws/" + EngineUrl.DESIGNER);
     assertThat(EngineUrl.process()).isEqualTo(baseUrl + "pro/" + EngineUrl.DESIGNER);
     assertThat(EngineUrl.staticView()).isEqualTo(baseUrl + "faces/view/" + EngineUrl.DESIGNER);
     assertThat(EngineUrl.isDesigner()).isEqualTo(true);
@@ -33,6 +34,7 @@ public class TestEngineUrl
     System.setProperty(EngineUrl.TEST_ENGINE_URL, baseUrl);
     System.setProperty(EngineUrl.TEST_ENGINE_APP, app);
     assertThat(EngineUrl.rest()).isEqualTo(baseUrl + "api/" + app);
+    assertThat(EngineUrl.soap()).isEqualTo(baseUrl + "ws/" + app);
     assertThat(EngineUrl.process()).isEqualTo(baseUrl + "pro/" + app);
     assertThat(EngineUrl.staticView()).isEqualTo(baseUrl + "faces/view/" + app);
     assertThat(EngineUrl.isDesigner()).isEqualTo(false);

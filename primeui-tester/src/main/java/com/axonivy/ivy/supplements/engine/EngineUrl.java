@@ -35,6 +35,11 @@ public class EngineUrl
   {
     return getServletUrl("api");
   }
+  
+  public static String soap()
+  {
+    return getServletUrl("ws");
+  }
 
   public static String process()
   {
