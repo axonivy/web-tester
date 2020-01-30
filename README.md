@@ -10,6 +10,16 @@ The primeui-tester runs with [Selenide](https://selenide.org/),
 the pom.xml:
 
 ```xml
+<repositories>
+  <repository>
+    <id>central.snapshots</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    <snapshots>
+      <updatePolicy>always</updatePolicy>
+    </snapshots>
+  </repository>
+</repositories>
+
 <dependencies>
 ...
   <dependency>
