@@ -39,7 +39,7 @@ the pom.xml:
 Add a new test class to test your process (e.g.
 [WebTestRegistrationForm.java](https://github.com/axonivy/project-build-examples/blob/master/compile-test/crmIntegrationTests/src_test/ch/ivyteam/integrationtest/WebTestRegistrationForm.java))
 or a PrimeFaces widget (e.g.
-[TestPrimeUi.java](https://github.com/ivy-supplements/web-tester/blob/master/primeui-tester/src/test/java/com/axonivy/ivy/webtest/primeui/TestPrimeUi.java)):
+[TestPrimeUi.java](primeui-tester/src/test/java/com/axonivy/ivy/webtest/primeui/TestPrimeUi.java)):
 
 ```java
 @IvyWebTest
@@ -70,6 +70,9 @@ public class WebTest
 
 }
 ```
+
+## Changelog
+[Changelog](CHANGELOG.md)
 
 ## Authors
 
