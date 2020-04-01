@@ -72,7 +72,8 @@ public class WebTest
 ```
 
 ## Changelog
-[Changelog](CHANGELOG.md)
+[web-tester Changelog](web-tester/CHANGELOG.md)
+[primeui-tester Changelog](primeui-tester/CHANGELOG.md)
 
 ## Authors
 
