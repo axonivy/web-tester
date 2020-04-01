@@ -1,13 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.axonivy.ivy.webtest</groupId>
-  <artifactId>primeui-tester</artifactId>
-  <version>7.0.0-SNAPSHOT</version>
+  <artifactId>web-tester</artifactId>
+  <version>8.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   
-  <name>primeui-tester</name>
-  <description>API that simplifies testing of JSF pages that contain Primefaces Widgets.</description>
+  <name>web-tester</name>
+  <description>API that simplifies web testing with ivy projects.</description>
   <url>https://github.com/ivy-supplements/web-tester/</url>
 
   <licenses>
@@ -51,32 +52,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.codeborne</groupId>
-      <artifactId>selenide</artifactId>
-      <version>5.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>3.141.59</version>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>3.15.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.9</version>
+      <groupId>com.axonivy.ivy.webtest</groupId>
+      <artifactId>primeui-tester</artifactId>
+      <version>7.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
-
+  
   <build>
     <plugins>
       <plugin>
@@ -87,11 +68,6 @@
           <source>11</source>
           <target>11</target>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M4</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
