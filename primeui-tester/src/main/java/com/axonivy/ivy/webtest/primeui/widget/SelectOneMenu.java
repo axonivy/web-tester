@@ -17,14 +17,11 @@ package com.axonivy.ivy.webtest.primeui.widget;
 
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.match;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import com.axonivy.ivy.webtest.primeui.PrimeUi;
-import com.codeborne.selenide.WebDriverRunner;
 
 public class SelectOneMenu
 {
@@ -59,9 +56,8 @@ public class SelectOneMenu
   private void selectItem(final String label)
   {
     $(By.id(oneMenuId)).find("span.ui-icon.ui-icon-triangle-1-s").shouldBe(visible).click();
-    //Selenide doesn't support if a style is set or not. Primefaces 7 needs to wait for full visibility (no opacity).
-    PrimeUi.ajax(WebDriverRunner.getWebDriver()).await(ExpectedConditions.numberOfElementsToBe(
-            By.xpath("//div[@id='" + oneMenuId + "_panel' and not(contains(@style,'opacity'))]"), 1));
+    $(By.id(oneMenuId + "_panel")).should(match("menupanel should not animate", 
+          el -> !el.getAttribute("style").contains("opacity")));
     $(By.id(oneMenuId + "_items")).shouldBe(visible);
     $(By.id(oneMenuId + "_items")).findAll("li").find(exactText(label)).shouldBe(visible, enabled).click();
     $(By.id(oneMenuId + "_items")).shouldNotBe(visible);

@@ -22,45 +22,79 @@ package com.axonivy.ivy.webtest.engine;
  */
 public class EngineUrl
 {
-  static final String TEST_ENGINE_APP = "test.engine.app";
-  static final String TEST_ENGINE_URL = "test.engine.url";
+  public static final String TEST_ENGINE_APP = "test.engine.app";
+  public static final String TEST_ENGINE_URL = "test.engine.URL";
   public static final String DESIGNER = "designer";
 
+  /**
+   * Gets base URL of a running engine.
+   * Returns URL of started project-build-plugin test engine ({@value #TEST_ENGINE_URL}) or 'http://localhost:8080/ivy/'
+   * @return URL of engine
+   */
   public static String base()
   {
     return System.getProperty(TEST_ENGINE_URL, "http://localhost:8081/ivy/");
   }
 
+  /**
+   * Gets base URL of a rest request.
+   * @return rest base URL
+   */
   public static String rest()
   {
     return getServletUrl("api");
   }
   
+  /**
+   * Gets base URL of a webservice request.
+   * @return soap base URL
+   */
   public static String soap()
   {
     return getServletUrl("ws");
   }
 
+  /**
+   * Gets base URL of a process.
+   * @return process base URL
+   */
   public static String process()
   {
     return getServletUrl("pro");
   }
   
+  /**
+   * Gets base URL of a static page.
+   * @return static page base URL
+   */
   public static String staticView()
   {
     return getServletUrl("faces/view");
   }
 
+  /**
+   * Gets base URL of a given servlet context (like 'pro').
+   * @param servletContext identifier of the servlet
+   * @return servlet base URL
+   */
   public static String getServletUrl(String servletContext)
   {
     return base() + servletContext + "/" + applicationName();
   }
 
+  /**
+   * Gets name of set application ({@value #TEST_ENGINE_APP}).
+   * @return application name
+   */
   public static String applicationName()
   {
     return System.getProperty(TEST_ENGINE_APP, DESIGNER);
   }
 
+  /**
+   * Check if the set application is the designer.
+   * @return true if application is designer
+   */
   public static Boolean isDesigner()
   {
     return Boolean.valueOf(applicationName() == DESIGNER);

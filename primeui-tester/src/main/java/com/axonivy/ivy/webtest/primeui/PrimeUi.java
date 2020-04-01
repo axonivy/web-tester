@@ -26,6 +26,7 @@ import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
 import com.axonivy.ivy.webtest.primeui.widget.Table;
+import com.codeborne.selenide.WebDriverRunner;
 
 /**
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
@@ -74,9 +75,19 @@ public class PrimeUi
     return new Accordion(locator);
   }
   
+  /**
+   * @deprecated use native selenide methods instead.
+   */
+  @Deprecated
   public static AjaxHelper ajax(WebDriver driver)
   {
     return new AjaxHelper(driver);
+  }
+  
+  @Deprecated
+  public static AjaxHelper ajax()
+  {
+    return new AjaxHelper(WebDriverRunner.getWebDriver());
   }
 
 }
