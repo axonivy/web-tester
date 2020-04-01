@@ -27,9 +27,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * {@link org.openqa.selenium.WebElement WebElement} to reach an
  * {@link org.openqa.selenium.support.ui.ExpectedCondition ExpectedCondition}.
  * 
+ * @deprecated use native selenide methods instead.
+ * 
  * @author Denis Huelin
  * @since 6.0.0
  */
+@Deprecated
 public class AjaxHelper
 {
   private WebDriver driver;
