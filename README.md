@@ -31,7 +31,7 @@ the pom.xml:
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-tester</artifactId>
     <version>8.0.0-SNAPSHOT</version>
-    <scope>tests</scope>
+    <scope>test</scope>
   </dependency>
 </dependencies>
 ```
@@ -72,8 +72,8 @@ public class WebTest
 ```
 
 ## Changelog
-[web-tester Changelog](web-tester/CHANGELOG.md)
-[primeui-tester Changelog](primeui-tester/CHANGELOG.md)
+- [web-tester](web-tester/CHANGELOG.md)
+- [primeui-tester](primeui-tester/CHANGELOG.md)
 
 ## Authors
 
