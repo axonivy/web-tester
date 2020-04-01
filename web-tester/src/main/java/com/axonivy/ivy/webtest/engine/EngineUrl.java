@@ -23,7 +23,7 @@ package com.axonivy.ivy.webtest.engine;
 public class EngineUrl
 {
   public static final String TEST_ENGINE_APP = "test.engine.app";
-  public static final String TEST_ENGINE_URL = "test.engine.URL";
+  public static final String TEST_ENGINE_URL = "test.engine.url";
   public static final String DESIGNER = "designer";
 
   /**
