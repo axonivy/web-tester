@@ -2,6 +2,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>com.axonivy.ivy.webtest</groupId>
+    <artifactId>web-config</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../maven-config</relativePath>
+  </parent>
+
   <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>web-tester</artifactId>
   <version>8.0.0-SNAPSHOT</version>
@@ -11,45 +18,6 @@
   <description>API that simplifies web testing with ivy projects.</description>
   <url>https://github.com/ivy-supplements/web-tester/</url>
 
-  <licenses>
-    <license>
-      <name>The Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <name>IvyTeam</name>
-      <email>support@ivyteam.ch</email>
-      <organization>AXON Ivy AG</organization>
-      <organizationUrl>https://www.axonivy.com</organizationUrl>
-    </developer>
-  </developers>
-
-  <scm>
-    <connection>scm:git:git@github.com:ivy-supplements/web-tester.git</connection>
-    <developerConnection>scm:git:git@github.com:ivy-supplements/web-tester.git</developerConnection>
-    <url>git@github.com:ivy-supplements/web-tester.git</url>
-  </scm>
-
-  <organization>
-    <name>The open source community of Axon.ivy</name>
-    <url>https://github.com/ivy-supplements</url>
-  </organization>
-  
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <name>Maven Central Snapshots Repo</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
-
   <dependencies>
     <dependency>
       <groupId>com.axonivy.ivy.webtest</groupId>
@@ -57,70 +25,4 @@
       <version>7.0.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>11</source>
-          <target>11</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-            <configuration>
-              <skip>true</skip>
-              <!-- The open source community of Axon.ivy -->
-              <keyname>23E36F7D</keyname>
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
