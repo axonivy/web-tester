@@ -20,11 +20,9 @@ pipeline {
             sh "gpg --batch --import ${env.GPG_FILE}"
 
             def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
-            dir ('primeui-tester') {
-              maven cmd: "clean ${phase} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=false -Dmaven.test.failure.ignore=true"
-              junit 'target/surefire-reports/**/*.xml'     
-              archiveArtifacts 'target/*.jar'
-            }
+            maven cmd: "clean ${phase} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=false -Dmaven.test.failure.ignore=true"
+            junit '**/target/surefire-reports/**/*.xml'
+            archiveArtifacts '**/target/*.jar'
           }
         }
       }

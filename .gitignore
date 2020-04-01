@@ -1,0 +1,16 @@
+# Eclipse
+.settings/
+
+# Java
+.class
+
+# Mac
+.DS_Store
+
+# Maven
+/log/
+target/
+
+# VS Code
+.vscode/
+.flattened-pom.xml
