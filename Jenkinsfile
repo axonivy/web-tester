@@ -21,7 +21,7 @@ pipeline {
 
             def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
             maven cmd: "clean ${phase} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=false -Dmaven.test.failure.ignore=true"
-            junit 'target/surefire-reports/**/*.xml'     
+            junit '**/target/surefire-reports/**/*.xml'
             archiveArtifacts 'target/*.jar'
           }
         }
