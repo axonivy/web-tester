@@ -1,10 +1,15 @@
-# primeui-tester
-primeui-tester is a API which helps you test your JSF-Page containing primefaces
-widgets. The API provides you methods to interact with your widgets and check if
-it's in the condition you expected it to be. 
+# web-tester
+The `web-tester` artifact provides you a API which helps you test your JSF-Page.
+With this API it is easy to setup your test environment and send requests
+against your [Axon.ivy Engine](https://developer.axonivy.com/download). 
+
+## primeui-tester
+If your JSF-Page contains [PrimeFaces ](https://www.primefaces.org/showcase/)
+widgets, the `primeui-tester` gives you the possibility to interact with those
+widgets and check if it's in the condition you expected it to be. 
 
 # How to use in your project
-The primeui-tester runs with [Selenide](https://selenide.org/),
+The web-tester runs with [Selenide](https://selenide.org/),
 [Selenium](https://selenium.dev/projects/) and [JUnit
 5](https://junit.org/junit5/). Simply add this library to your dependencies in
 the pom.xml:
@@ -23,20 +28,34 @@ the pom.xml:
 <dependencies>
 ...
   <dependency>
-    <groupId>com.axonivy.ivy.supplements</groupId>
-    <artifactId>primeui-tester</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <groupId>com.axonivy.ivy.webtest</groupId>
+    <artifactId>web-tester</artifactId>
+    <version>8.0.0-SNAPSHOT</version>
     <scope>tests</scope>
   </dependency>
 </dependencies>
 ```
 
-To test you're primefaces widgets add a new test class: e.g. [TestPrimeUi.java](https://github.com/ivy-supplements/primeui-tester/blob/master/primeui-tester/src/test/java/com/axonivy/ivy/supplements/primeui/tester/TestPrimeUi.java)
+Add a new test class to test your process (e.g.
+[WebTestRegistrationForm.java](https://github.com/axonivy/project-build-examples/blob/master/compile-test/crmIntegrationTests/src_test/ch/ivyteam/integrationtest/WebTestRegistrationForm.java))
+or a PrimeFaces widget (e.g.
+[TestPrimeUi.java](https://github.com/ivy-supplements/web-tester/blob/master/primeui-tester/src/test/java/com/axonivy/ivy/webtest/primeui/TestPrimeUi.java)):
 
 ```java
-@IvySelenide
-public class TestPrimeUi
+@IvyWebTest
+public class WebTest
 {
+
+  @Test
+  public void registerNewCustomer()
+  {
+    open(EngineUrl.base());
+    $(By.linkText("customer/register.ivp")).shouldBe(visible).click();
+    $(By.id("form:firstname")).sendKeys("Unit");
+    $(By.id("form:lastname")).sendKeys("Test");
+    $(By.id("form:submit")).shouldBe(enabled).click();
+    $(By.id("form:newCustomer")).shouldBe(visible, text("Unit Test"));
+  }
 
   @Test
   public void testSelectOneMenu()
@@ -49,9 +68,15 @@ public class TestPrimeUi
     assertThat(selectOne.getSelectedItem()).isEqualTo(ps4);
   }
 
-  ...
 }
 ```
+
+## Authors
+
+[ivyTeam](https://developer.axonivy.com/)
+
+[![Axon.ivy](https://www.axonivy.com/hubfs/brand/axonivy-logo-black.svg)](http://www.axonivy.com)
+
 
 ## License
 The Apache License, Version 2.0
