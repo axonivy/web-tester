@@ -73,7 +73,7 @@ pipeline {
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dgpg.skip=false " +
                     "-DignoreSnapshots=true " +
-                    "-Darguments=\\"-Dmaven.compiler.source=11 -Dmaven.compiler.target=11\\""
+                    '-Darguments=\\"-Dmaven.compiler.source=11 -Dmaven.compiler.target=11\\"'
                 }
               }
             }
