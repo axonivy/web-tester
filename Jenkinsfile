@@ -72,15 +72,14 @@ pipeline {
                     "${nextDevVersionParam} " +
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dgpg.skip=false " +
-                    "-Dmaven.test.skip=true " +
                     "-DignoreSnapshots=true " +
-                    "-Darguments=\"-Dmaven.compiler.source=11 -Dmaven.compiler.target=11\""
+                    "-Darguments=\\"-Dmaven.compiler.source=11 -Dmaven.compiler.target=11\\""
                 }
               }
             }
           }
         }
-        archiveArtifacts 'target/*.jar'
+        archiveArtifacts '**/target/*.jar'
         junit '**/target/surefire-reports/**/*.xml'
       }
     }
