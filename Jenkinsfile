@@ -58,7 +58,6 @@ pipeline {
       steps {
 
         script {
-          def nextDevVersionParam = createNextDevVersionJVMParam()
           sh "git config --global user.name 'ivy-team'"
           sh "git config --global user.email 'nobody@axonivy.com'"
           
