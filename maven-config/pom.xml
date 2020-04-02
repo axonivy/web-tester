@@ -24,8 +24,7 @@
 
   <scm>
     <connection>scm:git:git@github.com:ivy-supplements/web-tester.git</connection>
-    <developerConnection>scm:git:git@github.com:ivy-supplements/web-tester.git</developerConnection>
-    <url>git@github.com:ivy-supplements/web-tester.git</url>
+    <tag>HEAD</tag>
   </scm>
 
   <organization>
@@ -35,6 +34,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <revision>0-SNAPSHOT</revision>
   </properties>
 
   <profiles>
@@ -61,13 +61,10 @@
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <version>3.0.0-M1</version>
+            <artifactId>maven-scm-plugin</artifactId>
+            <version>1.11.2</version>
             <configuration>
-              <tagNameFormat>v@{project.version}</tagNameFormat>
-              <releaseProfiles>release</releaseProfiles>
-              <goals>deploy</goals>
-              <arguments>-Dmaven.compiler.source=11 -Dmaven.compiler.target=11</arguments>
+              <tag>${project.artifactId}-${project.version}</tagNameFormat>
             </configuration>
           </plugin>
         </plugins>

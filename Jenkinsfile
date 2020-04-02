@@ -21,13 +21,16 @@ pipeline {
       description: "Choose which project should be released (onyl if you choose 'maven.central.release' as deployProfile)",
       choices: ['web-tester', 'primeui-tester'])
 
-    string(name: 'nextDevVersion',
-      description: "Next development version used after release, e.g. '7.3.0' (no '-SNAPSHOT').\nNote: This is only used for release target; if not set next patch version will be raised by one",
-      defaultValue: '' )
+    string(name: 'revision',
+      description: 'Revision for this release, e.g. newest version "8.0.0" revison should be "1". Note: This is only used for release target!',
+      defaultValue: '0' )
   }
 
   stages {
-    stage('build') {
+    stage('snapshot build') {
+      when {
+        expression { params.deployProfile != 'maven.central.release' }
+      }
       steps {
         script {
           withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
@@ -64,31 +67,19 @@ pipeline {
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
                 dir("${params.deployArtifact}"){
-                  maven cmd: "clean verify release:prepare release:perform " +
+                  maven cmd: "clean verify deploy scm:tag " +
                     "-P ${params.deployProfile} " +
-                    "${nextDevVersionParam} " +
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dgpg.skip=false " +
-                    "-Dmaven.test.skip=true " +
-                    "-DignoreSnapshots=true "
+                    "-Drevision=${params.revision} "
                 }
               }
             }
           }
         }
         archiveArtifacts '**/target/*.jar'
+        junit '**/target/surefire-reports/**/*.xml'
       }
     }
   }
-}
-
-def createNextDevVersionJVMParam() {
-  def nextDevelopmentVersion = '' 
-  if (params.nextDevVersion.trim() =~ /\d+\.\d+\.\d+/) {
-    echo "nextDevVersion is set to ${params.nextDevVersion.trim()}"
-    nextDevelopmentVersion = "-DdevelopmentVersion=${params.nextDevVersion.trim()}-SNAPSHOT"
-  } else {
-    echo "nextDevVersion is NOT set or does not match version pattern - using default"
-  }
-  return nextDevelopmentVersion
 }
