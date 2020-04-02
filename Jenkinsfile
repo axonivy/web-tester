@@ -27,10 +27,7 @@ pipeline {
   }
 
   stages {
-    stage('snapshot build') {
-      /*when {
-        expression { params.deployProfile != 'maven.central.release' }
-      }*/
+    stage('build') {
       steps {
         script {
           withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
@@ -50,7 +47,7 @@ pipeline {
       }
     }
 
-    stage('release build') {
+    stage('release') {
       when {
         //branch 'master'
         expression { params.deployProfile == 'maven.central.release' }
@@ -67,7 +64,7 @@ pipeline {
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
                 dir("${params.deployArtifact}"){
-                  maven cmd: "clean verify -DdryRun=true release:prepare release:perform " +
+                  maven cmd: "clean verify release:prepare release:perform " +
                     "-P ${params.deployProfile} " +
                     "${nextDevVersionParam} " +
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
@@ -79,8 +76,7 @@ pipeline {
             }
           }
         }
-        //archiveArtifacts '**/target/*.jar'
-        //junit '**/target/surefire-reports/**/*.xml'
+        archiveArtifacts '**/target/*.jar'
       }
     }
   }
