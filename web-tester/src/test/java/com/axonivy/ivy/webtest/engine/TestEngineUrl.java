@@ -18,11 +18,18 @@ public class TestEngineUrl
   @Test
   void testDesignerUrls()
   {
-    String baseUrl = "http://localhost:8081/ivy/";
-    assertThat(EngineUrl.rest()).isEqualTo(baseUrl + "api/" + EngineUrl.DESIGNER);
-    assertThat(EngineUrl.soap()).isEqualTo(baseUrl + "ws/" + EngineUrl.DESIGNER);
-    assertThat(EngineUrl.process()).isEqualTo(baseUrl + "pro/" + EngineUrl.DESIGNER);
-    assertThat(EngineUrl.staticView()).isEqualTo(baseUrl + "faces/view/" + EngineUrl.DESIGNER);
+    String baseUrl = "http://localhost:8081/";
+    assertThat(EngineUrl.createRest("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/api/");
+    assertThat(EngineUrl.createSoap("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/ws/");
+    assertThat(EngineUrl.createProcess("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro/");
+    assertThat(EngineUrl.createStaticView("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/faces/view/");
+    assertThat(EngineUrl.createProcess("/test.ivp")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro/test.ivp");
+    assertThat(EngineUrl.createProcess("test.ivp")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro/test.ivp");
+    assertThat(EngineUrl.create().base("http://base").app("app").servlet("servlet").path("path").toUrl())
+            .isEqualTo("http://base/app/servlet/path");
+    assertThat(EngineUrl.create().base("http://base/").app("/app/").servlet("/servlet/").path("/path/").toUrl())
+            .isEqualTo("http://base/app/servlet/path");
+    assertThat(EngineUrl.createProcess("test.ivp")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro/test.ivp");
     assertThat(EngineUrl.isDesigner()).isEqualTo(true);
   }
   
@@ -33,10 +40,10 @@ public class TestEngineUrl
     String app = "test";
     System.setProperty(EngineUrl.TEST_ENGINE_URL, baseUrl);
     System.setProperty(EngineUrl.TEST_ENGINE_APP, app);
-    assertThat(EngineUrl.rest()).isEqualTo(baseUrl + "api/" + app);
-    assertThat(EngineUrl.soap()).isEqualTo(baseUrl + "ws/" + app);
-    assertThat(EngineUrl.process()).isEqualTo(baseUrl + "pro/" + app);
-    assertThat(EngineUrl.staticView()).isEqualTo(baseUrl + "faces/view/" + app);
+    assertThat(EngineUrl.createRest("")).isEqualTo(baseUrl + app + "/api/");
+    assertThat(EngineUrl.createSoap("")).isEqualTo(baseUrl + app + "/ws/");
+    assertThat(EngineUrl.createProcess("")).isEqualTo(baseUrl + app + "/pro/");
+    assertThat(EngineUrl.createStaticView("")).isEqualTo(baseUrl + app + "/faces/view/");
     assertThat(EngineUrl.isDesigner()).isEqualTo(false);
   }
   
