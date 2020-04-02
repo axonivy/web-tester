@@ -57,15 +57,12 @@
           <url>https://oss.sonatype.org/content/repositories/releases/</url>
         </repository>
       </distributionManagement>
-      <properties>
-        <run.public.download.test>true</run.public.download.test>
-      </properties>
       <build>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-release-plugin</artifactId>
-            <version>2.5.3</version>
+            <version>3.0.0-M1</version>
             <configuration>
               <tagNameFormat>v@{project.version}</tagNameFormat>
               <releaseProfiles>release</releaseProfiles>

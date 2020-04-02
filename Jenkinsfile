@@ -13,10 +13,6 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineListUrl',
-      description: 'Engine to use for build',
-      defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/')
-
     choice(name: 'deployProfile',
       description: 'Choose where the built plugin should be deployed to',
       choices: ['sonatype.snapshots', 'maven.central.release'])
@@ -39,7 +35,7 @@ pipeline {
         script {
           withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
 
-            def phase = env.BRANCH_NAME == 'master' ? 'deploy site-deploy' : 'verify'
+            def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
             maven cmd: "clean ${phase} " +
               "-P ${params.deployProfile} " +
               "-Dgpg.passphrase='${env.GPG_PWD}' " +
@@ -71,13 +67,14 @@ pipeline {
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
                 dir("${params.engineListUrl}"){
-                  maven cmd: "clean verify release:prepare release:perform " +
+                  maven cmd: "clean verify -DdryRun=true release:prepare release:perform " +
                     "-P ${params.deployProfile} " +
                     "${nextDevVersionParam} " +
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dgpg.skip=false " +
                     "-Dmaven.test.skip=true " +
-                    "-Darguments=-Divy.engine.list.url=${params.engineListUrl} "
+                    "-DignoreSnapshots=true " +
+                    "-Darguments=\"-Dmaven.compiler.source=11 -Dmaven.compiler.target=11\""
                 }
               }
             }
