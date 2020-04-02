@@ -64,7 +64,7 @@
             <artifactId>maven-scm-plugin</artifactId>
             <version>1.11.2</version>
             <configuration>
-              <tag>${project.artifactId}-${project.version}</tagNameFormat>
+              <tag>${project.artifactId}-${project.version}</tag>
             </configuration>
           </plugin>
         </plugins>
