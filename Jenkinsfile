@@ -12,20 +12,91 @@ pipeline {
     cron '@midnight'
   }
 
-  stages {
-    stage('build and deploy') {
-      steps {
-        withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
-          script {
-            sh "gpg --batch --import ${env.GPG_FILE}"
+  parameters {
+    string(name: 'engineListUrl',
+      description: 'Engine to use for build',
+      defaultValue: 'https://jenkins.ivyteam.io/job/ivy-core_product/job/master/lastSuccessfulBuild/')
 
-            def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
-            maven cmd: "clean ${phase} -Dgpg.passphrase='${env.GPG_PWD}' -Dgpg.skip=false -Dmaven.test.failure.ignore=true"
-            junit '**/target/surefire-reports/**/*.xml'
-            archiveArtifacts '**/target/*.jar'
+    choice(name: 'deployProfile',
+      description: 'Choose where the built plugin should be deployed to',
+      choices: ['sonatype.snapshots', 'maven.central.release'])
+
+    choice(name: 'deployArtifact',
+      description: "Choose which project should be released (onyl if you choose 'maven.central.release' as deployProfile)",
+      choices: ['web-tester', 'primeui-tester'])
+
+    string(name: 'nextDevVersion',
+      description: "Next development version used after release, e.g. '7.3.0' (no '-SNAPSHOT').\nNote: This is only used for release target; if not set next patch version will be raised by one",
+      defaultValue: '' )
+  }
+
+  stages {
+    stage('snapshot build') {
+      when {
+        expression { params.deployProfile != 'maven.central.release' }
+      }
+      steps {
+        script {
+          withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
+
+            def phase = env.BRANCH_NAME == 'master' ? 'deploy site-deploy' : 'verify'
+            maven cmd: "clean ${phase} " +
+              "-P ${params.deployProfile} " +
+              "-Dgpg.passphrase='${env.GPG_PWD}' " +
+              "-Dgpg.skip=false " +
+              "-Divy.engine.list.url=${params.engineListUrl} " +
+              "-Dmaven.test.failure.ignore=true"
+
           }
         }
+        archiveArtifacts '**/target/*.jar'
+        junit '**/target/surefire-reports/**/*.xml'
+      }
+    }
+
+    stage('release build') {
+      when {
+        branch 'master'
+        expression { params.deployProfile == 'maven.central.release' }
+      }
+      steps {
+
+        script {
+          def nextDevVersionParam = createNextDevVersionJVMParam()
+          sh "git config --global user.name 'ivy-team'"
+          sh "git config --global user.email 'nobody@axonivy.com'"
+          
+          withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
+
+            withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
+              sshagent(credentials: ['github-axonivy']) {
+                dir("${params.engineListUrl}"){
+                  maven cmd: "clean verify release:prepare release:perform " +
+                    "-P ${params.deployProfile} " +
+                    "${nextDevVersionParam} " +
+                    "-Dgpg.passphrase='${env.GPG_PWD}' " +
+                    "-Dgpg.skip=false " +
+                    "-Dmaven.test.skip=true " +
+                    "-Darguments=-Divy.engine.list.url=${params.engineListUrl} "
+                }
+              }
+            }
+          }
+        }
+        archiveArtifacts 'target/*.jar'
+        junit '**/target/surefire-reports/**/*.xml'
       }
     }
   }
+}
+
+def createNextDevVersionJVMParam() {
+  def nextDevelopmentVersion = '' 
+  if (params.nextDevVersion.trim() =~ /\d+\.\d+\.\d+/) {
+    echo "nextDevVersion is set to ${params.nextDevVersion.trim()}"
+    nextDevelopmentVersion = "-DdevelopmentVersion=${params.nextDevVersion.trim()}-SNAPSHOT"
+  } else {
+    echo "nextDevVersion is NOT set or does not match version pattern - using default"
+  }
+  return nextDevelopmentVersion
 }
