@@ -52,7 +52,7 @@ pipeline {
 
     stage('release build') {
       when {
-        branch 'master'
+        //branch 'master'
         expression { params.deployProfile == 'maven.central.release' }
       }
       steps {
