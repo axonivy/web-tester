@@ -28,21 +28,21 @@ pipeline {
 
   stages {
     stage('snapshot build') {
-      when {
+      /*when {
         expression { params.deployProfile != 'maven.central.release' }
-      }
+      }*/
       steps {
         script {
           withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
-
-            def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+            def phase = 'package'
+            if (params.deployProfile != 'maven.central.release') {
+              phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+            }
             maven cmd: "clean ${phase} " +
               "-P ${params.deployProfile} " +
               "-Dgpg.passphrase='${env.GPG_PWD}' " +
               "-Dgpg.skip=false " +
-              "-Divy.engine.list.url=${params.engineListUrl} " +
               "-Dmaven.test.failure.ignore=true"
-
           }
         }
         archiveArtifacts '**/target/*.jar'
@@ -72,14 +72,15 @@ pipeline {
                     "${nextDevVersionParam} " +
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dgpg.skip=false " +
+                    "-Dmaven.test.skip=true " +
                     "-DignoreSnapshots=true "
                 }
               }
             }
           }
         }
-        archiveArtifacts '**/target/*.jar'
-        junit '**/target/surefire-reports/**/*.xml'
+        //archiveArtifacts '**/target/*.jar'
+        //junit '**/target/surefire-reports/**/*.xml'
       }
     }
   }
