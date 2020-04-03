@@ -33,7 +33,7 @@ pipeline {
       }
       steps {
         script {
-          withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
+          withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
             sh "gpg --batch --import ${env.GPG_FILE}"
             def phase = 'package'
             if (params.deployProfile != 'maven.central.release') {
@@ -53,7 +53,7 @@ pipeline {
 
     stage('release') {
       when {
-        //branch 'master'
+        branch 'master'
         expression { params.deployProfile == 'maven.central.release' }
       }
       steps {
