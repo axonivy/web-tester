@@ -11,7 +11,7 @@
 
   <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>web-tester</artifactId>
-  <version>9.1.0-SNAPSHOT</version>
+  <version>8.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   
   <name>web-tester</name>

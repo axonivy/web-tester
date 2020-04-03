@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * This is a Util to build URLs against the designer (localhost:8081) or a test engine.
+ * This is a Util to build URLs against the designer (localhost:8081/ivy/) or a test engine.
  * 
  * To run a test engine have a look at the project-build-plugin: https://github.com/axonivy/project-build-plugin
  */
@@ -142,7 +142,7 @@ public class EngineUrl
   
   public String toUrl()
   {
-    return Stream.of(trim(base), trim(app), trim(getServletPath()), trim(path))
+    return Stream.of(trim(base), trim(getServletPath()), trim(app), trim(path))
             .filter(Objects::nonNull)
             .filter(Predicate.not(String::isEmpty))
             .collect(Collectors.joining(SLASH));
@@ -169,7 +169,7 @@ public class EngineUrl
    */
   public static String base()
   {
-    return System.getProperty(TEST_ENGINE_URL, "http://localhost:8081/");
+    return System.getProperty(TEST_ENGINE_URL, "http://localhost:8081/ivy/");
   }
 
   /**
