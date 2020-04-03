@@ -140,8 +140,7 @@
               <goal>sign</goal>
             </goals>
             <configuration>
-              <!-- The open source community of Axon.ivy -->
-              <keyname>23E36F7D</keyname>
+              <keyname>053E301A05B98CBE</keyname>
               <gpgArguments>
                 <arg>--pinentry-mode</arg>
                 <arg>loopback</arg>

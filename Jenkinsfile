@@ -62,7 +62,7 @@ pipeline {
           sh "git config --global user.name 'ivy-team'"
           sh "git config --global user.email 'nobody@axonivy.com'"
           
-          withCredentials([string(credentialsId: 'gpg.password.supplements', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.supplements', variable: 'GPG_FILE')]) {
+          withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
             sh "gpg --batch --import ${env.GPG_FILE}"
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
