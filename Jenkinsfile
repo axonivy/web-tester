@@ -67,7 +67,7 @@ pipeline {
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
                 dir("${params.deployArtifact}"){
-                  maven cmd: "clean deploy " +
+                  maven cmd: "clean verify deploy " +
                     "-P ${params.deployProfile} " +
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dgpg.skip=false " +
