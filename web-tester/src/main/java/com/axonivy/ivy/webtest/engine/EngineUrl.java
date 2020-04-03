@@ -15,7 +15,10 @@
  */
 package com.axonivy.ivy.webtest.engine;
 
-import java.util.StringJoiner;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,18 +29,29 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class EngineUrl
 {
+  public static enum SERVLET
+  {
+    PROCESS("pro"),
+    REST("api"),
+    WEBSERVICE("ws"),
+    STATIC_VIEW("faces/view");
+    
+    final String path;
+    
+    private SERVLET(String path)
+    {
+      this.path = path;
+    }
+  }
+  
   public static final String SLASH = "/";
-  public static final String SERVLET_STATIC_VIEW = "faces/view";
-  public static final String SERVLET_PROCESS = "pro";
-  public static final String SERVLET_SOAP = "ws";
-  public static final String SERVLET_REST = "api";
   public static final String TEST_ENGINE_APP = "test.engine.app";
   public static final String TEST_ENGINE_URL = "test.engine.url";
   public static final String DESIGNER = "designer";
   
   private String base;
   private String app;
-  private String servlet;
+  private SERVLET servlet;
   private String path;
   
   private EngineUrl()
@@ -46,29 +60,40 @@ public class EngineUrl
     this.app = applicationName();
   }
   
+  /**
+   * Gets a builder for an engine URL.
+   * Returns the URL builder for a test engine started by the project-build-plugin.
+   * Set the different values base/app/servlet/path over their methods and call {@link #toUrl()} to get your created URL.
+   * <p>Default values:</p>
+   * <ul>
+   *    <li> base: value of the system property {@value #TEST_ENGINE_URL} or 'http://localhost:8080/'</li>
+   *    <li> app: value of the system property {@value #TEST_ENGINE_APP} or {@value #DESIGNER}</li>
+   * </ul>
+   * @return engine url build
+   */
   public static EngineUrl create()
   {
     return new EngineUrl();
   }
   
-  public static String createProcess(String path)
+  public static String createProcessUrl(String path)
   {
-    return create().servlet(SERVLET_PROCESS).path(path).toUrl();
+    return create().process(path).toUrl();
   }
   
-  public static String createRest(String path)
+  public static String createRestUrl(String path)
   {
-    return create().servlet(SERVLET_REST).path(path).toUrl();
+    return create().rest(path).toUrl();
   }
   
-  public static String createSoap(String path)
+  public static String createWebServiceUrl(String path)
   {
-    return create().servlet(SERVLET_SOAP).path(path).toUrl();
+    return create().webService(path).toUrl();
   }
   
-  public static String createStaticView(String path)
+  public static String createStaticViewUrl(String path)
   {
-    return create().servlet(SERVLET_STATIC_VIEW).path(path).toUrl();
+    return create().staticView(path).toUrl();
   }
   
   public EngineUrl base(@SuppressWarnings("hiding") String base)
@@ -83,7 +108,27 @@ public class EngineUrl
     return this;
   }
   
-  public EngineUrl servlet(@SuppressWarnings("hiding") String servlet)
+  public EngineUrl process(@SuppressWarnings("hiding") String path)
+  {
+    return this.servlet(SERVLET.PROCESS).path(path);
+  }
+  
+  public EngineUrl rest(@SuppressWarnings("hiding") String path)
+  {
+    return this.servlet(SERVLET.REST).path(path);
+  }
+  
+  public EngineUrl webService(@SuppressWarnings("hiding") String path)
+  {
+    return this.servlet(SERVLET.WEBSERVICE).path(path);
+  }
+  
+  public EngineUrl staticView(@SuppressWarnings("hiding") String path)
+  {
+    return this.servlet(SERVLET.STATIC_VIEW).path(path);
+  }
+  
+  public EngineUrl servlet(@SuppressWarnings("hiding") SERVLET servlet)
   {
     this.servlet = servlet;
     return this;
@@ -97,12 +142,19 @@ public class EngineUrl
   
   public String toUrl()
   {
-    return new StringJoiner(SLASH)
-            .add(trim(base))
-            .add(trim(app))
-            .add(trim(servlet))
-            .add(trim(path))
-            .toString();
+    return Stream.of(trim(base), trim(app), trim(getServletPath()), trim(path))
+            .filter(Objects::nonNull)
+            .filter(Predicate.not(String::isEmpty))
+            .collect(Collectors.joining(SLASH));
+  }
+
+  private String getServletPath()
+  {
+    if (servlet != null)
+    {
+      return servlet.path;
+    }
+    return "";
   }
 
   private static String trim(String base)
@@ -122,46 +174,46 @@ public class EngineUrl
 
   /**
    * Gets base URL of a rest request.
-   * @deprecated use {@link #createRest(String)} instead.
+   * @deprecated use {@link #createRestUrl(String)} instead.
    * @return rest base URL
    */
   @Deprecated
   public static String rest()
   {
-    return createRest("");
+    return createRestUrl("");
   }
   
   /**
    * Gets base URL of a webservice request.
-   * @deprecated use {@link #createSoap(String)} instead.
+   * @deprecated use {@link #createWebServiceUrl(String)} instead.
    * @return soap base URL
    */
   @Deprecated
   public static String soap()
   {
-    return createSoap("");
+    return createWebServiceUrl("");
   }
 
   /**
    * Gets base URL of a process.
-   * @deprecated use {@link #createProcess(String)} instead.
+   * @deprecated use {@link #createProcessUrl(String)} instead.
    * @return process base URL
    */
   @Deprecated
   public static String process()
   {
-    return createProcess("");
+    return createProcessUrl("");
   }
   
   /**
    * Gets base URL of a static page.
-   * @deprecated use {@link #createStaticView(String)} instead.
+   * @deprecated use {@link #createStaticViewUrl(String)} instead.
    * @return static page base URL
    */
   @Deprecated
   public static String staticView()
   {
-    return createStaticView("");
+    return createStaticViewUrl("");
   }
 
   /**
@@ -173,7 +225,7 @@ public class EngineUrl
   @Deprecated
   public static String getServletUrl(String servletContext)
   {
-    return create().servlet(servletContext).toUrl();
+    return create().path(servletContext).toUrl();
   }
 
   /**
