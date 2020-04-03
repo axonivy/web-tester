@@ -140,7 +140,6 @@
               <goal>sign</goal>
             </goals>
             <configuration>
-              <skip>true</skip>
               <!-- The open source community of Axon.ivy -->
               <keyname>23E36F7D</keyname>
               <gpgArguments>
