@@ -26,7 +26,6 @@
     <connection>scm:git:git@github.com:ivy-supplements/web-tester.git</connection>
     <developerConnection>scm:git:git@github.com:ivy-supplements/web-tester.git</developerConnection>
     <url>git@github.com:ivy-supplements/web-tester.git</url>
-    <tag>HEAD</tag>
   </scm>
 
   <organization>
@@ -62,14 +61,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-plugin</artifactId>
-            <version>1.11.2</version>
-            <configuration>
-              <tag>${project.artifactId}-${project.version}</tag>
-            </configuration>
-          </plugin>
-          <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
             <version>1.6.8</version>
@@ -77,6 +68,7 @@
             <configuration>
               <serverId>sonatype.releases</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
           </plugin>
         </plugins>
