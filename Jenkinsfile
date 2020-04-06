@@ -37,7 +37,7 @@ pipeline {
             sh "gpg --batch --import ${env.GPG_FILE}"
             def phase = 'package'
             if (params.deployProfile != 'maven.central.release') {
-              phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+              phase = env.BRANCH_NAME == 'release/8.0' ? 'deploy' : 'verify'
             }
             maven cmd: "clean ${phase} " +
               "-P ${params.deployProfile} " +
@@ -53,7 +53,7 @@ pipeline {
 
     stage('release') {
       when {
-        branch 'master'
+        branch 'release/8.0'
         expression { params.deployProfile == 'maven.central.release' }
       }
       steps {
