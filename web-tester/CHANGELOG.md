@@ -1,5 +1,15 @@
 # Change Log (web-tester)
 
+## [8.0.1] - 2020-04-06
+
+The API of the **EngineUrl** has been changed. There are new methods (e.g
+`createProcessUrl(String path)`), which uses the new URL builder to create the
+engine URL. The old methods are still available but they are deprecated.
+
+### Changed
+- [XIVY-3568](https://jira.axonivy.com/jira/browse/XIVY-3568)
+  Provide new IvyWebTest artifact.
+
 ## [8.0.0] - 2020-04-01
 
 Add a new `web-tester` artifact. This provides an JUnit5 annotation
