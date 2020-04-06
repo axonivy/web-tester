@@ -35,15 +35,46 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <revision>1-SNAPSHOT</revision>
   </properties>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <name>Maven Central Snapshots Repo</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
+  <profiles>
+    <profile>
+      <id>sonatype.snapshots</id>
+      <distributionManagement>
+        <snapshotRepository>
+          <id>sonatype.snapshots</id>
+          <name>Maven Central Snapshots Repo</name>
+          <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>maven.central.release</id>
+      <distributionManagement>
+        <repository>
+          <id>sonatype.releases</id>
+          <name>Sonatype Releases Repo</name>
+          <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+      </distributionManagement>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.8</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>sonatype.releases</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
@@ -101,9 +132,7 @@
               <goal>sign</goal>
             </goals>
             <configuration>
-              <skip>true</skip>
-              <!-- The open source community of Axon.ivy -->
-              <keyname>23E36F7D</keyname>
+              <keyname>053E301A05B98CBE</keyname>
               <gpgArguments>
                 <arg>--pinentry-mode</arg>
                 <arg>loopback</arg>
@@ -121,17 +150,20 @@
             <id>flatten</id>
             <phase>process-resources</phase>
             <goals>
-            <goal>flatten</goal>
+              <goal>flatten</goal>
             </goals>
           </execution>
           <execution>
             <id>flatten.clean</id>
             <phase>clean</phase>
             <goals>
-            <goal>clean</goal>
+              <goal>clean</goal>
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <flattenMode>oss</flattenMode>
+        </configuration>
       </plugin>
     </plugins>
     <pluginManagement>
