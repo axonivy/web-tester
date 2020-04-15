@@ -30,7 +30,7 @@ the pom.xml:
   <dependency>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-tester</artifactId>
-    <version>8.0.0-SNAPSHOT</version>
+    <version>9.1.0-SNAPSHOT</version>
     <scope>test</scope>
   </dependency>
 </dependencies>
