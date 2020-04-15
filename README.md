@@ -1,3 +1,7 @@
+[![web-tester version][0]][1] [![web-tester snapshot version][2]][3]
+
+[![primeui-tester version][4]][5] [![primeui-tester snapshot version][6]][7]
+
 # web-tester
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
@@ -15,22 +19,12 @@ The web-tester runs with [Selenide](https://selenide.org/),
 the pom.xml:
 
 ```xml
-<repositories>
-  <repository>
-    <id>central.snapshots</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    <snapshots>
-      <updatePolicy>always</updatePolicy>
-    </snapshots>
-  </repository>
-</repositories>
-
 <dependencies>
 ...
   <dependency>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-tester</artifactId>
-    <version>8.0.0-SNAPSHOT</version>
+    <version>8.0.1</version>
     <scope>test</scope>
   </dependency>
 </dependencies>
@@ -84,3 +78,12 @@ public class WebTest
 
 ## License
 The Apache License, Version 2.0
+
+[0]: https://img.shields.io/badge/web--tester-8.0.1-green
+[1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
+[2]: https://img.shields.io/badge/web--tester-9.1.0--SNAPSHOT-yellow
+[3]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/web-tester/
+[4]: https://img.shields.io/badge/primeui--tester-7.0.0-green
+[5]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
+[6]: https://img.shields.io/badge/primeui--tester-7.0.2--SNAPSHOT-yellow
+[7]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/primeui-tester/
