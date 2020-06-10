@@ -23,6 +23,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 import org.openqa.selenium.By;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+
 public class SelectOneMenu
 {
   private final String oneMenuId;
@@ -46,6 +49,11 @@ public class SelectOneMenu
     }
     
     selectItem(label);
+  }
+  
+  public SelenideElement selectedItemShould(Condition condition)
+  {
+    return $(locatorLabel).should(condition);
   }
   
   public String getSelectedItem()
