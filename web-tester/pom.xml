@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.axonivy.ivy.webtest</groupId>
       <artifactId>primeui-tester</artifactId>
-      <version>7.0.0</version>
+      <version>8.0.${revision}</version>
     </dependency>
   </dependencies>
 </project>
