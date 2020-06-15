@@ -21,6 +21,9 @@ import static com.codeborne.selenide.Condition.match;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+
 import org.openqa.selenium.By;
 
 public class SelectOneMenu
@@ -46,6 +49,11 @@ public class SelectOneMenu
     }
     
     selectItem(label);
+  }
+
+  public SelenideElement selectedItemShould(Condition condition)
+  {
+    return $(locatorLabel).should(condition);
   }
   
   public String getSelectedItem()
