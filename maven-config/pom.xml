@@ -36,6 +36,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <revision>2-SNAPSHOT</revision>
+    <skip.gpg>true</skip.gpg>
   </properties>
 
   <profiles>
@@ -51,6 +52,9 @@
     </profile>
     <profile>
       <id>maven.central.release</id>
+      <properties>
+        <skip.gpg>false</skip.gpg>
+      </properties>
       <distributionManagement>
         <repository>
           <id>sonatype.releases</id>
@@ -132,6 +136,7 @@
               <goal>sign</goal>
             </goals>
             <configuration>
+              <skip>${skip.gpg}</skip>
               <keyname>053E301A05B98CBE</keyname>
               <gpgArguments>
                 <arg>--pinentry-mode</arg>
