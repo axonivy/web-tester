@@ -44,6 +44,7 @@ public class TestPrimeUi
     assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
     String ps4 = "PS4";
     selectOne.selectItemByLabel(ps4);
+    selectOne.selectedItemShould(text(ps4));
     assertThat(selectOne.getSelectedItem()).isEqualTo(ps4);
   }
 
