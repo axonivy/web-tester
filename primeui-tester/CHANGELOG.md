@@ -1,6 +1,6 @@
 # Change Log (primeui-tester)
 
-## [9.1.1-SNAPSHOT] - 2020-06-15
+## [9.1.0] - 2020-06-24
 
 The versions of the **web-tester** and **primeui-tester** has been streamlined.
 
