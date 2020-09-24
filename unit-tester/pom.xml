@@ -9,20 +9,25 @@
     <relativePath>../maven-config</relativePath>
   </parent>
 
-  <groupId>com.axonivy.ivy.webtest</groupId>
-  <artifactId>web-tester</artifactId>
+  <groupId>com.axonivy.ivy.test</groupId>
+  <artifactId>unit-tester</artifactId>
   <version>9.2.${revision}</version>
   <packaging>jar</packaging>
   
-  <name>web-tester</name>
-  <description>API that simplifies web testing with ivy projects.</description>
+  <name>unit-tester</name>
+  <description>Provides dependencies that simplifies unit and process testing with Axon.ivy projects.</description>
   <url>https://github.com/axonivy/web-tester</url>
 
   <dependencies>
     <dependency>
-      <groupId>com.axonivy.ivy.webtest</groupId>
-      <artifactId>primeui-tester</artifactId>
-      <version>9.2.${revision}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.17.2</version>
     </dependency>
   </dependencies>
 </project>
