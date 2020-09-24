@@ -2,6 +2,8 @@
 
 [![primeui-tester version][4]][5] [![primeui-tester snapshot version][6]][7]
 
+[![primeui-tester version][8]][9] [![primeui-tester snapshot version][10]][11]
+
 # web-tester
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
@@ -12,6 +14,11 @@ If your JSF-Page contains [PrimeFaces ](https://www.primefaces.org/showcase/)
 widgets, the `primeui-tester` gives you the possibility to interact with those
 widgets and check if it's in the condition you expected it to be. 
 
+## unit-tester
+The `unit-tester`artifact provides you the following APIs for unit testing:
+* [JUnit 5](https://junit.org/junit5/) 
+* [AssertJ](https://assertj.github.io/doc/)
+
 # How to use in your project
 The web-tester runs with [Selenide](https://selenide.org/),
 [Selenium](https://selenium.dev/projects/) and [JUnit
@@ -19,22 +26,12 @@ The web-tester runs with [Selenide](https://selenide.org/),
 the pom.xml:
 
 ```xml
-<repositories>
-  <repository>
-    <id>central.snapshots</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    <snapshots>
-      <updatePolicy>always</updatePolicy>
-    </snapshots>
-  </repository>
-</repositories>
-
 <dependencies>
 ...
   <dependency>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-tester</artifactId>
-    <version>9.1.0-SNAPSHOT</version>
+    <version>9.2.0</version>
     <scope>test</scope>
   </dependency>
 </dependencies>
@@ -89,11 +86,15 @@ public class WebTest
 ## License
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/badge/web--tester-9.1.0-green
+[0]: https://img.shields.io/badge/web--tester-9.2.0-green
 [1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/badge/web--tester-9.1.1--SNAPSHOT-yellow
+[2]: https://img.shields.io/badge/web--tester-9.2.0--SNAPSHOT-yellow
 [3]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/web-tester/
-[4]: https://img.shields.io/badge/primeui--tester-9.1.0-green
+[4]: https://img.shields.io/badge/primeui--tester-9.2.0-green
 [5]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[6]: https://img.shields.io/badge/primeui--tester-9.1.1--SNAPSHOT-yellow
+[6]: https://img.shields.io/badge/primeui--tester-9.2.0--SNAPSHOT-yellow
 [7]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/primeui-tester/
+[8]: https://img.shields.io/badge/unit--tester-9.2.0-green
+[9]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
+[10]: https://img.shields.io/badge/unit--tester-9.2.0--SNAPSHOT-yellow
+[11]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/test/unit-tester/
