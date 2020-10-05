@@ -1,6 +1,4 @@
-[![web-tester version][0]][1] [![web-tester snapshot version][2]][3]
-
-[![primeui-tester version][4]][5] [![primeui-tester snapshot version][6]][7]
+[![web-tester version][0]][1] [![primeui-tester version][2]][3] [![unit-tester version][4]][5]
 
 # web-tester
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
@@ -89,11 +87,9 @@ public class WebTest
 ## License
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/badge/web--tester-9.1.0-green
+[0]: https://img.shields.io/badge/web--tester-9.2.0-green
 [1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/badge/web--tester-9.1.1--SNAPSHOT-yellow
-[3]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/web-tester/
-[4]: https://img.shields.io/badge/primeui--tester-9.1.0-green
-[5]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[6]: https://img.shields.io/badge/primeui--tester-9.1.1--SNAPSHOT-yellow
-[7]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/primeui-tester/
+[2]: https://img.shields.io/badge/primeui--tester-9.2.0-green
+[3]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
+[4]: https://img.shields.io/badge/primeui--tester-9.2.0-green
+[5]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
