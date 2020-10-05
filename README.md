@@ -10,6 +10,11 @@ If your JSF-Page contains [PrimeFaces ](https://www.primefaces.org/showcase/)
 widgets, the `primeui-tester` gives you the possibility to interact with those
 widgets and check if it's in the condition you expected it to be. 
 
+## unit-tester
+The `unit-tester` artifact provides you the following APIs for unit testing:
+* [JUnit 5](https://junit.org/junit5/) 
+* [AssertJ](https://assertj.github.io/doc/)
+
 # How to use in your project
 The web-tester runs with [Selenide](https://selenide.org/),
 [Selenium](https://selenium.dev/projects/) and [JUnit
@@ -17,22 +22,12 @@ The web-tester runs with [Selenide](https://selenide.org/),
 the pom.xml:
 
 ```xml
-<repositories>
-  <repository>
-    <id>central.snapshots</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    <snapshots>
-      <updatePolicy>always</updatePolicy>
-    </snapshots>
-  </repository>
-</repositories>
-
 <dependencies>
 ...
   <dependency>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-tester</artifactId>
-    <version>9.1.0-SNAPSHOT</version>
+    <version>9.2.0</version>
     <scope>test</scope>
   </dependency>
 </dependencies>
