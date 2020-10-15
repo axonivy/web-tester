@@ -1,6 +1,7 @@
 package com.axonivy.ivy.webtest.primeui;
 
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import com.axonivy.ivy.webtest.primeui.ShowcaseUtil.Showcase;
 import com.axonivy.ivy.webtest.primeui.widget.Accordion;
 import com.axonivy.ivy.webtest.primeui.widget.Dialog;
+import com.axonivy.ivy.webtest.primeui.widget.InputNumber;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
@@ -153,6 +155,17 @@ public class TestPrimeUi
     validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
     accordion.openTab("Godfather Part I");
     validateTabOpen(accordion, "Godfather Part I", "Godfather Part II");
+  }
+
+  @Test
+  void testInputNumber()
+  {
+    InputNumber inputNumber = ShowcaseUtil.open(Showcase.INPUTNUMBER).inputNumber();
+    inputNumber.should(exactValue("0.00"));
+    inputNumber.setValue("5");
+    inputNumber.should(exactValue("5.00"));
+    inputNumber.setValue("3.14");
+    inputNumber.should(exactValue("3.14"));
   }
 
   private void validateTabOpen(Accordion accordion, String openTab, String closedTab)

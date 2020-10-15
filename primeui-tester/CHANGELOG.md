@@ -1,12 +1,13 @@
 # Change Log (primeui-tester)
 
-## [8.0.2-SNAPSHOT] - 2020-06-15
+## [8.0.10] - 2020-10-15
 
 The versions of the **web-tester** and **primeui-tester** has been streamlined.
 
 ### Added
 
 - New method for SelectOneMenu to check value with selenide conditions.
+- New InputNumber Util for easy PrimeFaces 7.0.17 usage
 
 ## [7.0.0] - 2020-04-01
 

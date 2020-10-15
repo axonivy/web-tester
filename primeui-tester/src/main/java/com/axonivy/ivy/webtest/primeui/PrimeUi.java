@@ -20,6 +20,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.axonivy.ivy.webtest.primeui.widget.Accordion;
 import com.axonivy.ivy.webtest.primeui.widget.Dialog;
+import com.axonivy.ivy.webtest.primeui.widget.InputNumber;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectCheckboxMenu;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
@@ -73,6 +74,11 @@ public class PrimeUi
   public static Accordion accordion(By locator)
   {
     return new Accordion(locator);
+  }
+
+  public static InputNumber inputNumber(By input)
+  {
+    return new InputNumber(input);
   }
   
   /**
