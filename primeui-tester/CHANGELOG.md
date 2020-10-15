@@ -1,5 +1,19 @@
 # Change Log (primeui-tester)
 
+## [9.2.1] - 2020-10-15
+
+### Added
+
+- New InputNumber Util for easy PrimeFaces 7.0.17 usage
+
+### Changed
+
+- Update Selenide from 5.12.2 to 5.15.0
+
+### Removed
+
+- Deprecated AjaxHelper
+
 ## [9.1.0] - 2020-06-24
 
 The versions of the **web-tester** and **primeui-tester** has been streamlined.
