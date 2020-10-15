@@ -24,7 +24,7 @@ the pom.xml:
   <dependency>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-tester</artifactId>
-    <version>8.0.1</version>
+    <version>8.0.10</version>
     <scope>test</scope>
   </dependency>
 </dependencies>
@@ -79,11 +79,11 @@ public class WebTest
 ## License
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/badge/web--tester-8.0.1-green
+[0]: https://img.shields.io/badge/web--tester-8.0.10-green
 [1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/badge/web--tester-8.0.2--SNAPSHOT-yellow
+[2]: https://img.shields.io/badge/web--tester-8.0.20--SNAPSHOT-yellow
 [3]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/web-tester/
-[4]: https://img.shields.io/badge/primeui--tester-7.0.0-green
+[4]: https://img.shields.io/badge/primeui--tester-8.0.10-green
 [5]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[6]: https://img.shields.io/badge/primeui--tester-8.0.2--SNAPSHOT-yellow
+[6]: https://img.shields.io/badge/primeui--tester-8.0.10--SNAPSHOT-yellow
 [7]: https://oss.sonatype.org/content/repositories/snapshots/com/axonivy/ivy/webtest/primeui-tester/

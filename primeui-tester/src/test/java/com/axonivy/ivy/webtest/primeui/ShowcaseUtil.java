@@ -1,10 +1,13 @@
 package com.axonivy.ivy.webtest.primeui;
 
-import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$$;
+
+import org.openqa.selenium.By;
 
 import com.axonivy.ivy.webtest.primeui.widget.Accordion;
 import com.axonivy.ivy.webtest.primeui.widget.Dialog;
+import com.axonivy.ivy.webtest.primeui.widget.InputNumber;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectCheckboxMenu;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
@@ -13,8 +16,6 @@ import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
 import com.axonivy.ivy.webtest.primeui.widget.Table;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-
-import org.openqa.selenium.By;
 
 public class ShowcaseUtil
 {
@@ -35,7 +36,8 @@ public class ShowcaseUtil
     ONERADIO ("input/oneRadio.xhtml", ".ui-selectoneradio"),
     TABLE ("data/datatable/filter.xhtml", ".ui-datatable"),
     DIALOG ("overlay/dialog/basic.xhtml", ".ui-dialog"),
-    ACCORDION ("panel/accordionPanel.xhtml", ".ui-accordion");
+    ACCORDION ("panel/accordionPanel.xhtml", ".ui-accordion"), 
+    INPUTNUMBER ("input/inputNumber.xhtml", ".ui-inputnumber");
 
     private String url;
     private String selector;
@@ -84,6 +86,11 @@ public class ShowcaseUtil
     public Accordion accordion()
     {
       return PrimeUi.accordion(firstElement());
+    }
+
+    public InputNumber inputNumber()
+    {
+      return PrimeUi.inputNumber(firstElement());
     }
 
     private By elementForLabel(String label)
