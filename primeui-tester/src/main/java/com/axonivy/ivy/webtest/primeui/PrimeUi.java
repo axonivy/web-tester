@@ -16,17 +16,16 @@
 package com.axonivy.ivy.webtest.primeui;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 import com.axonivy.ivy.webtest.primeui.widget.Accordion;
 import com.axonivy.ivy.webtest.primeui.widget.Dialog;
+import com.axonivy.ivy.webtest.primeui.widget.InputNumber;
 import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectCheckboxMenu;
 import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
 import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
 import com.axonivy.ivy.webtest.primeui.widget.Table;
-import com.codeborne.selenide.WebDriverRunner;
 
 /**
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
@@ -75,19 +74,9 @@ public class PrimeUi
     return new Accordion(locator);
   }
   
-  /**
-   * @deprecated use native selenide methods instead.
-   */
-  @Deprecated
-  public static AjaxHelper ajax(WebDriver driver)
+  public static InputNumber inputNumber(By input)
   {
-    return new AjaxHelper(driver);
+    return new InputNumber(input);
   }
   
-  @Deprecated
-  public static AjaxHelper ajax()
-  {
-    return new AjaxHelper(WebDriverRunner.getWebDriver());
-  }
-
 }
