@@ -86,5 +86,5 @@ The Apache License, Version 2.0
 [1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
 [2]: https://img.shields.io/badge/primeui--tester-9.2.1-green
 [3]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[4]: https://img.shields.io/badge/primeui--tester-9.2.1-green
+[4]: https://img.shields.io/badge/unit--tester-9.2.1-green
 [5]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
