@@ -49,7 +49,7 @@ public class SelectManyCheckbox
             .anyMatch(e -> e.has(cssClass("ui-state-disabled")));
   }
   
-  public void setCheckboxes(List<String> values)
+  public SelectManyCheckbox setCheckboxes(List<String> values)
   {
     for (String value : values)
     {
@@ -64,21 +64,22 @@ public class SelectManyCheckbox
         getCheckboxForLabel(value).shouldHave(cssClass("ui-state-active"));
       }
     }
+    return this;
   }
 
+  public SelectManyCheckbox clear()
+  {
+    if (!isManyCheckboxDisabled())
+    {
+      setCheckboxes(getSelectedCheckboxes());
+    }
+    return this;
+  }
+  
   private SelenideElement getCheckboxForLabel(String value)
   {
     return $(By.id(manyCheckboxId)).findAll("label").find(exactText(value)).parent().find(".ui-chkbox-box")
             .shouldBe(visible);
   }
-  
-  public void clear()
-  {
-    if (isManyCheckboxDisabled())
-    {
-      return;
-    }
-    setCheckboxes(getSelectedCheckboxes());
-  }
-  
+
 }

@@ -32,29 +32,62 @@ public class SelectBooleanCheckbox
     this.booleanCheckboxId = $(booleanCheckbox).shouldBe(visible).attr("id");
   }
 
-  public void setChecked()
+  public SelectBooleanCheckbox setChecked()
   {
     if (!isChecked())
     {
       checkbox().click();
-      checkbox().shouldHave(cssClass("ui-state-active"));
+      shouldBeChecked(true);
     }
+    return this;
   }
   
-  public void removeChecked()
+  public SelectBooleanCheckbox removeChecked()
   {
     if (isChecked())
     {
       checkbox().click();
-      checkbox().shouldNotHave(cssClass("ui-state-active"));
+      shouldBeChecked(false);
     }
+    return this;
+  }
+  
+  public SelectBooleanCheckbox shouldBeChecked(boolean checked)
+  {
+    return checkboxShouldHaveCssClass(checked, "ui-state-active");
+  }
+  
+  public SelectBooleanCheckbox shouldBeDisabled(boolean disabled)
+  {
+    return checkboxShouldHaveCssClass(disabled, "ui-state-disabled");
   }
 
+  private SelectBooleanCheckbox checkboxShouldHaveCssClass(boolean state, String cssClass)
+  {
+    if (state)
+    {
+      checkbox().shouldHave(cssClass(cssClass));
+    }
+    else
+    {
+      checkbox().shouldNotHave(cssClass(cssClass));
+    }
+    return this;
+  }
+
+  /**
+   * @deprecated use {@link #shouldBeChecked(boolean)}
+   */
+  @Deprecated
   public boolean isChecked()
   {
     return checkbox().has(cssClass("ui-state-active"));
   }
   
+  /**
+   * @deprecated use {@link #shouldBeDisabled(boolean)}
+   */
+  @Deprecated
   public boolean isDisabled()
   {
     return checkbox().has(cssClass("ui-state-disabled"));

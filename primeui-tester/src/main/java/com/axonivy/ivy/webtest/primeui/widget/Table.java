@@ -15,12 +15,15 @@
  */
 package com.axonivy.ivy.webtest.primeui.widget;
 
-import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 import org.openqa.selenium.By;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 
 public class Table
 {
@@ -30,31 +33,62 @@ public class Table
   {
     tableId = $(dataTable).shouldBe(visible).attr("id");
   }
-
-  public void firstRowContains(String expectedText)
+  
+  public SelenideElement row(int index)
   {
-    $(By.id(tableId + "_data")).findAll("tr").first().shouldBe(visible, text(expectedText));
-  }
-
-  public void contains(String checkText)
-  {
-    $(By.id(tableId)).shouldBe(visible, text(checkText));
-  }
-
-  public void containsNot(String checkText)
-  {
-    $(By.id(tableId + "_data")).shouldNotHave(text(checkText));
-  }
-
-  public String valueAt(int row, int column) throws Exception
-  {
-    return $(By.id(tableId + "_data")).findAll("tr")
-            .find(attribute("data-ri", String.valueOf(row))).find("td", column + 1).shouldBe(visible).getText();
+    return $(By.id(tableId + "_data")).find("tr", index);
   }
   
-  public void searchGlobal(String search)
+  public ElementsCollection column(int index)
   {
-    $(By.id(tableId + ":globalFilter")).shouldBe(visible).clear();
-    $(By.id(tableId + ":globalFilter")).shouldBe(visible).sendKeys(search);
+    return $(By.id(tableId + "_data")).findAll(By.xpath("tr/td[" + (index + 1) + "]"));
+  }
+  
+  @Deprecated
+  public void firstRowContains(String expectedText)
+  {
+    row(1).shouldBe(visible, text(expectedText));
+  }
+
+  public Table contains(String checkText)
+  {
+    $(By.id(tableId)).shouldBe(visible, text(checkText));
+    return this;
+  }
+
+  public Table containsNot(String checkText)
+  {
+    $(By.id(tableId + "_data")).shouldNotHave(text(checkText));
+    return this;
+  }
+
+  public Table valueAtShoudBe(int row, int column, Condition condition)
+  {
+    row(row).find("td", column).shouldBe(condition);
+    return this;
+  }
+  
+  public String valueAt(int row, int column)
+  {
+    return row(row).find("td", column).shouldBe(visible).getText();
+  }
+  
+  public Table searchGlobal(String search)
+  {
+    fillInput(By.id(tableId + ":globalFilter"), search);
+    return this;
+  }
+
+  public Table searchColumn(int row, String search)
+  {
+    var columnId = $(By.id(tableId)).find(".ui-sortable-column", row).shouldBe(visible).attr("id");
+    fillInput(By.id(columnId + ":filter"), search);
+    return this;
+  }
+  
+  private void fillInput(By id, String search)
+  {
+    $(id).shouldBe(visible).clear();
+    $(id).shouldBe(visible).sendKeys(search);
   }
 }

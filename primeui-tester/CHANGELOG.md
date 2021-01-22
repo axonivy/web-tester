@@ -1,5 +1,33 @@
 # Change Log (primeui-tester)
 
+## [9.2.2] - 2021-01-22
+
+As PrimeFaces changed their showcase, the tests needed to be adjusted.
+Meanwhile there was some improvement in the API:
+
+### Changed
+
+- The API returns now for the most parts the object itself. This allows you to use it as fluent API.
+
+### Added
+
+- Table#row(int)
+- Table#column(int)
+- Table#valueAtShoudBe(int, int, Condition)
+- Table#searchColumn(int, String)
+- Accordion#tabShouldBe(String, boolean)
+- SelectCheckboxMenu#itemsShouldBeSelected(String...)
+- SelectBooleanCheckbox#shouldBeChecked(boolean)
+- SelectBooleanCheckbox#shouldBeDisabled(boolean)
+
+### Deprecated
+
+- Dialog
+- Accordion#isTabOpen(String)
+- SelectCheckboxMenu#selectItemByValue(String label)
+- SelectBooleanCheckbox#isChecked()
+- SelectBooleanCheckbox#isDisabled()
+
 ## [9.2.1] - 2020-10-15
 
 ### Added

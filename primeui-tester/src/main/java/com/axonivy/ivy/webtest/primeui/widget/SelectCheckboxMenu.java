@@ -20,6 +20,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+import java.util.Arrays;
+
 import org.openqa.selenium.By;
 
 public class SelectCheckboxMenu
@@ -31,35 +33,51 @@ public class SelectCheckboxMenu
     checkBoxMenuId = $(locator).shouldBe(visible).attr("id");
   }
 
-  public void selectAllItems()
+  public SelectCheckboxMenu selectAllItems()
   {
     openCheckboxPanel();
     $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box").shouldBe(visible).click();
     $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
     closeCheckboxPanel();
+    return this;
   }
 
-  public void selectItemByValue(String labelValue)
+  /**
+   * @deprecated use {@link #selectItemsByValue(String...)}
+   */
+  @Deprecated
+  public SelectCheckboxMenu selectItemByValue(String label)
   {
-    selectItemsByValue(labelValue);
+    return selectItemsByValue(label);
   }
 
-  public void selectItemsByValue(String... labelValues)
+  public SelectCheckboxMenu selectItemsByValue(String... labels)
   {
     openCheckboxPanel();
-    for (String label : labelValues)
-    {
-      selectItemInternal(label);
-    }
+    Arrays.stream(labels).forEach(this::selectItemInternal);
     closeCheckboxPanel();
+    return this;
   }
-
-  private void selectItemInternal(String labelValue)
+  
+  public SelectCheckboxMenu itemsShouldBeSelected(String... labels)
+  {
+    openCheckboxPanel();
+    Arrays.stream(labels).forEach(this::checkThatLabelIsSelected);
+    closeCheckboxPanel();
+    return this;
+  }
+  
+  private void selectItemInternal(String label)
   {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
-            .find(text(labelValue)).find(".ui-chkbox-box").shouldBe(visible).click();
+            .find(text(label)).find(".ui-chkbox-box").shouldBe(visible).click();
+    checkThatLabelIsSelected(label);
+  }
+
+  private void checkThatLabelIsSelected(String label)
+  {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
-            .find(text(labelValue)).find(".ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
+            .find(text(label)).find(".ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
   }
 
   private void openCheckboxPanel()

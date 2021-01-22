@@ -36,7 +36,7 @@ public class Accordion
     accordionId = $(accordionLocator).shouldBe(visible).attr("id");
   }
 
-  public void toggleTab(String tabName)
+  public Accordion toggleTab(String tabName)
   {
     String previousState = accordionTab(tabName).getAttribute("aria-expanded");
     accordionTab(tabName).click();
@@ -44,6 +44,28 @@ public class Accordion
     $(By.id(tabContentId)).should(match("accordion should not animate", 
             el -> !el.getAttribute("style").contains("overflow")));
     $(By.id(tabContentId)).shouldBe(attribute("aria-hidden", previousState));
+    return this;
+  }
+  
+  public Accordion openTab(String tabName)
+  {
+    if (!isTabOpen(tabName))
+    {
+      toggleTab(tabName);
+    }
+    return this;
+  }
+  
+  public Accordion tabShouldBe(String tabName, boolean open)
+  {
+    accordionTab(tabName).shouldHave(attribute("aria-expanded", String.valueOf(open)));
+    return this;
+  }
+  
+  @Deprecated
+  public boolean isTabOpen(String tabName)
+  {
+    return accordionTab(tabName).getAttribute("aria-expanded").contains("true");
   }
 
   private SelenideElement accordionTab(String tabName)
@@ -51,16 +73,4 @@ public class Accordion
     return $(By.id(accordionId)).findAll(".ui-accordion-header").find(text(tabName)).shouldBe(visible, enabled);
   }
 
-  public boolean isTabOpen(String tabName)
-  {
-    return accordionTab(tabName).getAttribute("aria-expanded").contains("true");
-  }
-
-  public void openTab(String tabName)
-  {
-    if (!isTabOpen(tabName))
-    {
-      toggleTab(tabName);
-    }
-  }
 }

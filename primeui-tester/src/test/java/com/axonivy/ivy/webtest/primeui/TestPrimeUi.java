@@ -1,28 +1,19 @@
 package com.axonivy.ivy.webtest.primeui;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.primeui.ShowcaseUtil.Showcase;
-import com.axonivy.ivy.webtest.primeui.widget.Accordion;
-import com.axonivy.ivy.webtest.primeui.widget.Dialog;
-import com.axonivy.ivy.webtest.primeui.widget.InputNumber;
-import com.axonivy.ivy.webtest.primeui.widget.SelectBooleanCheckbox;
-import com.axonivy.ivy.webtest.primeui.widget.SelectManyCheckbox;
-import com.axonivy.ivy.webtest.primeui.widget.SelectOneMenu;
-import com.axonivy.ivy.webtest.primeui.widget.SelectOneRadio;
-import com.axonivy.ivy.webtest.primeui.widget.Table;
 import com.codeborne.selenide.Configuration;
 
 /**
@@ -42,59 +33,56 @@ public class TestPrimeUi
   @Test
   void testSelectOneMenu()
   {
-    SelectOneMenu selectOne = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Basic:");
-    assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
-    String ps4 = "PS4";
-    selectOne.selectItemByLabel(ps4);
-    selectOne.selectedItemShould(text(ps4));
-    assertThat(selectOne.getSelectedItem()).isEqualTo(ps4);
+    String option = "Option1";
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu()
+            .selectedItemShould(exactText("Select One"))
+            .selectItemByLabel(option)
+            .selectedItemShould(exactText(option));
+    assertThat(menu.getSelectedItem()).isEqualTo(option);
   }
 
   @Test
   void testSelectCheckBoxMenu_all()
   {
-    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu("Basic:").selectAllItems();
-    assertSelectMenu("Brasilia");
+    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
+            .selectAllItems()
+            .itemsShouldBeSelected("Brasilia");
   }
 
   @Test
   void testSelectCheckBoxMenu_itemByValue()
   {
-    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu("Basic:").selectItemByValue("Miami");
-    assertSelectMenu("Miami");
+    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
+            .selectItemsByValue("Miami")
+            .itemsShouldBeSelected("Miami");
   }
 
   @Test
   void testSelectCheckBoxMenu_itemsByValue()
   {
-    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu("Multiple:").selectItemsByValue("Miami", "Brasilia");
-    assertSelectMenu("Miami\nBrasilia");
-  }
-
-  private void assertSelectMenu(String selected)
-  {
-    $$(".ui-button").find(exactText("Submit")).shouldBe(visible).click();
-    $(".ui-dialog-content").shouldHave(text(selected));
+    ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
+            .selectItemsByValue("Miami", "Brasilia")
+            .itemsShouldBeSelected("Miami", "Brasilia");
   }
 
   @Test
   void testSelectBooleanCheckBox()
   {
-    SelectBooleanCheckbox booleanCheckbox = ShowcaseUtil.open(Showcase.CHECKBOX).checkbox("Basic");
-    assertThat(booleanCheckbox.isChecked()).isEqualTo(false);
-    booleanCheckbox.setChecked();
-    assertThat(booleanCheckbox.isChecked()).isEqualTo(true);
-    booleanCheckbox.removeChecked();
-    assertThat(booleanCheckbox.isChecked()).isEqualTo(false);
+    ShowcaseUtil.open(Showcase.CHECKBOX).checkbox("Basic")
+            .shouldBeChecked(false)
+            .setChecked()
+            .shouldBeChecked(true)
+            .removeChecked()
+            .shouldBeChecked(false);
   }
   
   @Test
   void testSelectManyCheckbox()
   {
-    SelectManyCheckbox manyCheckbox = ShowcaseUtil.open(Showcase.MANYCHECKBOX).manyCheckbox();
+    var manyCheckbox = ShowcaseUtil.open(Showcase.MANYCHECKBOX).manyCheckbox();
     assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
-    manyCheckbox.setCheckboxes(Arrays.asList("Xbox One", "Wii U"));
-    assertThat(manyCheckbox.getSelectedCheckboxes()).contains("Xbox One", "Wii U");
+    manyCheckbox.setCheckboxes(Arrays.asList("Option 1", "Option 2"));
+    assertThat(manyCheckbox.getSelectedCheckboxes()).contains("Option 1", "Option 2");
     manyCheckbox.clear();
     assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
   }
@@ -102,76 +90,53 @@ public class TestPrimeUi
   @Test
   void testSelectOneRadio() throws Exception
   {
-    SelectOneRadio selectOneRadio = ShowcaseUtil.open(Showcase.ONERADIO).radio("Console:");
-    String radioId = $$(".ui-selectoneradio").first().attr("id") + ":1";
-    selectOneRadio.selectItemById(radioId);
-    assertThat(selectOneRadio.getSelectedValue()).isEqualTo("PS4");
-    selectOneRadio.selectItemByValue("Wii U");
-    assertThat(selectOneRadio.getSelectedValue()).isEqualTo("Wii U");
+    ShowcaseUtil.open(Showcase.ONERADIO).radio()
+            .selectItemById($$(".ui-selectoneradio").filter(visible).first().attr("id") + ":0")
+            .selectedValueShouldBe(exactValue("Option1"))
+            .selectItemByValue("Option2")
+            .selectedValueShouldBe(exactValue("Option2"));
   }
 
   @Test
   void testTableWithValue() throws Exception
   {
-    Table table = ShowcaseUtil.open(Showcase.TABLE).table();
-    int brandColumn = 2;
-
-    String firstBrand = table.valueAt(0, brandColumn);
-    String lastBrand = table.valueAt(8, brandColumn);
-
-    int lastRow = 7;
-    while (StringUtils.equals(firstBrand, lastBrand))
+    var table = ShowcaseUtil.open(Showcase.TABLE).table();
+    table.column(0).shouldBe(sizeGreaterThan(5));
+    var firstCell = table.valueAt(0, 0);
+    var secondCell = firstCell;
+    for (var i = 1; firstCell.equals(secondCell); i++)
     {
-      lastBrand = table.valueAt(lastRow, brandColumn);
-      lastRow --;
+      secondCell = table.valueAt(i, 0);
     }
-    table.searchGlobal(firstBrand);
-    table.contains(firstBrand);
-    table.containsNot(lastBrand);
-
-    table.searchGlobal(lastBrand);
-    table.firstRowContains(lastBrand);
-    table.containsNot(firstBrand);
-  }
-
-  @Test
-  void testDialog() throws Exception
-  {
-    Dialog dialog = ShowcaseUtil.open(Showcase.DIALOG).dialog();
-    dialog.waitForVisibility(false);
-    $$("button").find(text("Basic")).shouldBe(visible).click();
-    dialog.waitForVisibility(true);
-    dialog.close();
-    dialog.waitHidden();
+    table.searchColumn(0, firstCell)
+            .contains(firstCell)
+            .containsNot(secondCell)
+            .column(0).shouldBe(sizeLessThan(5));
+    //searchGlobal seems not to work on new PrimeFaces Showcase yet.
   }
 
   @Test
   void testAccordion()
   {
-    Accordion accordion = ShowcaseUtil.open(Showcase.ACCORDION).accordion();
-    accordion.toggleTab("Godfather Part II");
-    validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
-    accordion.openTab("Godfather Part II");
-    validateTabOpen(accordion, "Godfather Part II", "Godfather Part I");
-    accordion.openTab("Godfather Part I");
-    validateTabOpen(accordion, "Godfather Part I", "Godfather Part II");
+    ShowcaseUtil.open(Showcase.ACCORDION).accordion()
+            .toggleTab("Header I")
+            .tabShouldBe("Header I", false)
+            .openTab("Header I")
+            .tabShouldBe("Header I", true)
+            .openTab("Header II")
+            .tabShouldBe("Header I", false)
+            .tabShouldBe("Header II", true);
   }
   
   @Test
   void testInputNumber()
   {
-    InputNumber inputNumber = ShowcaseUtil.open(Showcase.INPUTNUMBER).inputNumber();
-    inputNumber.should(exactValue("0.00"));
-    inputNumber.setValue("5");
-    inputNumber.should(exactValue("5.00"));
-    inputNumber.setValue("3.14");
-    inputNumber.should(exactValue("3.14"));
+    ShowcaseUtil.open(Showcase.INPUTNUMBER).inputNumber()
+            .should(exactValue("0.00"))
+            .setValue("5")
+            .should(exactValue("5.00"))
+            .setValue("3.14")
+            .should(exactValue("3.14"));
   }
 
-  private void validateTabOpen(Accordion accordion, String openTab, String closedTab)
-  {
-    assertThat(accordion.isTabOpen(openTab)).isTrue();
-    assertThat(accordion.isTabOpen(closedTab)).isFalse();
-  }
-  
 }
