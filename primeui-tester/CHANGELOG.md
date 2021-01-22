@@ -1,5 +1,11 @@
 # Change Log (primeui-tester)
 
+## [8.0.11] - 2021-01-22
+
+### Added
+
+- SelectCheckboxMenu#itemsShouldBeSelected(String...)
+
 ## [8.0.10] - 2020-10-15
 
 The versions of the **web-tester** and **primeui-tester** has been streamlined.

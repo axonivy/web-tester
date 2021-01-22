@@ -15,6 +15,7 @@
  */
 package com.axonivy.ivy.webtest.primeui.widget;
 
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -44,7 +45,7 @@ public class Dialog
 
   public void waitVisible()
   {
-    $(By.id(dialogId)).shouldBe(visible);
+    $(By.id(dialogId)).shouldBe(visible).shouldHave(attribute("aria-live", "polite"));
   }
 
   public void waitHidden()
