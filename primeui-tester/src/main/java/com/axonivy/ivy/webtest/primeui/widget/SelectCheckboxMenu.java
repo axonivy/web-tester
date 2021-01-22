@@ -20,6 +20,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+import java.util.Arrays;
+
 import org.openqa.selenium.By;
 
 public class SelectCheckboxMenu
@@ -47,10 +49,14 @@ public class SelectCheckboxMenu
   public void selectItemsByValue(String... labelValues)
   {
     openCheckboxPanel();
-    for (String label : labelValues)
-    {
-      selectItemInternal(label);
-    }
+    Arrays.stream(labelValues).forEach(this::selectItemInternal);
+    closeCheckboxPanel();
+  }
+  
+  public void itemsShouldBeSelected(String... labels)
+  {
+    openCheckboxPanel();
+    Arrays.stream(labels).forEach(this::checkLabelIsSelected);
     closeCheckboxPanel();
   }
 
@@ -58,6 +64,11 @@ public class SelectCheckboxMenu
   {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
             .find(text(labelValue)).find(".ui-chkbox-box").shouldBe(visible).click();
+    checkLabelIsSelected(labelValue);
+  }
+
+  private void checkLabelIsSelected(String labelValue)
+  {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
             .find(text(labelValue)).find(".ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
   }
