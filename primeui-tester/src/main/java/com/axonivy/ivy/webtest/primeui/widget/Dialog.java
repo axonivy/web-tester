@@ -21,6 +21,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 import org.openqa.selenium.By;
 
+@Deprecated
 public class Dialog
 {
   private final String dialogId;

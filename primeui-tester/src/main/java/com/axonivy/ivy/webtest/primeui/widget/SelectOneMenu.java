@@ -24,7 +24,6 @@ import static com.codeborne.selenide.Selenide.$;
 import org.openqa.selenium.By;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
 
 public class SelectOneMenu
 {
@@ -37,23 +36,23 @@ public class SelectOneMenu
     locatorLabel = By.id(oneMenuId + "_label");
   }
 
-  public void selectItemByLabel(String label)
+  public SelectOneMenu selectItemByLabel(String label)
   {
     if (label == null)
     {
       throw new IllegalArgumentException("Label must not be null!");
     }
-    if (label.equals(getSelectedItem()))
+    if (!label.equals(getSelectedItem()))
     {
-      return;
+      selectItem(label);
     }
-    
-    selectItem(label);
+    return this;
   }
   
-  public SelenideElement selectedItemShould(Condition condition)
+  public SelectOneMenu selectedItemShould(Condition condition)
   {
-    return $(locatorLabel).should(condition);
+    $(locatorLabel).should(condition);
+    return this;
   }
   
   public String getSelectedItem()

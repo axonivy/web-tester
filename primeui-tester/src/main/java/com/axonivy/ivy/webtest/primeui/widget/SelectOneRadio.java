@@ -34,18 +34,28 @@ public class SelectOneRadio
     oneRadioId = $(oneRadio).shouldBe(visible).attr("id");
   }
 
-  public void selectItemById(final String id)
+  public SelectOneRadio selectItemById(final String id)
   {
     $(radioById(id)).click();
     $(radioById(id)).shouldHave(cssClass("ui-state-active"));
+    return this;
   }
 
-  public void selectItemByValue(final String value)
+  public SelectOneRadio selectItemByValue(final String value)
   {
     $(radioByLabel(value)).click();
     $(radioByLabel(value)).shouldHave(cssClass("ui-state-active"));
+    return this;
   }
   
+  public SelectOneRadio selectedValueShouldBe(Condition condition)
+  {
+    $(By.id(oneRadioId)).findAll(".ui-radiobutton-box").find(Condition.cssClass("ui-state-active"))
+            .parent().find("div > input").shouldBe(condition);
+    return this;
+  }
+  
+  @Deprecated
   public String getSelectedValue()
   {
     return $(By.id(oneRadioId)).findAll(".ui-radiobutton-box").find(Condition.cssClass("ui-state-active"))

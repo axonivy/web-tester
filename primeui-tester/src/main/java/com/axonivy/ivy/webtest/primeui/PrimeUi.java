@@ -31,6 +31,7 @@ import com.axonivy.ivy.webtest.primeui.widget.Table;
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
  * with Primefaces {@link org.openqa.selenium.WebElement WebElements}.
  */
+@SuppressWarnings("deprecation")
 public class PrimeUi
 {
   
@@ -64,6 +65,7 @@ public class PrimeUi
     return new Table(dataTable);
   }
 
+  @Deprecated
   public static Dialog dialog(By dialog)
   {
     return new Dialog(dialog);

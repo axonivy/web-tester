@@ -18,28 +18,31 @@ public class InputNumber
     this.inputNumberId = $(inputNumber).shouldBe(visible).attr("id") + "_input";
   }
   
-  public void setValue(String value)
+  public InputNumber setValue(String value)
   {
     clear();
     $(By.id(inputNumberId)).sendKeys(value);
     $(By.id(inputNumberId)).sendKeys(Keys.TAB);
+    return this;
   }
   
-  public void should(Condition condition)
+  public InputNumber should(Condition condition)
   {
     $(By.id(inputNumberId)).should(condition);
+    return this;
   }
   
-  private String getValue()
-  {
-    return $(By.id(inputNumberId)).shouldBe(visible).getValue();
-  }
-  
-  public void clear()
+  public InputNumber clear()
   {
     while(StringUtils.isNotBlank(getValue()))
     {
       $(By.id(inputNumberId)).sendKeys(Keys.BACK_SPACE);
     }
+    return this;
+  }
+  
+  private String getValue()
+  {
+    return $(By.id(inputNumberId)).shouldBe(visible).getValue();
   }
 }
