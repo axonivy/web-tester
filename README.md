@@ -3,7 +3,7 @@
 # web-tester
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
-against your [Axon.ivy Engine](https://developer.axonivy.com/download). 
+against your [Axon Ivy Engine](https://developer.axonivy.com/download). 
 
 ## primeui-tester
 If your JSF-Page contains [PrimeFaces ](https://www.primefaces.org/showcase/)
@@ -76,7 +76,7 @@ public class WebTest
 
 [ivyTeam](https://developer.axonivy.com/)
 
-[![Axon.ivy](https://www.axonivy.com/hubfs/brand/axonivy-logo-black.svg)](http://www.axonivy.com)
+[![Axon Ivy](https://www.axonivy.com/hubfs/brand/axonivy-logo-black.svg)](http://www.axonivy.com)
 
 
 ## License
