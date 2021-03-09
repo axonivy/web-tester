@@ -17,7 +17,7 @@
     <developer>
       <name>IvyTeam</name>
       <email>support@ivyteam.ch</email>
-      <organization>AXON Ivy AG</organization>
+      <organization>Axon Ivy AG</organization>
       <organizationUrl>https://www.axonivy.com</organizationUrl>
     </developer>
   </developers>
@@ -29,7 +29,7 @@
   </scm>
 
   <organization>
-    <name>The open source community of Axon.ivy</name>
+    <name>The open source community of Axon Ivy</name>
     <url>https://github.com/ivy-supplements</url>
   </organization>
 

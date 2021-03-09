@@ -16,7 +16,7 @@ engine URL. The old methods are still available but they are deprecated.
 
 Add a new `web-tester` artifact. This provides an JUnit5 annotation
 (**IvyWebTest**) to simply start a selenide test. It also has a API to get the
-base URL of your running Axon.ivy Engine (**EngineUrl**).
+base URL of your running Axon Ivy Engine (**EngineUrl**).
 
 ### Added
 - [XIVY-3568](https://jira.axonivy.com/jira/browse/XIVY-3568)
