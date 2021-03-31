@@ -35,7 +35,7 @@ public class EngineUrl
     REST("api"),
     WEBSERVICE("ws"),
     STATIC_VIEW("faces/view"),
-	CASEMAP("casemap");
+    CASEMAP("casemap");
     
     final String path;
     
@@ -99,7 +99,7 @@ public class EngineUrl
   
   public static String createCaseMapUrl(String path)
   {
-	return create().caseMap(path).toUrl();
+    return create().caseMap(path).toUrl();
   }
   
   public EngineUrl base(@SuppressWarnings("hiding") String base)
@@ -136,7 +136,7 @@ public class EngineUrl
   
   public EngineUrl caseMap(@SuppressWarnings("hiding") String path)
   {
-	return this.servlet(SERVLET.CASEMAP).path(path);
+    return this.servlet(SERVLET.CASEMAP).path(path);
   }
   
   public EngineUrl servlet(@SuppressWarnings("hiding") SERVLET servlet)
