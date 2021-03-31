@@ -34,7 +34,8 @@ public class EngineUrl
     PROCESS("pro"),
     REST("api"),
     WEBSERVICE("ws"),
-    STATIC_VIEW("faces/view");
+    STATIC_VIEW("faces/view"),
+	CASEMAP("casemap");
     
     final String path;
     
@@ -96,6 +97,11 @@ public class EngineUrl
     return create().staticView(path).toUrl();
   }
   
+  public static String createCaseMapUrl(String path)
+  {
+	return create().caseMap(path).toUrl();
+  }
+  
   public EngineUrl base(@SuppressWarnings("hiding") String base)
   {
     this.base = base;
@@ -126,6 +132,11 @@ public class EngineUrl
   public EngineUrl staticView(@SuppressWarnings("hiding") String path)
   {
     return this.servlet(SERVLET.STATIC_VIEW).path(path);
+  }
+  
+  public EngineUrl caseMap(@SuppressWarnings("hiding") String path)
+  {
+	return this.servlet(SERVLET.CASEMAP).path(path);
   }
   
   public EngineUrl servlet(@SuppressWarnings("hiding") SERVLET servlet)
