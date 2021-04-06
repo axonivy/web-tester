@@ -25,6 +25,7 @@ public class TestEngineUrl
     assertThat(EngineUrl.createWebServiceUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/ws");
     assertThat(EngineUrl.createProcessUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro");
     assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/faces/view");
+    assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/casemap");
     assertThat(EngineUrl.isDesigner()).isEqualTo(true);
   }
   
@@ -39,6 +40,7 @@ public class TestEngineUrl
     assertThat(EngineUrl.createWebServiceUrl("")).isEqualTo(baseUrl + app + "/ws");
     assertThat(EngineUrl.createProcessUrl("")).isEqualTo(baseUrl + app + "/pro");
     assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(baseUrl + app + "/faces/view");
+    assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(baseUrl + app + "/casemap");
     assertThat(EngineUrl.isDesigner()).isEqualTo(false);
   }
   
