@@ -1,5 +1,11 @@
 # Change Log (web-tester)
 
+## [9.3.0-SNAPSHOT]
+
+### Added
+
+- Add casemap URL to EngineUrl Util
+
 ## [9.1.0] - 2020-06-24
 
 ## [8.0.1] - 2020-04-06
@@ -9,6 +15,7 @@ The API of the **EngineUrl** has been changed. There are new methods (e.g
 engine URL. The old methods are still available but they are deprecated.
 
 ### Changed
+
 - [XIVY-3568](https://jira.axonivy.com/jira/browse/XIVY-3568)
   Provide new IvyWebTest artifact.
 
@@ -19,6 +26,7 @@ Add a new `web-tester` artifact. This provides an JUnit5 annotation
 base URL of your running Axon Ivy Engine (**EngineUrl**).
 
 ### Added
+
 - [XIVY-3568](https://jira.axonivy.com/jira/browse/XIVY-3568)
   Provide new IvyWebTest artifact.
 
