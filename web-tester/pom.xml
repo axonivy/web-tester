@@ -11,7 +11,7 @@
 
   <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>web-tester</artifactId>
-  <version>9.2.${revision}</version>
+  <version>9.3.${revision}</version>
   <packaging>jar</packaging>
   
   <name>web-tester</name>
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.axonivy.ivy.webtest</groupId>
       <artifactId>primeui-tester</artifactId>
-      <version>9.2.${revision}</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

@@ -10,7 +10,7 @@
 
   <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>primeui-tester</artifactId>
-  <version>9.2.${revision}</version>
+  <version>9.3.${revision}</version>
   <packaging>jar</packaging>
   
   <name>primeui-tester</name>
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>com.codeborne</groupId>
       <artifactId>selenide</artifactId>
-      <version>5.17.4</version>
+      <version>5.20.1</version>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>

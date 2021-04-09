@@ -1,12 +1,13 @@
 # Change Log (primeui-tester)
 
-## [9.2.2] - 2021-01-22
+## [9.3.0-SNAPSHOT]
 
 As PrimeFaces changed their showcase, the tests needed to be adjusted.
 Meanwhile there was some improvement in the API:
 
 ### Changed
 
+- Update Selenide from 5.15.0 to 5.20.1
 - The API returns now for the most parts the object itself. This allows you to use it as fluent API.
 
 ### Added
