@@ -25,7 +25,11 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.impl.WebElementsCollectionWrapper;
 
 public class SelectManyCheckbox
 {
@@ -36,6 +40,10 @@ public class SelectManyCheckbox
     manyCheckboxId = $(manyCheckbox).shouldBe(visible).attr("id");
   }
   
+  /**
+   * @deprecated use {@link #shouldBe(CollectionCondition)} instead, so you will get a screenshot on failure.
+   */
+  @Deprecated
   public List<String> getSelectedCheckboxes()
   {
     return $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box").filter(cssClass("ui-state-active"))
@@ -43,10 +51,38 @@ public class SelectManyCheckbox
             .collect(Collectors.toList());
   }
   
+  public SelectManyCheckbox shouldBe(CollectionCondition condition)
+  {
+    var elements = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box").filter(cssClass("ui-state-active"))
+            .stream().map(e -> e.parent().parent().find("label"))
+            .collect(Collectors.toList());
+    var collection = new WebElementsCollectionWrapper(WebDriverRunner.driver(), elements);
+    new ElementsCollection(collection).shouldBe(condition);
+    return this;
+  }
+  
+  /**
+   * @deprecated use {@link #shouldBeDisabled(boolean)} instead, so you will get a screenshot on failure.
+   */
+  @Deprecated
   public boolean isManyCheckboxDisabled()
   {
     return $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box").stream()
             .anyMatch(e -> e.has(cssClass("ui-state-disabled")));
+  }
+  
+  public SelectManyCheckbox shouldBeDisabled(boolean disabled)
+  {
+    var checkboxes = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box");
+    if (disabled)
+    {
+      checkboxes.forEach(e -> e.shouldHave(cssClass("ui-state-disabled")));
+    }
+    else
+    {
+      checkboxes.forEach(e -> e.shouldNotHave(cssClass("ui-state-disabled")));
+    }
+    return this;
   }
   
   public SelectManyCheckbox setCheckboxes(List<String> values)
