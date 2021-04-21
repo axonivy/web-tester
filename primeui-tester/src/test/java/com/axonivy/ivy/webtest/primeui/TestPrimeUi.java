@@ -1,5 +1,7 @@
 package com.axonivy.ivy.webtest.primeui;
 
+import static com.codeborne.selenide.CollectionCondition.empty;
+import static com.codeborne.selenide.CollectionCondition.exactTexts;
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.exactText;
@@ -80,11 +82,12 @@ public class TestPrimeUi
   void testSelectManyCheckbox()
   {
     var manyCheckbox = ShowcaseUtil.open(Showcase.MANYCHECKBOX).manyCheckbox();
-    assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
+    manyCheckbox.shouldBeDisabled(false);
+    manyCheckbox.shouldBe(empty);
     manyCheckbox.setCheckboxes(Arrays.asList("Option 1", "Option 2"));
-    assertThat(manyCheckbox.getSelectedCheckboxes()).contains("Option 1", "Option 2");
+    manyCheckbox.shouldBe(exactTexts("Option 1", "Option 2"));
     manyCheckbox.clear();
-    assertThat(manyCheckbox.getSelectedCheckboxes()).isEmpty();
+    manyCheckbox.shouldBe(empty);
   }
 
   @Test
