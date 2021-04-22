@@ -62,7 +62,7 @@ public class Table
     return this;
   }
 
-  public Table valueAtShoudBe(int row, int column, Condition condition)
+  public Table valueAtShouldBe(int row, int column, Condition condition)
   {
     row(row).find("td", column).shouldBe(condition);
     return this;
