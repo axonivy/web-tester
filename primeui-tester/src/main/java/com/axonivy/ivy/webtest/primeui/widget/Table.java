@@ -43,7 +43,7 @@ public class Table
   {
     return $(By.id(tableId + "_data")).findAll(By.xpath("tr/td[" + (index + 1) + "]"));
   }
-  
+
   @Deprecated
   public void firstRowContains(String expectedText)
   {
@@ -61,7 +61,10 @@ public class Table
     $(By.id(tableId + "_data")).shouldNotHave(text(checkText));
     return this;
   }
-
+  
+  /**
+   * @deprecated use {@link #valueAtShouldBe(int, int, Condition)} instead.
+   */
   @Deprecated
   public Table valueAtShoudBe(int row, int column, Condition condition)
   {
