@@ -68,8 +68,7 @@ public class Table
   @Deprecated
   public Table valueAtShoudBe(int row, int column, Condition condition)
   {
-    row(row).find("td", column).shouldBe(condition);
-    return this;
+    return valueAtShouldBe(row, column, condition);
   }
   
   public Table valueAtShouldBe(int row, int column, Condition condition)
