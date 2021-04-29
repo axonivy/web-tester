@@ -28,7 +28,7 @@ pipeline {
         script {
           withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
             sh "gpg --batch --import ${env.GPG_FILE}"
-            def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+            def phase = env.BRANCH_NAME == 'release/9.2' ? 'deploy' : 'verify'
             def mavenProps = ""
             if (params.deployProfile == 'maven.central.release') {
               mavenProps = "-Drevision=${params.revision}" 
