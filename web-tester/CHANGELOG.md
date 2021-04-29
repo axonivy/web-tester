@@ -1,10 +1,12 @@
 # Change Log (web-tester)
 
-## [9.3.0-SNAPSHOT]
+## [9.2.2] - 2021-04-29
 
 ### Added
 
 - Add casemap URL to EngineUrl Util
+
+## [9.2.1] - 2020-10-15
 
 ## [9.1.0] - 2020-06-24
 
