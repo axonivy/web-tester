@@ -2,6 +2,12 @@
 
 ## [9.3.0-SNAPSHOT]
 
+### Changed
+
+- Update Selenide to 5.20.1
+
+## [9.2.2] - 2021-04-29
+
 As PrimeFaces changed their showcase, the tests needed to be adjusted.
 Meanwhile there was some improvement in the API:
 
