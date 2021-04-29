@@ -35,7 +35,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <revision>0-SNAPSHOT</revision>
+    <revision>3-SNAPSHOT</revision>
     <skip.gpg>true</skip.gpg>
   </properties>
 
