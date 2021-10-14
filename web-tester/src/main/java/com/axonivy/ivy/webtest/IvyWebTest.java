@@ -31,30 +31,35 @@ import com.codeborne.selenide.WebDriverRunner;
 /**
  * IvyWebTest is an JUnit5 annotation which can be used for Selenide test setup.
  * 
- * <p>It can be configured over system properties:
+ * <p>
+ * It can be configured over system properties:
  * <ul>
- *   <li><b>ivy.selenide.browser: </b>e.g chrome, firefox (default)</li>
- *   <li><b>ivy.selenide.headless: </b>false or true (default)</li>
- *   <li><b>ivy.selenide.reportfolder: </b>e.g target/selenide/reports/&lt;testclass&gt;/&lt;testmethod&gt; (default)</li>
+ * <li><b>ivy.selenide.browser: </b>e.g chrome, firefox (default)</li>
+ * <li><b>ivy.selenide.headless: </b>false or true (default)</li>
+ * <li><b>ivy.selenide.reportfolder: </b>e.g
+ * target/selenide/reports/&lt;testclass&gt;/&lt;testmethod&gt; (default)</li>
  * </ul>
  * 
- * or annotation parameters:
- * <b>@IvyWebTest(browser = "firefox", headless = true, reportFolder = "target/selenide/reports")</b>
+ * or annotation parameters: <b>@IvyWebTest(browser = "firefox", headless =
+ * true, reportFolder = "target/selenide/reports")</b>
  * </p>
  * 
- * @see WebDriverRunner#getWebDriver() use 'WebDriverRunner' to get the WebDriver
+ * @see WebDriverRunner#getWebDriver() use 'WebDriverRunner' to get the
+ *      WebDriver
  * @see Selenide#open() use 'open' to browse a webpage
  * @see Selenide#$ use '$' to get an element by a select
  * @see Selenide#$$ use '$$' to get all elements found by a selector
- * @see SelenideElement#should(com.codeborne.selenide.Condition...) use '$.should()' to test element
+ * @see SelenideElement#should(com.codeborne.selenide.Condition...) use
+ *      '$.should()' to test element
  */
 @Retention(RUNTIME)
 @Target({ElementType.TYPE, ElementType.PARAMETER})
 @Inherited
 @ExtendWith(IvyWebTestExtension.class)
-public @interface IvyWebTest
-{
+public @interface IvyWebTest {
   String browser() default IvyWebTestExtension.BROWSER_DEFAULT;
+
   boolean headless() default IvyWebTestExtension.HEADLESS_DEFAULT;
+
   String reportFolder() default IvyWebTestExtension.REPORT_FOLDER_DEFAULT;
 }

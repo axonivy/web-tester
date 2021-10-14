@@ -1,5 +1,6 @@
 package com.axonivy.ivy.webtest.primeui;
 
+import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
@@ -35,7 +36,7 @@ public class ShowcaseUtil
     MANYCHECKBOX ("input/manyCheckbox.xhtml", ".ui-selectmanycheckbox"),
     ONERADIO ("input/oneRadio.xhtml", ".ui-selectoneradio"),
     TABLE ("data/datatable/filter.xhtml", ".ui-datatable"),
-    ACCORDION ("panel/accordionPanel.xhtml", ".ui-accordion"), 
+    ACCORDION ("panel/accordionPanel.xhtml", ".ui-accordion"),
     INPUTNUMBER ("input/inputNumber.xhtml", ".ui-inputnumber");
 
     private String url;
@@ -57,6 +58,13 @@ public class ShowcaseUtil
       return PrimeUi.selectOne(firstElement());
     }
 
+    public SelectOneMenu oneMenuEditable()
+    {
+      var oneMenuEditable = $$("label").find(exactText("Editable")).parent().find(".ui-selectonemenu");
+      return PrimeUi.selectOne(elementId(oneMenuEditable));
+    }
+
+
     public SelectCheckboxMenu checkboxMenu()
     {
       return PrimeUi.selectCheckboxMenu(firstElement());
@@ -71,17 +79,17 @@ public class ShowcaseUtil
     {
       return PrimeUi.selectOneRadio(firstElement());
     }
-    
+
     public Table table()
     {
       return PrimeUi.table(firstElement());
     }
-    
+
     public Accordion accordion()
     {
       return PrimeUi.accordion(firstElement());
     }
-    
+
     public InputNumber inputNumber()
     {
       return PrimeUi.inputNumber(firstElement());
@@ -91,7 +99,7 @@ public class ShowcaseUtil
     {
       return elementId($$(selector).filter(visible).first());
     }
-    
+
     private By elementId(SelenideElement element)
     {
       return By.id(element.attr("id"));

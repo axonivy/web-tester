@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2021 Axon Ivy AG
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,20 +24,21 @@ import java.util.Arrays;
 
 import org.openqa.selenium.By;
 
-public class SelectCheckboxMenu
-{
+public class SelectCheckboxMenu {
   private final String checkBoxMenuId;
 
-  public SelectCheckboxMenu(By locator)
-  {
+  public SelectCheckboxMenu(By locator) {
     checkBoxMenuId = $(locator).shouldBe(visible).attr("id");
   }
 
-  public SelectCheckboxMenu selectAllItems()
-  {
+  /**
+   * Select all items
+   */
+  public SelectCheckboxMenu selectAllItems() {
     openCheckboxPanel();
     $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box").shouldBe(visible).click();
-    $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
+    $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box")
+            .shouldHave(cssClass("ui-state-active"));
     closeCheckboxPanel();
     return this;
   }
@@ -46,47 +47,48 @@ public class SelectCheckboxMenu
    * @deprecated use {@link #selectItemsByValue(String...)}
    */
   @Deprecated
-  public SelectCheckboxMenu selectItemByValue(String label)
-  {
+  public SelectCheckboxMenu selectItemByValue(String label) {
     return selectItemsByValue(label);
   }
 
-  public SelectCheckboxMenu selectItemsByValue(String... labels)
-  {
+  /**
+   * Select items by given labels
+   * @param labels
+   */
+  public SelectCheckboxMenu selectItemsByValue(String... labels) {
     openCheckboxPanel();
     Arrays.stream(labels).forEach(this::selectItemInternal);
     closeCheckboxPanel();
     return this;
   }
-  
-  public SelectCheckboxMenu itemsShouldBeSelected(String... labels)
-  {
+
+  /**
+   * Check if items of given labels are selected
+   * @param labels
+   */
+  public SelectCheckboxMenu itemsShouldBeSelected(String... labels) {
     openCheckboxPanel();
     Arrays.stream(labels).forEach(this::checkThatLabelIsSelected);
     closeCheckboxPanel();
     return this;
   }
-  
-  private void selectItemInternal(String label)
-  {
+
+  private void selectItemInternal(String label) {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
             .find(text(label)).find(".ui-chkbox-box").shouldBe(visible).click();
     checkThatLabelIsSelected(label);
   }
 
-  private void checkThatLabelIsSelected(String label)
-  {
+  private void checkThatLabelIsSelected(String label) {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
             .find(text(label)).find(".ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
   }
 
-  private void openCheckboxPanel()
-  {
+  private void openCheckboxPanel() {
     $(By.id(checkBoxMenuId)).shouldBe(visible).find(".ui-icon-triangle-1-s").click();
   }
 
-  private void closeCheckboxPanel()
-  {
+  private void closeCheckboxPanel() {
     String panelId = checkBoxMenuId + "_panel";
     $(By.id(panelId)).shouldBe(visible).find(".ui-selectcheckboxmenu-close").click();
     $(By.id(panelId)).shouldNotBe(visible);
