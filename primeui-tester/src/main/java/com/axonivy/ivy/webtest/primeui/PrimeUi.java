@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2021 Axon Ivy AG
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -32,53 +32,80 @@ import com.axonivy.ivy.webtest.primeui.widget.Table;
  * with Primefaces {@link org.openqa.selenium.WebElement WebElements}.
  */
 @SuppressWarnings("deprecation")
-public class PrimeUi
-{
-  
-  public static SelectOneMenu selectOne(By locator)
-  {
+public class PrimeUi {
+
+  /**
+   * Get a SelectOneMenu widget to test against
+   * @param locator e.g By.id("")
+   */
+  public static SelectOneMenu selectOne(By locator) {
     return new SelectOneMenu(locator);
   }
 
-  public static SelectCheckboxMenu selectCheckboxMenu(By locator)
-  {
+  /**
+   * Get a SelectCheckboxMenu widget to test against
+   * @param locator e.g By.id("")
+   */
+  public static SelectCheckboxMenu selectCheckboxMenu(By locator) {
     return new SelectCheckboxMenu(locator);
   }
 
-  public static SelectBooleanCheckbox selectBooleanCheckbox(By checks)
-  {
+  /**
+   * Get a SelectBooleanCheckbox widget to test against
+   * @param checks e.g By.id("")
+   */
+  public static SelectBooleanCheckbox selectBooleanCheckbox(By checks) {
     return new SelectBooleanCheckbox(checks);
   }
-  
-  public static SelectManyCheckbox selectManyCheckbox(By manyCheckbox)
-  {
+
+  /**
+   * Get a SelectManyCheckbox widget to test against
+   * @param manyCheckbox e.g By.id("")
+   */
+  public static SelectManyCheckbox selectManyCheckbox(By manyCheckbox) {
     return new SelectManyCheckbox(manyCheckbox);
   }
 
-  public static SelectOneRadio selectOneRadio(By oneRadio)
-  {
+  /**
+   * Get a SelectOneRadio widget to test against
+   * @param oneRadio e.g By.id("")
+   */
+  public static SelectOneRadio selectOneRadio(By oneRadio) {
     return new SelectOneRadio(oneRadio);
   }
 
-  public static Table table(By dataTable)
-  {
+  /**
+   * Get a Table widget to test against
+   * @param dataTable e.g By.id("")
+   */
+  public static Table table(By dataTable) {
     return new Table(dataTable);
   }
 
+  /**
+   * Get a Dialog widget to test against
+   * @param dialog e.g By.id("")
+   * @deprecated
+   */
   @Deprecated
-  public static Dialog dialog(By dialog)
-  {
+  public static Dialog dialog(By dialog) {
     return new Dialog(dialog);
   }
 
-  public static Accordion accordion(By locator)
-  {
+  /**
+   * Get a Accordion widget to test against
+   * @param locator e.g By.id("")
+   */
+  public static Accordion accordion(By locator) {
     return new Accordion(locator);
   }
-  
-  public static InputNumber inputNumber(By input)
-  {
+
+  /**
+   * Get a InputNumber widget to test against
+   * @param input e.g By.id("")
+   */
+  public static InputNumber inputNumber(By input) {
     return new InputNumber(input);
   }
-  
+
 }

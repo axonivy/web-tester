@@ -23,7 +23,7 @@ import com.codeborne.selenide.Configuration;
  */
 public class TestPrimeUi
 {
-  
+
   @BeforeAll
   static void setup()
   {
@@ -31,15 +31,29 @@ public class TestPrimeUi
     Configuration.headless = true;
     Configuration.reportsFolder = "target/selenide/reports";
   }
-  
+
   @Test
   void testSelectOneMenu()
   {
     String option = "Option1";
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu()
             .selectedItemShould(exactText("Select One"))
-            .selectItemByLabel(option)
+            .selectItemByLabel("Option2")
+            .selectedItemShould(exactText("Option2"))
+            .selectItemByValue(option)
             .selectedItemShould(exactText(option));
+    assertThat(menu.getSelectedItem()).isEqualTo(option);
+  }
+
+  @Test
+  void testSelectOneMenuEditable()
+  {
+    String option = "New York";
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenuEditable()
+            .selectItemByLabel("Select One")
+            .selectedItemShould(exactValue("Select One"))
+            .selectItemByValue(option)
+            .selectedItemShould(exactValue(option));
     assertThat(menu.getSelectedItem()).isEqualTo(option);
   }
 
@@ -77,7 +91,7 @@ public class TestPrimeUi
             .removeChecked()
             .shouldBeChecked(false);
   }
-  
+
   @Test
   void testSelectManyCheckbox()
   {
@@ -97,7 +111,9 @@ public class TestPrimeUi
             .selectItemById($$(".ui-selectoneradio").filter(visible).first().attr("id") + ":0")
             .selectedValueShouldBe(exactValue("Option1"))
             .selectItemByValue("Option2")
-            .selectedValueShouldBe(exactValue("Option2"));
+            .selectedValueShouldBe(exactValue("Option2"))
+            .selectItemByLabel("Option3")
+            .selectedValueShouldBe(exactValue("Option3"));
   }
 
   @Test
@@ -130,7 +146,7 @@ public class TestPrimeUi
             .tabShouldBe("Header I", false)
             .tabShouldBe("Header II", true);
   }
-  
+
   @Test
   void testInputNumber()
   {

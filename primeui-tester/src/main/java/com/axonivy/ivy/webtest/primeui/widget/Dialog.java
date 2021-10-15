@@ -22,46 +22,36 @@ import static com.codeborne.selenide.Selenide.$;
 import org.openqa.selenium.By;
 
 @Deprecated
-public class Dialog
-{
+public class Dialog {
   private final String dialogId;
 
-  public Dialog(By dialogLocator)
-  {
+  public Dialog(By dialogLocator) {
     dialogId = $(dialogLocator).shouldBe(exist).attr("id");
   }
 
-  public void waitForVisibility(Boolean should)
-  {
-    if (should)
-    {
+  public void waitForVisibility(Boolean should) {
+    if (should) {
       waitVisible();
-    }
-    else 
-    {
+    } else {
       waitHidden();
     }
   }
 
-  public void waitVisible()
-  {
+  public void waitVisible() {
     $(By.id(dialogId)).shouldBe(visible);
   }
 
-  public void waitHidden()
-  {
+  public void waitHidden() {
     $(By.id(dialogId)).shouldNotBe(visible);
   }
-  
-  public void close()
-  {
+
+  public void close() {
     $(By.id(dialogId)).find(".ui-dialog-titlebar-close").shouldBe(visible).click();
     waitHidden();
   }
 
   @Deprecated
-  public void waitToBeClosedOrError()
-  {
+  public void waitToBeClosedOrError() {
     waitHidden();
   }
 }
