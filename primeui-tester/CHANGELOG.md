@@ -5,6 +5,13 @@
 ### Changed
 
 - Update Selenide to 5.20.1
+- SelectOneRadio: Change selectItemByValue so it selects by the item value and add selectItemBy Label as replacement for the old behaviour
+
+### Added
+
+- Add more JavaDoc
+- SelectOneMenu: Add selectByValue method (by the item value)
+- SelectOneMenu: Add support for SelectOneMenu with editable mode activated 
 
 ## [9.2.2] - 2021-04-29
 
