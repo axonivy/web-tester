@@ -1,18 +1,25 @@
+# web-tester
+
 [![web-tester version][0]][1] [![web-tester snapshot version][2]][3]
 
 [![primeui-tester version][4]][5] [![primeui-tester snapshot version][6]][7]
 
-# web-tester
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
-against your [Axon.ivy Engine](https://developer.axonivy.com/download). 
+against your [Axon.ivy Engine](https://developer.axonivy.com/download).
+
+Checkout our official
+[documentation](https://developer.axonivy.com/doc/8.0/concepts/testing.html#web-testing)
+for more information.
 
 ## primeui-tester
-If your JSF-Page contains [PrimeFaces ](https://www.primefaces.org/showcase/)
+
+If your JSF-Page contains [PrimeFaces](https://www.primefaces.org/showcase/)
 widgets, the `primeui-tester` gives you the possibility to interact with those
 widgets and check if it's in the condition you expected it to be. 
 
 # How to use in your project
+
 The web-tester runs with [Selenide](https://selenide.org/),
 [Selenium](https://selenium.dev/projects/) and [JUnit
 5](https://junit.org/junit5/). Simply add this library to your dependencies in
@@ -66,8 +73,9 @@ public class WebTest
 ```
 
 ## Changelog
-- [web-tester](web-tester/CHANGELOG.md)
-- [primeui-tester](primeui-tester/CHANGELOG.md)
+
+* [web-tester](web-tester/CHANGELOG.md)
+* [primeui-tester](primeui-tester/CHANGELOG.md)
 
 ## Authors
 
@@ -75,8 +83,8 @@ public class WebTest
 
 [![Axon.ivy](https://www.axonivy.com/hubfs/brand/axonivy-logo-black.svg)](http://www.axonivy.com)
 
-
 ## License
+
 The Apache License, Version 2.0
 
 [0]: https://img.shields.io/badge/web--tester-8.0.10-green
