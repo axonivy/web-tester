@@ -1,6 +1,6 @@
 # Change Log (primeui-tester)
 
-## [9.3.0-SNAPSHOT]
+## [9.3.0] - 2021-11-16
 
 ### Changed
 
