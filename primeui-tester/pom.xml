@@ -10,7 +10,7 @@
 
   <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>primeui-tester</artifactId>
-  <version>9.3.${revision}</version>
+  <version>9.4.${revision}</version>
   <packaging>jar</packaging>
   
   <name>primeui-tester</name>

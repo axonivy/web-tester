@@ -11,7 +11,7 @@
 
   <groupId>com.axonivy.ivy.test</groupId>
   <artifactId>unit-tester</artifactId>
-  <version>9.3.${revision}</version>
+  <version>9.4.${revision}</version>
   <packaging>jar</packaging>
   
   <name>unit-tester</name>
