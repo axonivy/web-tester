@@ -45,12 +45,4 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <distributionManagement>
-    <repository>
-      <id>repo.axonivy.com</id>
-      <layout>default</layout>
-      <url>https://repo.axonivy.com/artifactory/libs-snapshot-local</url>
-    </repository>
-  </distributionManagement>
 </project>
