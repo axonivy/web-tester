@@ -8,7 +8,7 @@
     <relativePath>../maven-config</relativePath>
   </parent>
 
-  <groupId>com.axonivy.ivy.test</groupId>
+  <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>web-tester-product</artifactId>
   <version>9.4.${revision}</version>
   <packaging>pom</packaging>
