@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2021 Axon Ivy AG
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * This is a Util to build URLs against the designer (localhost:8081) or a test
  * engine.
- * 
+ *
  * To run a test engine have a look at the project-build-plugin:
  * https://github.com/axonivy/project-build-plugin
  */
@@ -42,7 +42,7 @@ public class EngineUrl {
 
   public static final String SLASH = "/";
   public static final String TEST_ENGINE_APP = "test.engine.app";
-  public static final String TEST_ENGINE_URL = "test.engine.url";
+  public static final String TEST_ENGINE_URL = BaseEngineUrl.TEST_ENGINE_URL;
   public static final String DESIGNER = "designer";
 
   private String base;
@@ -160,7 +160,7 @@ public class EngineUrl {
    * @return URL of engine
    */
   public static String base() {
-    return System.getProperty(TEST_ENGINE_URL, "http://localhost:8081/");
+    return BaseEngineUrl.url();
   }
 
   /**
