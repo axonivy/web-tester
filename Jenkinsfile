@@ -4,7 +4,7 @@ pipeline {
   }
 
   options {
-    buildDiscarder(logRotator(artifactNumToKeepStr: '20'))
+    buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '20'))
   }
 
   triggers {
