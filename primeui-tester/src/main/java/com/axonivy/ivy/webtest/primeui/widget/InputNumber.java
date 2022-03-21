@@ -40,8 +40,14 @@ public class InputNumber {
    * Clear the number input
    */
   public InputNumber clear() {
-    while (StringUtils.isNotBlank(getValue())) {
+    var oldValue = getValue();
+    while (StringUtils.isNotBlank(oldValue)) {
       $(By.id(inputNumberId)).sendKeys(Keys.BACK_SPACE);
+      var value = getValue();
+      if (StringUtils.equals(oldValue, value)) {
+        throw new RuntimeException("Couldn't clear number input field, maybe minValue is set");
+      }
+      oldValue = value;
     }
     return this;
   }

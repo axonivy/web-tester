@@ -1,5 +1,11 @@
 # Change Log (primeui-tester)
 
+## [9.4.0] - tbd
+
+### Bugfix
+
+- Fix possible endless loop in InputNumber#clear
+
 ## [9.3.0] - 2021-11-16
 
 ### Changed
