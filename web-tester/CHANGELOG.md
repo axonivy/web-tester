@@ -1,5 +1,14 @@
 # Change Log (web-tester)
 
+## [9.4.0] - ?
+
+### Changed
+
+- Upgrade selenide to 6.7.1
+- Upgrade commons lang3 to 3.12.0
+- Upgrade junit to 5.8.1
+- Upgrade assertj-core to 3.23.1
+
 ## [9.3.0] - 2021-11-16
 
 ## [9.2.2] - 2021-04-29
