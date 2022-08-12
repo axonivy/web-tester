@@ -46,7 +46,7 @@ public class SelectManyCheckbox {
   public List<String> getSelectedCheckboxes() {
     return $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box")
             .filter(cssClass("ui-state-active"))
-            .stream().map(e -> e.parent().parent().find("label").getText())
+            .asDynamicIterable().stream().map(e -> e.parent().parent().find("label").getText())
             .collect(Collectors.toList());
   }
 
@@ -57,7 +57,7 @@ public class SelectManyCheckbox {
   public SelectManyCheckbox shouldBe(CollectionCondition condition) {
     var elements = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box")
             .filter(cssClass("ui-state-active"))
-            .stream().map(e -> e.parent().parent().find("label"))
+            .asDynamicIterable().stream().map(e -> e.parent().parent().find("label"))
             .collect(Collectors.toList());
     var collection = new WebElementsCollectionWrapper(WebDriverRunner.driver(), elements);
     new ElementsCollection(collection).shouldBe(condition);
@@ -70,7 +70,7 @@ public class SelectManyCheckbox {
    */
   @Deprecated
   public boolean isManyCheckboxDisabled() {
-    return $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box").stream()
+    return $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box").asDynamicIterable().stream()
             .anyMatch(e -> e.has(cssClass("ui-state-disabled")));
   }
 
@@ -81,9 +81,9 @@ public class SelectManyCheckbox {
   public SelectManyCheckbox shouldBeDisabled(boolean disabled) {
     var checkboxes = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box");
     if (disabled) {
-      checkboxes.forEach(e -> e.shouldHave(cssClass("ui-state-disabled")));
+      checkboxes.asDynamicIterable().forEach(e -> e.shouldHave(cssClass("ui-state-disabled")));
     } else {
-      checkboxes.forEach(e -> e.shouldNotHave(cssClass("ui-state-disabled")));
+      checkboxes.asDynamicIterable().forEach(e -> e.shouldNotHave(cssClass("ui-state-disabled")));
     }
     return this;
   }
