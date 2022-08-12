@@ -5,6 +5,7 @@
 ### Changed
 
 - Upgrade selenide to 6.7.1
+- Upgrade selenium-java to 4.3.0
 - Upgrade commons lang3 to 3.12.0
 - Upgrade junit to 5.8.1
 - Upgrade assertj-core to 3.23.1
