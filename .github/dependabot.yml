@@ -13,10 +13,6 @@ updates:
     schedule:
       interval: daily
   - package-ecosystem: maven
-    directory: maven-config
-    schedule:
-      interval: daily
-  - package-ecosystem: maven
     directory: unit-tester
     schedule:
       interval: daily
