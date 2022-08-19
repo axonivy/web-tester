@@ -4,23 +4,11 @@ updates:
     directory: /
     schedule:
       interval: daily
+    assignees:
+      - ivy-lli
   - package-ecosystem: maven
     directory: maven-config
     schedule:
       interval: daily
-  - package-ecosystem: maven
-    directory: primeui-tester
-    schedule:
-      interval: daily
-  - package-ecosystem: maven
-    directory: unit-tester
-    schedule:
-      interval: daily
-  - package-ecosystem: maven
-    directory: web-tester-product
-    schedule:
-      interval: daily
-  - package-ecosystem: maven
-    directory: web-tester
-    schedule:
-      interval: daily
+    assignees:
+      - ivy-lli
