@@ -3,15 +3,14 @@ package com.axonivy.ivy.webtest.engine;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
+import com.codeborne.selenide.Configuration;
 
 class TestEngineUrl {
 
   @AfterEach
-  @BeforeEach
   void cleanup() {
     System.clearProperty(EngineUrl.TEST_ENGINE_URL);
     System.clearProperty(EngineUrl.TEST_ENGINE_APP);
@@ -19,13 +18,19 @@ class TestEngineUrl {
 
   @Test
   void designerUrls() {
-    String baseUrl = "http://localhost:8081/";
-    assertThat(EngineUrl.createRestUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/api");
-    assertThat(EngineUrl.createWebServiceUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/ws");
-    assertThat(EngineUrl.createProcessUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro");
-    assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/faces/view");
-    assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/casemap");
-    assertThat(EngineUrl.isDesigner()).isEqualTo(true);
+    var remote = Configuration.remote;
+    try {
+      Configuration.remote = null;
+      String baseUrl = "http://localhost:8081/";
+      assertThat(EngineUrl.createRestUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/api");
+      assertThat(EngineUrl.createWebServiceUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/ws");
+      assertThat(EngineUrl.createProcessUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro");
+      assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/faces/view");
+      assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/casemap");
+      assertThat(EngineUrl.isDesigner()).isEqualTo(true);
+    } finally {
+      Configuration.remote = remote;
+    }
   }
 
   @Test

@@ -26,11 +26,10 @@ pipeline {
           def random = (new Random()).nextInt(10000000)
           def networkName = "build-" + random
           def seleniumName = "selenium-" + random
-          def ivyName = "ivy-" + random
           sh "docker network create ${networkName}"
           try {
             docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName}") {
-              docker.build('maven-build').inside("--name ${ivyName} --network ${networkName}") {
+              docker.build('maven-build').inside("--network ${networkName}") {
                 withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
                   sh "gpg --batch --import ${env.GPG_FILE}"
                   def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
@@ -41,8 +40,7 @@ pipeline {
                   maven cmd: "clean ${phase} " +
                     "-P ${params.deployProfile} " +
                     "-Dmaven.test.failure.ignore=true " +
-                    "-Dgpg.passphrase='${env.GPG_PWD}' " +
-                    "-Dtest.engine.url=http://${ivyName}:8080 " + 
+                    "-Dgpg.passphrase='${env.GPG_PWD}' " +                    
                     "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
                     "${mavenProps}"
                 }                
