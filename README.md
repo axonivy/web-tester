@@ -76,6 +76,7 @@ class WebTest {
 
 * [web-tester](web-tester/CHANGELOG.md)
 * [primeui-tester](primeui-tester/CHANGELOG.md)
+* [unit-tester](unit-tester/CHANGELOG.md)
 
 ## Authors
 
