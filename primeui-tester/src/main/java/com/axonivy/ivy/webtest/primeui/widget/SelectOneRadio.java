@@ -34,7 +34,8 @@ public class SelectOneRadio {
 
   /**
    * Select radio by id
-   * @param id
+   * @param id id
+   * @return SelectOneRadio
    */
   public SelectOneRadio selectItemById(final String id) {
     $(radioById(id)).click();
@@ -44,7 +45,8 @@ public class SelectOneRadio {
 
   /**
    * Select radio by item value
-   * @param value
+   * @param value value
+   * @return SelectOneRadio
    */
   public SelectOneRadio selectItemByValue(final String value) {
     $(radioByValue(value)).click();
@@ -54,7 +56,8 @@ public class SelectOneRadio {
 
   /**
    * Select radio by item label
-   * @param label
+   * @param label lable
+   * @return SelectOneRadio
    */
   public SelectOneRadio selectItemByLabel(final String label) {
     $(radioByLabel(label)).click();
@@ -64,7 +67,8 @@ public class SelectOneRadio {
 
   /**
    * Check if selected radio is matching the given condition
-   * @param condition
+   * @param condition condition
+   * @return SelectOneRadio
    */
   public SelectOneRadio selectedValueShouldBe(Condition condition) {
     $(By.id(oneRadioId)).findAll(".ui-radiobutton-box").find(Condition.cssClass("ui-state-active"))
@@ -91,5 +95,4 @@ public class SelectOneRadio {
     return $(By.id(oneRadioId)).findAll("label").find(exactText(label)).parent()
             .find("div.ui-radiobutton-box").shouldBe(visible);
   }
-
 }

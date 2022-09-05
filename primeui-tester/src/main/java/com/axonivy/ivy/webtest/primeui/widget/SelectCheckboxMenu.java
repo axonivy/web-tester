@@ -33,6 +33,7 @@ public class SelectCheckboxMenu {
 
   /**
    * Select all items
+   * @return SelectCheckboxMenu
    */
   public SelectCheckboxMenu selectAllItems() {
     openCheckboxPanel();
@@ -45,6 +46,8 @@ public class SelectCheckboxMenu {
 
   /**
    * @deprecated use {@link #selectItemsByValue(String...)}
+   * @param label label
+   * @return SelectCheckboxMenu
    */
   @Deprecated
   public SelectCheckboxMenu selectItemByValue(String label) {
@@ -53,7 +56,8 @@ public class SelectCheckboxMenu {
 
   /**
    * Select items by given labels
-   * @param labels
+   * @param labels labels to select
+   * @return SelectCheckboxMenu
    */
   public SelectCheckboxMenu selectItemsByValue(String... labels) {
     openCheckboxPanel();
@@ -64,7 +68,8 @@ public class SelectCheckboxMenu {
 
   /**
    * Check if items of given labels are selected
-   * @param labels
+   * @param labels labels
+   * @return SelectCheckboxMenu
    */
   public SelectCheckboxMenu itemsShouldBeSelected(String... labels) {
     openCheckboxPanel();

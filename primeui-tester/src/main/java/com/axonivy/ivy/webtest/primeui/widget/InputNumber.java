@@ -10,6 +10,7 @@ import org.openqa.selenium.Keys;
 import com.codeborne.selenide.Condition;
 
 public class InputNumber {
+
   private final String inputNumberId;
 
   public InputNumber(By inputNumber) {
@@ -18,7 +19,8 @@ public class InputNumber {
 
   /**
    * Set value of number input
-   * @param value
+   * @param value value to set
+   * @return input number
    */
   public InputNumber setValue(String value) {
     clear();
@@ -29,7 +31,8 @@ public class InputNumber {
 
   /**
    * Check if the number input match the given condition
-   * @param condition
+   * @param condition condition which will be asserted
+   * @return input number
    */
   public InputNumber should(Condition condition) {
     $(By.id(inputNumberId)).should(condition);
@@ -38,6 +41,7 @@ public class InputNumber {
 
   /**
    * Clear the number input
+   * @return input number
    */
   public InputNumber clear() {
     var oldValue = getValue();

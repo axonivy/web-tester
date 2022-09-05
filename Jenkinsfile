@@ -51,11 +51,12 @@ pipeline {
           } finally {
             sh "docker network rm ${networkName}"
           }
-
-          
         }
         archiveArtifacts '**/target/*.jar'
         junit '**/target/surefire-reports/**/*.xml'
+        recordIssues tools: [mavenConsole(), eclipse(), javaDoc()], unstableTotalAll: 1, filters: [
+          excludeMessage('.*JAR will be empty.*'), // for unit tester          
+        ]
       }
     }
   }

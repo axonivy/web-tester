@@ -34,7 +34,8 @@ public class Table {
 
   /**
    * Get row of the table by index
-   * @param index
+   * @param index index
+   * @return SelenideElement
    */
   public SelenideElement row(int index) {
     return $(By.id(tableId + "_data")).find("tr", index);
@@ -42,7 +43,8 @@ public class Table {
 
   /**
    * Get column of the table by index
-   * @param index
+   * @param index index
+   * @return collection
    */
   public ElementsCollection column(int index) {
     return $(By.id(tableId + "_data")).findAll(By.xpath("tr/td[" + (index + 1) + "]"));
@@ -55,7 +57,8 @@ public class Table {
 
   /**
    * Check if the table overall contains the given text
-   * @param checkText
+   * @param checkText checkText
+   * @return table
    */
   public Table contains(String checkText) {
     $(By.id(tableId)).shouldBe(visible, text(checkText));
@@ -64,7 +67,8 @@ public class Table {
 
   /**
    * Check if the table overall does not contain the given text
-   * @param checkText
+   * @param checkText text which should not be contained
+   * @return table
    */
   public Table containsNot(String checkText) {
     $(By.id(tableId + "_data")).shouldNotHave(text(checkText));
@@ -73,6 +77,10 @@ public class Table {
 
   /**
    * @deprecated use {@link #valueAtShouldBe(int, int, Condition)} instead.
+   * @param row row
+   * @param column column
+   * @param condition condition
+   * @return table
    */
   @Deprecated
   public Table valueAtShoudBe(int row, int column, Condition condition) {
@@ -80,10 +88,11 @@ public class Table {
   }
 
   /**
-   * Check if the entiry at the given row and column matches the given condition
-   * @param row
-   * @param column
-   * @param condition
+   * Check if the entry at the given row and column matches the given condition
+   * @param row row
+   * @param column column
+   * @param condition condition
+   * @return table
    */
   public Table valueAtShouldBe(int row, int column, Condition condition) {
     row(row).find("td", column).shouldBe(condition);
@@ -92,8 +101,9 @@ public class Table {
 
   /**
    * Get the value of the entry at the given row and column
-   * @param row
-   * @param column
+   * @param row row
+   * @param column column
+   * @return value
    */
   public String valueAt(int row, int column) {
     return row(row).find("td", column).shouldBe(visible).getText();
@@ -101,7 +111,8 @@ public class Table {
 
   /**
    * Search in the globalFilter input label
-   * @param search
+   * @param search search text
+   * @return table
    */
   public Table searchGlobal(String search) {
     fillInput(By.id(tableId + ":globalFilter"), search);
@@ -110,8 +121,9 @@ public class Table {
 
   /**
    * Search in a given column
-   * @param column
-   * @param search
+   * @param column column
+   * @param search search text
+   * @return table
    */
   public Table searchColumn(int column, String search) {
     var columnId = $(By.id(tableId)).find(".ui-sortable-column", column).shouldBe(visible).attr("id");
