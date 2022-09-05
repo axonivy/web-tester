@@ -1,6 +1,6 @@
 # Change Log (web-tester)
 
-## [9.4.0] - ?
+## [9.4.0] - 2022-09-05
 
 ### Changed
 

@@ -1,6 +1,12 @@
 # Change Log (primeui-tester)
 
-## [9.4.0] - tbd
+## [9.4.0] - 2022-09-05
+
+### Changed
+
+- Support Selenium 4
+- Update Selenide to 6.7.3
+- Update commons-lang3 to 3.12.0
 
 ### Bugfix
 
