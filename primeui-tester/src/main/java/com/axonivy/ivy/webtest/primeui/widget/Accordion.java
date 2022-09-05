@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import com.codeborne.selenide.SelenideElement;
 
 public class Accordion {
+
   private final String accordionId;
 
   public Accordion(final By accordionLocator) {
@@ -36,7 +37,8 @@ public class Accordion {
 
   /**
    * Toggle Accordion to given tabName
-   * @param tabName
+   * @param tabName name of the tab
+   * @return accordion
    */
   public Accordion toggleTab(String tabName) {
     String previousState = accordionTab(tabName).getAttribute("aria-expanded");
@@ -50,7 +52,8 @@ public class Accordion {
 
   /**
    * Open tab of Accordion by given tabName
-   * @param tabName
+   * @param tabName name of the tab
+   * @return accordion
    */
   public Accordion openTab(String tabName) {
     if (!isTabOpen(tabName)) {
@@ -61,8 +64,9 @@ public class Accordion {
 
   /**
    * Check if tab of Accordion is open according to given parameter
-   * @param tabName
-   * @param open
+   * @param tabName name of the tab
+   * @param open if it should be open or not
+   * @return accordion
    */
   public Accordion tabShouldBe(String tabName, boolean open) {
     accordionTab(tabName).shouldHave(attribute("aria-expanded", String.valueOf(open)));
@@ -71,8 +75,9 @@ public class Accordion {
 
   /**
    * Check if tab of Accordion is open
-   * @param tabName
+   * @param tabName name of the tab
    * @deprecated use {@link #tabShouldBe(String, boolean)} instead
+   * @return true if its open otherwise false
    */
   @Deprecated
   public boolean isTabOpen(String tabName) {
@@ -83,5 +88,4 @@ public class Accordion {
     return $(By.id(accordionId)).findAll(".ui-accordion-header").find(text(tabName)).shouldBe(visible,
             enabled);
   }
-
 }

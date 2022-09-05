@@ -3,20 +3,22 @@ package com.axonivy.ivy.webtest.engine;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.engine.EngineUrl.SERVLET;
 
-public class TestEngineUrl {
+class TestEngineUrl {
 
   @AfterEach
+  @BeforeEach
   void cleanup() {
     System.clearProperty(EngineUrl.TEST_ENGINE_URL);
     System.clearProperty(EngineUrl.TEST_ENGINE_APP);
   }
 
   @Test
-  void testDesignerUrls() {
+  void designerUrls() {
     String baseUrl = "http://localhost:8081/";
     assertThat(EngineUrl.createRestUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/api");
     assertThat(EngineUrl.createWebServiceUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/ws");
@@ -27,7 +29,7 @@ public class TestEngineUrl {
   }
 
   @Test
-  void testEngineUrls() {
+  void engineUrls() {
     String baseUrl = "http://www.axonivy.com:8080/ivy/";
     String app = "test";
     System.setProperty(EngineUrl.TEST_ENGINE_URL, baseUrl);
@@ -41,7 +43,7 @@ public class TestEngineUrl {
   }
 
   @Test
-  void testUrlBuidler() {
+  void urlBuidler() {
     String baseUrl = "http://test/";
     String app = "bla";
     assertThat(EngineUrl.create().base(baseUrl).app(app).process("/test.ivp").toUrl())
@@ -58,5 +60,4 @@ public class TestEngineUrl {
             .toUrl())
                     .isEqualTo("http://base/app/pro/path");
   }
-
 }

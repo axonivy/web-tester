@@ -36,7 +36,8 @@ public class SelectOneMenu {
 
   /**
    * Select menu entry by item value
-   * @param value
+   * @param value value
+   * @return SelectOneMenu
    */
   public SelectOneMenu selectItemByValue(String value) {
     if (value == null) {
@@ -48,7 +49,8 @@ public class SelectOneMenu {
 
   /**
    * Select menu entry by item label
-   * @param label
+   * @param label label
+   * @return SelectOneMenu
    */
   public SelectOneMenu selectItemByLabel(String label) {
     if (label == null) {
@@ -62,7 +64,8 @@ public class SelectOneMenu {
 
   /**
    * Selected menu entry should match the given condition
-   * @param condition
+   * @param condition condition
+   * @return SelectOneMenu
    */
   public SelectOneMenu selectedItemShould(Condition condition) {
     selectLabel().should(condition);
@@ -71,6 +74,7 @@ public class SelectOneMenu {
 
   /**
    * Get selected item text
+   * @return text
    */
   public String getSelectedItem() {
     if ("input".equals(selectLabel().getTagName())) {
@@ -96,5 +100,4 @@ public class SelectOneMenu {
   private SelenideElement selectLabel() {
     return $(By.id(oneMenuId)).find(".ui-selectonemenu-label");
   }
-
 }

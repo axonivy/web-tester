@@ -32,6 +32,7 @@ public class SelectBooleanCheckbox {
 
   /**
    * Check checkbox
+   * @return select boolean checkbox
    */
   public SelectBooleanCheckbox setChecked() {
     if (!isChecked()) {
@@ -43,6 +44,7 @@ public class SelectBooleanCheckbox {
 
   /**
    * Uncheck checkbox
+   * @return select boolean checkbox
    */
   public SelectBooleanCheckbox removeChecked() {
     if (isChecked()) {
@@ -54,7 +56,8 @@ public class SelectBooleanCheckbox {
 
   /**
    * Check if checkbox is checked
-   * @param checked
+   * @param checked true if it should be cbecked otherwise false
+   * @return select boolean checkbox
    */
   public SelectBooleanCheckbox shouldBeChecked(boolean checked) {
     return checkboxShouldHaveCssClass(checked, "ui-state-active");
@@ -62,7 +65,8 @@ public class SelectBooleanCheckbox {
 
   /**
    * Check if checkbox is disabled
-   * @param disabled
+   * @param disabled true if it should be disabled otherwise false
+   * @return select boolean checkbox
    */
   public SelectBooleanCheckbox shouldBeDisabled(boolean disabled) {
     return checkboxShouldHaveCssClass(disabled, "ui-state-disabled");
@@ -79,6 +83,7 @@ public class SelectBooleanCheckbox {
 
   /**
    * @deprecated use {@link #shouldBeChecked(boolean)}
+   * @return true if checked otherwise false
    */
   @Deprecated
   public boolean isChecked() {
@@ -87,6 +92,7 @@ public class SelectBooleanCheckbox {
 
   /**
    * @deprecated use {@link #shouldBeDisabled(boolean)}
+   * @return true if disabled otherwise false
    */
   @Deprecated
   public boolean isDisabled() {

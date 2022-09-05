@@ -41,6 +41,7 @@ public class SelectManyCheckbox {
   /**
    * @deprecated use {@link #shouldBe(CollectionCondition)} instead, so you will
    *             get a screenshot on failure.
+   * @return checkboxes
    */
   @Deprecated
   public List<String> getSelectedCheckboxes() {
@@ -52,7 +53,8 @@ public class SelectManyCheckbox {
 
   /**
    * The SelectManyCheckbox should match the given collection condition
-   * @param condition
+   * @param condition condition
+   * @return SelectManyCheckbox
    */
   public SelectManyCheckbox shouldBe(CollectionCondition condition) {
     var elements = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box")
@@ -67,6 +69,7 @@ public class SelectManyCheckbox {
   /**
    * @deprecated use {@link #shouldBeDisabled(boolean)} instead, so you will get
    *             a screenshot on failure.
+   * @return true if many checkbox is disabled otherwise false
    */
   @Deprecated
   public boolean isManyCheckboxDisabled() {
@@ -76,7 +79,8 @@ public class SelectManyCheckbox {
 
   /**
    * Check if the SelectManyCheckbox is disabled
-   * @param disabled
+   * @param disabled disabled
+   * @return SelectManyCheckbox
    */
   public SelectManyCheckbox shouldBeDisabled(boolean disabled) {
     var checkboxes = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box");
@@ -90,7 +94,8 @@ public class SelectManyCheckbox {
 
   /**
    * Set all checkboxes given by the label list
-   * @param values
+   * @param values values
+   * @return SelectManyCheckbox
    */
   public SelectManyCheckbox setCheckboxes(List<String> values) {
     for (String value : values) {
@@ -107,6 +112,7 @@ public class SelectManyCheckbox {
 
   /**
    * Clear all checkboxes
+   * @return SelectManyCheckbox
    */
   public SelectManyCheckbox clear() {
     if (!isManyCheckboxDisabled()) {
@@ -119,5 +125,4 @@ public class SelectManyCheckbox {
     return $(By.id(manyCheckboxId)).findAll("label").find(exactText(value)).parent().find(".ui-chkbox-box")
             .shouldBe(visible);
   }
-
 }
