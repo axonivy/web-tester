@@ -1,8 +1,6 @@
-FROM selenium/standalone-firefox:3.141.59
+FROM maven:3.8.6-eclipse-temurin-17
 
-RUN \
-    sudo apt-get -y update && \
-    sudo apt-get install -y maven && \
-    sudo apt-get install -y openjdk-11-jdk-headless && \
-    sudo apt-get install -y gnupg2 && \
-    sudo apt-get install -y git
+RUN addgroup --gid 1000 build && adduser --uid 1000 --gid 1000 --disabled-password --gecos "" build
+
+RUN apt-get -y update && \
+    apt-get install -y gnupg2 git

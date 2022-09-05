@@ -1,7 +1,5 @@
 pipeline {
-  agent {
-    dockerfile true
-  }
+  agent any
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '20'))
@@ -25,18 +23,36 @@ pipeline {
     stage('build') {
       steps {
         script {
-          withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
-            sh "gpg --batch --import ${env.GPG_FILE}"
-            def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
-            def mavenProps = ""
-            if (params.deployProfile == 'maven.central.release') {
-              mavenProps = "-Drevision=${params.revision}" 
+          def random = (new Random()).nextInt(10000000)
+          def networkName = "build-" + random
+          def seleniumName = "selenium-" + random
+          def ivyName = "ivy-" + random
+          sh "docker network create ${networkName}"
+          try {
+            docker.image("selenium/standalone-firefox:3").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName}") {
+              docker.build('maven-build').inside("--name ${ivyName} --network ${networkName}") {
+                withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
+                  sh "gpg --batch --import ${env.GPG_FILE}"
+                  def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+                  def mavenProps = ""
+                  if (params.deployProfile == 'maven.central.release') {
+                    mavenProps = "-Drevision=${params.revision}" 
+                  }
+                  maven cmd: "clean ${phase} " +
+                    "-P ${params.deployProfile} " +
+                    "-Dmaven.test.failure.ignore=true " +
+                    "-Dgpg.passphrase='${env.GPG_PWD}' " +
+                    "-Dtest.engine.url=http://${ivyName}:8080 " + 
+                    "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " +
+                    "${mavenProps}"
+                }                
+              }
             }
-            maven cmd: "clean ${phase} " +
-              "-P ${params.deployProfile} " +
-              "-Dgpg.passphrase='${env.GPG_PWD}' " +
-              "${mavenProps}"
+          } finally {
+            sh "docker network rm ${networkName}"
           }
+
+          
         }
         archiveArtifacts '**/target/*.jar'
         junit '**/target/surefire-reports/**/*.xml'

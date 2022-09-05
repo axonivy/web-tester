@@ -13,7 +13,7 @@
   <artifactId>unit-tester</artifactId>
   <version>9.4.${revision}</version>
   <packaging>jar</packaging>
-  
+
   <name>unit-tester</name>
   <description>Provides dependencies that simplifies unit and process testing with Axon Ivy projects.</description>
   <url>https://github.com/axonivy/web-tester</url>
