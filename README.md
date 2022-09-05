@@ -49,12 +49,10 @@ or a PrimeFaces widget (e.g.
 
 ```java
 @IvyWebTest
-public class WebTest
-{
+class WebTest {
 
   @Test
-  public void registerNewCustomer()
-  {
+  void registerNewCustomer() {
     open(EngineUrl.createProcessUrl("myWorkflow/154616078A1D629D/start.ivp"));
     $(By.id("form:firstname")).sendKeys("Unit");
     $(By.id("form:lastname")).sendKeys("Test");
@@ -63,16 +61,14 @@ public class WebTest
   }
 
   @Test
-  public void testSelectOneMenu()
-  {
+  void selectOneMenu() {
     open("https://primefaces.org/showcase/ui/input/oneMenu.xhtml");
-    SelectOneMenu selectOne = PrimeUi.selectOne(selectMenuForLabel("Basic:"));
+    var selectOne = PrimeUi.selectOne(selectMenuForLabel("Basic:"));
     assertThat(selectOne.getSelectedItem()).isEqualTo("Select One");
-    String ps4 = "PS4";
+    var ps4 = "PS4";
     selectOne.selectItemByLabel(ps4);
     assertThat(selectOne.getSelectedItem()).isEqualTo(ps4);
   }
-
 }
 ```
 
