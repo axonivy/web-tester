@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2021 Axon Ivy AG
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -30,8 +30,8 @@ import com.codeborne.selenide.WebDriverRunner;
 
 /**
  * IvyWebTest is an JUnit5 annotation which can be used for Selenide test setup.
- * 
- * <p>
+ *
+ * <br>
  * It can be configured over system properties:
  * <ul>
  * <li><b>ivy.selenide.browser: </b>e.g chrome, firefox (default)</li>
@@ -39,11 +39,10 @@ import com.codeborne.selenide.WebDriverRunner;
  * <li><b>ivy.selenide.reportfolder: </b>e.g
  * target/selenide/reports/&lt;testclass&gt;/&lt;testmethod&gt; (default)</li>
  * </ul>
- * 
+ *
  * or annotation parameters: <b>@IvyWebTest(browser = "firefox", headless =
  * true, reportFolder = "target/selenide/reports")</b>
- * </p>
- * 
+ *
  * @see WebDriverRunner#getWebDriver() use 'WebDriverRunner' to get the
  *      WebDriver
  * @see Selenide#open() use 'open' to browse a webpage

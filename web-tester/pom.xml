@@ -9,7 +9,6 @@
     <relativePath>../maven-config</relativePath>
   </parent>
 
-  <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>web-tester</artifactId>
   <version>9.4.${revision}</version>
   <packaging>jar</packaging>
