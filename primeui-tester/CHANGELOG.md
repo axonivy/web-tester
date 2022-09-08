@@ -1,5 +1,11 @@
 # Change Log (primeui-tester)
 
+## [9.4.1] - 2022-09-05
+
+### Bugfix
+
+- Exclude all opentelemetry dependencies in dependency hierarchy to prevent error logs in IvyTest and IvyProcessTest if this web-tester or primeui-tester is added as dependency.
+
 ## [9.4.0] - 2022-09-05
 
 ### Changed
