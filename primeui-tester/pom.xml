@@ -21,6 +21,14 @@
       <groupId>com.codeborne</groupId>
       <artifactId>selenide</artifactId>
       <version>6.7.4</version>
+
+      <!-- to prevent error logs when executing IvyTest and IvyProcessTest and having primeui-tester dependency in same test project -->
+      <exclusions>
+    		<exclusion>
+    			<groupId>io.opentelemetry</groupId>
+    			<artifactId>*</artifactId>
+    		</exclusion>
+    	</exclusions>
     </dependency>
     <dependency>
       <groupId>com.axonivy.ivy.test</groupId>
