@@ -20,7 +20,7 @@ pipeline {
               sh "gpg --batch --import ${env.GPG_FILE}"
               def dryRun = isReleaseBranch() ? '' : '-DdryRun=true'
               def args = "-Dmaven.test.skip=true -Dskip.gpg=false -Dgpg.passphrase='${env.GPG_PWD}'";
-              maven cmd: '--batch-mode ' + ${dryRun} + ' -Darguments="' + args + '" release:prepare' //release:perform
+              maven cmd: '--batch-mode ' + dryRun + ' -Darguments="' + args + '" release:prepare' //release:perform
 
               sh "touch test.txt"
               sh "git add ."
