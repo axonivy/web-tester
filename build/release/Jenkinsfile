@@ -23,6 +23,7 @@ pipeline {
               //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
 
               sh "touch test.txt"
+              sh "git add ."
               sh "git commit -a -m 'test'"
             }
 
