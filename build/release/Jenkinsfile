@@ -31,7 +31,7 @@ pipeline {
                 def message = "Release ${env.BRANCH_NAME}"
                 withCredentials([file(credentialsId: 'github-ivyteam-token-repo-manager', variable: 'tokenFile')]) {
                   sh "gh auth login --with-token < ${tokenFile}"
-                  sh 'gh pr create --title "title" --body "message" --header ' + targetBranch + ' --base ' + env.BRANCH_NAME
+                  sh 'gh pr create --title "title" --body "message" --head ' + targetBranch + ' --base ' + env.BRANCH_NAME
                 }
               }
             }
