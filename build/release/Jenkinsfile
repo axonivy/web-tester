@@ -21,6 +21,7 @@ pipeline {
               //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
 
               sh "touch test.txt"
+              sh "git commit -m 'test'"
             }
 
             sh "git config --global user.name 'ivy-team'"
