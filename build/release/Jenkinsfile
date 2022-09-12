@@ -25,8 +25,8 @@ pipeline {
             sh "git config --global user.email 'info@ivyteam.ch'"
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
+                sh "git push -u origin ${targetBranch}"
                 sh "git branch --set-upstream-to origin/${targetBranch}"
-                sh "git push"
               }
             }
 
