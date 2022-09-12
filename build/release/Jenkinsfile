@@ -29,14 +29,12 @@ pipeline {
                 //sh "git branch --set-upstream-to origin/${targetBranch}"
 
                 def message = "Release ${env.BRANCH_NAME}"
-                    withCredentials([file(credentialsId: 'github-ivyteam-token-repo-manager', variable: 'tokenFile')]) {
-                    sh "gh auth login --with-token < ${tokenFile}"
-                    sh 'gh pr create --title "${message}" --body "${message}" --base ' + ${env.BRANCH_NAME}
-                    }
+                withCredentials([file(credentialsId: 'github-ivyteam-token-repo-manager', variable: 'tokenFile')]) {
+                  sh "gh auth login --with-token < ${tokenFile}"
+                  sh 'gh pr create --title "${message}" --body "${message}" --base ' + env.BRANCH_NAME
+                }
               }
             }
-
-            
           }
         }
         archiveArtifacts '**/target/*.jar'
