@@ -23,7 +23,7 @@ pipeline {
               //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
 
               sh "touch test.txt"
-              sh "git commit -m 'test'"
+              sh "git commit -a -m 'test'"
             }
 
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
