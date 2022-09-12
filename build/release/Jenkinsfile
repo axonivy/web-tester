@@ -18,9 +18,9 @@ pipeline {
 
             withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
               sh "gpg --batch --import ${env.GPG_FILE}"
-              def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+              def dryRun = isReleaseBranch() ? '' : '-DdryRun=true'
               def args = "-Dmaven.test.skip=true -Dskip.gpg=false -Dgpg.passphrase='${env.GPG_PWD}'";
-              //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
+              maven cmd: '--batch-mode ' + ${dryRun} + ' -Darguments="' + args + '" release:prepare' //release:perform
 
               sh "touch test.txt"
               sh "git add ."
@@ -30,12 +30,10 @@ pipeline {
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
                 sh "git push -u origin ${targetBranch}"
-                //sh "git branch --set-upstream-to origin/${targetBranch}"
-
-                def message = "Release ${env.BRANCH_NAME}"
+                def message = "New release ${env.BRANCH_NAME}"
                 withCredentials([file(credentialsId: 'github-ivyteam-token-repo-manager', variable: 'tokenFile')]) {
                   sh "gh auth login --with-token < ${tokenFile}"
-                  sh 'gh pr create --title "title" --body "message" --head ' + targetBranch + ' --base ' + env.BRANCH_NAME
+                  sh "gh pr create --title '${message}' --body '${message}' --head ${targetBranch} --base ${env.BRANCH_NAME}"
                 }
               }
             }
@@ -47,6 +45,6 @@ pipeline {
   }
 }
 
-def isReleaseOrMasterBranch() {
-  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
+def isReleaseBranch() {
+  return env.BRANCH_NAME.startsWith('release/') 
 }
