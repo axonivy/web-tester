@@ -19,6 +19,8 @@ pipeline {
               def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
               def args = "-Dmaven.test.skip=true -Dskip.gpg=false -Dgpg.passphrase='${env.GPG_PWD}'";
               //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
+
+              sh "touch test.txt"
             }
 
             sh "git config --global user.name 'ivy-team'"
