@@ -20,7 +20,11 @@ pipeline {
               //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
             }
 
-            sh "git push -u origin ${targetBranch}"
+            sh "git config --global user.name 'ivy-team'"
+            sh "git config --global user.email 'info@ivyteam.ch'"
+            withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
+                sh "git push -u origin ${targetBranch}"
+            }
           }
         }
         archiveArtifacts '**/target/*.jar'
