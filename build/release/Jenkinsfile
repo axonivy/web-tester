@@ -15,7 +15,7 @@ pipeline {
 
             withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
               sh "gpg --batch --import ${env.GPG_FILE}"
-              def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+              def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
               def args = "-Dmaven.test.skip=true -Dskip.gpg=false -Dgpg.passphrase='${env.GPG_PWD}'";
               //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
             }
@@ -23,7 +23,9 @@ pipeline {
             sh "git config --global user.name 'ivy-team'"
             sh "git config --global user.email 'info@ivyteam.ch'"
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
+              sshagent(credentials: ['github-axonivy']) {
                 sh "git push -u origin ${targetBranch}"
+              }              
             }
           }
         }
@@ -31,4 +33,8 @@ pipeline {
       }
     }
   }
+}
+
+def isReleaseOrMasterBranch() {
+  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
 }
