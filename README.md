@@ -85,6 +85,8 @@ Since 9.4 is releasing only possible on a release branch.
 - Create release branch if it does not exist yet (release/X)
 - Run [release build](build/release/Jenkinsfile)
 - Merge Pull Request for next development iteration
+- Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
+  - In most repositories there is dependabot in charge
 
 ## Authors
 
