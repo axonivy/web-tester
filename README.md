@@ -78,6 +78,14 @@ class WebTest {
 * [primeui-tester](primeui-tester/CHANGELOG.md)
 * [unit-tester](unit-tester/CHANGELOG.md)
 
+## Release
+
+Since 9.4 is releasing only possible on a release branch.
+
+- Create release branch if it does not exist yet (release/X)
+- Run [release build](build/release/Jenkinsfile)
+- Merge Pull Request for next development iteration
+
 ## Authors
 
 [ivyTeam](https://developer.axonivy.com/)
