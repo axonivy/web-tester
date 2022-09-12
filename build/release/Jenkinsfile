@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '20'))
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        script {
+          
+
+          docker.build('maven .').inside("") {
+            def targetBranch = "release-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+            sh "git checkout -b ${targetBranch}"
+
+            withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
+              sh "gpg --batch --import ${env.GPG_FILE}"
+              def phase = env.BRANCH_NAME == 'master' ? 'deploy' : 'verify'
+              def args = "-Dmaven.test.skip=true -Dskip.gpg=false -Dgpg.passphrase='${env.GPG_PWD}'";
+              //maven cmd: '--batch-mode -Darguments="' + args + '" release:prepare' //release:perform
+            }
+          }
+        }
+        archiveArtifacts '**/target/*.jar'
+      }
+    }
+  }
+}
