@@ -80,11 +80,17 @@ class WebTest {
 
 ## Release
 
-Since 9.4 is releasing only possible on a release branch.
+Since 9.4: Releasing is only possible on a release branch.
 
-- Create release branch if it does not exist yet (release/X)
-- Run [release build](build/release/Jenkinsfile)
-- Merge Pull Request for next development iteration
+- Create a release branch if it does not exist yet (e.g. release/10.0)
+- Run the [release build](build/release/Jenkinsfile) on the release branch
+- Merge the Pull Request for next development iteration
+- Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
+- If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project:
+
+```bash
+mvn versions:set -DnewVersion=10.0.0-SNAPSHOT -DprocessAllModules -DgenerateBackupPoms=false
+```
 
 ## Authors
 
