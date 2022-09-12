@@ -6,9 +6,3 @@ updates:
       interval: daily
     assignees:
       - ivy-lli
-  - package-ecosystem: maven
-    directory: maven-config
-    schedule:
-      interval: daily
-    assignees:
-      - ivy-lli
