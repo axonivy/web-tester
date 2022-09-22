@@ -102,9 +102,9 @@ mvn versions:set -DnewVersion=10.0.0-SNAPSHOT -DprocessAllModules -DgenerateBack
 
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/badge/web--tester-9.3.0-green
+[0]: https://img.shields.io/badge/web--tester-9.4.1-green
 [1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/badge/primeui--tester-9.3.0-green
+[2]: https://img.shields.io/badge/primeui--tester-9.4.1-green
 [3]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[4]: https://img.shields.io/badge/unit--tester-9.3.0-green
+[4]: https://img.shields.io/badge/unit--tester-9.4.1-green
 [5]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
