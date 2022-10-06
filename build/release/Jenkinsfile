@@ -22,11 +22,12 @@ pipeline {
               sh "gpg --batch --import ${env.GPG_FILE}"
               def dryRun = isReleaseBranch() ? '' : '-DdryRun=true'
               def args = "-Dmaven.test.skip=true -Dskip.gpg=false -Dgpg.passphrase='${env.GPG_PWD}'";
-              maven cmd: '--batch-mode ' + dryRun + ' -Darguments="' + args + '" release:prepare release:perform'
+              maven cmd: '--batch-mode ' + dryRun + ' -Darguments="' + args + '" -DpushChanges=false -DlocalCheckout=true release:prepare release:perform'
             }
 
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
+                sh "git push origin --tags"
                 sh "git push -u origin ${targetBranch}"
                 def message = "Prepare for next development cycle (${env.BRANCH_NAME})"
                 withCredentials([file(credentialsId: 'github-ivyteam-token-repo-manager', variable: 'tokenFile')]) {
