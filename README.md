@@ -78,19 +78,32 @@ class WebTest {
 * [primeui-tester](primeui-tester/CHANGELOG.md)
 * [unit-tester](unit-tester/CHANGELOG.md)
 
-## Release
+## Release new version
+
+### Preparation
+
+* Update the badge versions in this file at the bottom
+* Check/Update the changelog files above
+
+### Release
 
 Since 9.4: Releasing is only possible on a release branch.
 
-- Create a release branch if it does not exist yet (e.g. release/10.0)
-- Run the [release build](build/release/Jenkinsfile) on the release branch
-- Merge the Pull Request for next development iteration
-- Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
-- If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project:
+* Create a release branch if it does not exist yet (e.g. release/10.0)
+* Run the [release build](build/release/Jenkinsfile) on the release branch
+* Merge the Pull Request for next development iteration
+* If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project:
 
 ```bash
 mvn versions:set -DnewVersion=10.0.0-SNAPSHOT -DprocessAllModules -DgenerateBackupPoms=false
 ```
+
+### Post-Release
+
+Wait until the maven central release is available: this may take several hours until it's fully distributed.
+
+* Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
+
 
 ## Authors
 
@@ -102,9 +115,9 @@ mvn versions:set -DnewVersion=10.0.0-SNAPSHOT -DprocessAllModules -DgenerateBack
 
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/badge/web--tester-9.4.1-green
+[0]: https://img.shields.io/badge/web--tester-10.0.0-green
 [1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/badge/primeui--tester-9.4.1-green
+[2]: https://img.shields.io/badge/primeui--tester-10.0.0-green
 [3]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[4]: https://img.shields.io/badge/unit--tester-9.4.1-green
+[4]: https://img.shields.io/badge/unit--tester-10.0.0-green
 [5]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/

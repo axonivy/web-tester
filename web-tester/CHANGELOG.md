@@ -1,5 +1,13 @@
 # Change Log (web-tester)
 
+## [10.0.0] - 2022-10-06
+
+### Changed
+
+- Upgrade selenide to 6.8.1
+
+## [9.4.1] - 2022-09-05
+
 ## [9.4.0] - 2022-09-05
 
 ### Changed
