@@ -28,6 +28,10 @@
     <url>git@github.com:axonivy/web-tester.git</url>
   </scm>
 
+  <name>web-config</name>
+  <description>Parent POM for all web-tester artifacts</description>
+  <url>https://github.com/axonivy/web-tester</url>
+
   <organization>
     <name>The open source community of Axon Ivy</name>
     <url>https://github.com/ivy-supplements</url>
