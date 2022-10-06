@@ -20,6 +20,12 @@
     <module>unit-tester</module>
   </modules>
 
+  <scm>
+    <connection>scm:git:git@github.com:axonivy/web-tester.git</connection>
+    <developerConnection>scm:git:git@github.com:axonivy/web-tester.git</developerConnection>
+    <url>git@github.com:axonivy/web-tester.git</url>
+  </scm>
+
   <build>
     <plugins>
       <plugin>
