@@ -100,6 +100,7 @@
         <version>3.4.1</version>
         <configuration>
           <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+          <doclint>all,-missing</doclint>
         </configuration>
         <executions>
           <execution>
