@@ -1,5 +1,11 @@
 # Change Log (web-tester)
 
+## [11.1.0] - 2023-04-19
+
+### Changed
+
+- Upgrade selenide to 6.13.0
+
 ## [10.0.0] - 2022-10-06
 
 ### Changed
