@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2021 Axon Ivy AG
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -22,11 +22,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
+import com.axonivy.ivy.webtest.engine.WebAppFixture;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 
-class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback {
+class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback, ParameterResolver {
 
   static final String BROWSER_DEFAULT = "firefox";
   static final boolean HEADLESS_DEFAULT = true;
@@ -68,6 +71,16 @@ class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback {
 
   private Optional<IvyWebTest> findAnnotation(ExtensionContext context) {
     return context.getTestClass().map(c -> c.getAnnotation(IvyWebTest.class));
+  }
+
+  @Override
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    return parameterContext.getParameter().getType().isAssignableFrom(WebAppFixture.class);
+  }
+
+  @Override
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    return new WebAppFixture();
   }
 
 }

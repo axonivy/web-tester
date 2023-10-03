@@ -9,6 +9,10 @@ pipeline {
     cron '@midnight'
   }
 
+  parameters {
+    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url')
+  }
+
   stages {
     stage('build') {
       steps {
@@ -22,11 +26,12 @@ pipeline {
               docker.build('maven').inside("--network ${networkName}") {
                 withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
                   sh "gpg --batch --import ${env.GPG_FILE}"
-                  def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'                  
-                  maven cmd: "clean ${phase} " +                   
+                  def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+                  maven cmd: "clean ${phase} " +
                     "-Dmaven.test.failure.ignore=true " +
+                    "-Dengine.page.url=${params.engineSource} " +
                     "-Dskip.gpg=false " +
-                    "-Dgpg.passphrase='${env.GPG_PWD}' " +                    
+                    "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dselenide.remote=http://${seleniumName}:4444/wd/hub "
                 }
               }
@@ -36,9 +41,9 @@ pipeline {
           }
         }
         archiveArtifacts '**/target/*.jar'
-        junit '**/target/surefire-reports/**/*.xml'
+        junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: '**/target/*-reports/**/*.xml'
         recordIssues tools: [mavenConsole(), eclipse(), javaDoc()], unstableTotalAll: 1, filters: [
-          excludeMessage('.*JAR will be empty.*'), // for unit tester          
+          excludeMessage('.*JAR will be empty.*'), // for unit tester
         ]
       }
     }

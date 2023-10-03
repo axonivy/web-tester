@@ -1,5 +1,12 @@
 # Change Log (web-tester)
 
+## [10.0.14] - 
+
+### Added
+
+- Add WebAppFixture util for login and config fixtures
+  An Axon Ivy Engine in version 10.0.14 is at least needed for all fixtures
+
 ## [10.0.0] - 2022-10-06
 
 ### Changed

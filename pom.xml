@@ -4,12 +4,12 @@
   <parent>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-config</artifactId>
-    <version>10.0.1-SNAPSHOT</version>
+    <version>10.0.14-SNAPSHOT</version>
     <relativePath>maven-config</relativePath>
   </parent>
 
   <artifactId>web-module</artifactId>
-  <version>10.0.1-SNAPSHOT</version>
+  <version>10.0.14-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -17,6 +17,7 @@
     <module>primeui-tester</module>
     <module>web-tester</module>
     <module>web-tester-product</module>
+    <module>web-tester-fixture</module>
     <module>unit-tester</module>
   </modules>
 
