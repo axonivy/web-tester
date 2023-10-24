@@ -1,5 +1,16 @@
 # Change Log (web-tester)
 
+## [11.2.0] - 
+
+### Added
+
+- Add WebAppFixture util for login and config fixtures
+  An Axon Ivy Engine in version 10.0.14 is at least needed for all fixtures
+
+### Changed
+
+- Upgrade selenide to 6.19.0
+
 ## [11.1.0] - 2023-04-19
 
 ### Changed
