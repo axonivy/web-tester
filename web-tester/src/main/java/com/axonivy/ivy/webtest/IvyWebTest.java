@@ -48,7 +48,7 @@ import com.codeborne.selenide.WebDriverRunner;
  * @see Selenide#open() use 'open' to browse a webpage
  * @see Selenide#$ use '$' to get an element by a select
  * @see Selenide#$$ use '$$' to get all elements found by a selector
- * @see SelenideElement#should(com.codeborne.selenide.Condition...) use
+ * @see SelenideElement#should(com.codeborne.selenide.WebElementCondition...) use
  *      '$.should()' to test element
  */
 @Retention(RUNTIME)

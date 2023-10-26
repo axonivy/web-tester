@@ -21,9 +21,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 import org.openqa.selenium.By;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 
 public class Table {
   private final String tableId;
@@ -76,14 +76,14 @@ public class Table {
   }
 
   /**
-   * @deprecated use {@link #valueAtShouldBe(int, int, Condition)} instead.
+   * @deprecated use {@link #valueAtShouldBe(int, int, WebElementCondition)} instead.
    * @param row row
    * @param column column
    * @param condition condition
    * @return table
    */
   @Deprecated
-  public Table valueAtShoudBe(int row, int column, Condition condition) {
+  public Table valueAtShoudBe(int row, int column, WebElementCondition condition) {
     return valueAtShouldBe(row, column, condition);
   }
 
@@ -94,7 +94,7 @@ public class Table {
    * @param condition condition
    * @return table
    */
-  public Table valueAtShouldBe(int row, int column, Condition condition) {
+  public Table valueAtShouldBe(int row, int column, WebElementCondition condition) {
     row(row).find("td", column).shouldBe(condition);
     return this;
   }

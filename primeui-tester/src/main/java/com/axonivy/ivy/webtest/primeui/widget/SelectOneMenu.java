@@ -24,8 +24,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 import org.openqa.selenium.By;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 
 public class SelectOneMenu {
   private final String oneMenuId;
@@ -67,7 +67,7 @@ public class SelectOneMenu {
    * @param condition condition
    * @return SelectOneMenu
    */
-  public SelectOneMenu selectedItemShould(Condition condition) {
+  public SelectOneMenu selectedItemShould(WebElementCondition condition) {
     selectLabel().should(condition);
     return this;
   }
