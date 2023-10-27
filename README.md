@@ -115,9 +115,9 @@ Wait until the maven central release is available: this may take several hours u
 
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/badge/web--tester-11.1.0-green
+[0]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=11&label=web-tester&color=green&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
 [1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/badge/primeui--tester-11.1.0-green
+[2]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=11&label=primeui-tester&color=green&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
 [3]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[4]: https://img.shields.io/badge/unit--tester-11.1.0-green
+[4]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=11&label=unit-tester&color=green&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
 [5]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
