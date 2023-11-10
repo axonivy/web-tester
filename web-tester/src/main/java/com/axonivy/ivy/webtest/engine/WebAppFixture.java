@@ -21,11 +21,12 @@ import static com.codeborne.selenide.Selenide.open;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -126,8 +127,8 @@ public class WebAppFixture {
    */
   public void var(String name, String value) {
     try {
-      var url = configRestUrl(VAR_PATH + "/" + name) + "?value=" + value;
-      sendRequest(HttpRequest.newBuilder(new URI(url)).POST(BodyPublishers.noBody()));
+      var url = configRestUrl().path(VAR_PATH).path(name).build();
+      sendRequest(HttpRequest.newBuilder(url).POST(BodyPublishers.ofString(value)));
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't set variable", ex);
     }
@@ -147,8 +148,8 @@ public class WebAppFixture {
    */
   public void resetVar(String name) {
     try {
-      var url = configRestUrl(VAR_PATH + "/" + name);
-      sendRequest(HttpRequest.newBuilder(new URI(url)).DELETE());
+      var url = configRestUrl().path(VAR_PATH).path(name).build();
+      sendRequest(HttpRequest.newBuilder(url).DELETE());
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't remove variable", ex);
     }
@@ -167,8 +168,8 @@ public class WebAppFixture {
    */
   public void config(String name, String value) {
     try {
-      var url = configRestUrl(CONFIG_PATH + "/" + name) + "?value=" + value;
-      sendRequest(HttpRequest.newBuilder(new URI(url)).POST(BodyPublishers.noBody()));
+      var url = configRestUrl().path(CONFIG_PATH).path(name).build();
+      sendRequest(HttpRequest.newBuilder(url).POST(BodyPublishers.ofString(value)));
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't set config", ex);
     }
@@ -188,15 +189,15 @@ public class WebAppFixture {
    */
   public void resetConfig(String name) {
     try {
-      var url = configRestUrl(CONFIG_PATH + "/" + name);
-      sendRequest(HttpRequest.newBuilder(new URI(url)).DELETE());
+      var url = configRestUrl().path(CONFIG_PATH).path(name).build();
+      sendRequest(HttpRequest.newBuilder(url).DELETE());
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't remove config", ex);
     }
   }
 
-  private static String configRestUrl(String path) {
-    return EngineUrl.create().app("system").rest("apps/" + EngineUrl.applicationName() + "/" + path).toUrl();
+  private static UriBuilder configRestUrl() {
+    return EngineUrl.create().app("system").rest("apps").builder().path(EngineUrl.applicationName());
   }
 
   private void sendRequest(HttpRequest.Builder requestBuilder) throws Exception {
