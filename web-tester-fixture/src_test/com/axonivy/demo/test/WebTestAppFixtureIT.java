@@ -44,9 +44,9 @@ class WebTestAppFixtureIT {
 
   @Test
   void config(WebAppFixture fixture) {
-    fixture.config("Variables.myVar", "hello");
+    fixture.config("Variables.myVar", "$%7Bivy.api.base%7D/hello");
     open(EngineUrl.createProcessUrl("web-tester-fixture/18AF4518F82DE6AD/start.ivp"));
-    assertVariable("hello");
+    assertVariable("${ivy.api.base}/hello");
 
     fixture.resetConfig("Variables.myVar");
     Selenide.refresh();
