@@ -61,8 +61,7 @@ class TestEngineUrl {
     assertThat(
             EngineUrl.create().base("http://base").app("app").servlet(SERVLET.PROCESS).path("path").toUrl())
                     .isEqualTo("http://base/app/pro/path");
-    assertThat(EngineUrl.create().base("http://base/").app("/app/").servlet(SERVLET.PROCESS).path("/path/")
-            .toUrl())
-                    .isEqualTo("http://base/app/pro/path");
+    assertThat(EngineUrl.create().base("http://base/").app("/app/").servlet(SERVLET.PROCESS).path("/path/").toUrl())
+            .isEqualTo("http://base/app/pro/path/");
   }
 }

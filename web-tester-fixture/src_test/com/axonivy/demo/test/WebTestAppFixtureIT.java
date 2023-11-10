@@ -33,9 +33,9 @@ class WebTestAppFixtureIT {
 
   @Test
   void variable(WebAppFixture fixture) {
-    fixture.var("myVar", "hello");
+    fixture.var("myVar", "{hello}");
     open(EngineUrl.createProcessUrl("web-tester-fixture/18AF06DD4E1A49B8/start.ivp"));
-    assertVariable("hello");
+    assertVariable("{hello}");
 
     fixture.resetVar("myVar");
     Selenide.refresh();
@@ -44,9 +44,9 @@ class WebTestAppFixtureIT {
 
   @Test
   void config(WebAppFixture fixture) {
-    fixture.config("Variables.myVar", "hello");
+    fixture.config("Variables.myVar", "${ivy.api.base}/hello");
     open(EngineUrl.createProcessUrl("web-tester-fixture/18AF06DD4E1A49B8/start.ivp"));
-    assertVariable("hello");
+    assertVariable("${ivy.api.base}/hello");
 
     fixture.resetConfig("Variables.myVar");
     Selenide.refresh();
