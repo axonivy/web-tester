@@ -15,12 +15,7 @@
  */
 package com.axonivy.ivy.webtest.engine;
 
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.StringUtils;
+import javax.ws.rs.core.UriBuilder;
 
 /**
  * This is a Util to build URLs against the designer (localhost:8081) or a test
@@ -40,7 +35,6 @@ public class EngineUrl {
     }
   }
 
-  public static final String SLASH = "/";
   public static final String TEST_ENGINE_APP = "test.engine.app";
   public static final String TEST_ENGINE_URL = BaseEngineUrl.TEST_ENGINE_URL;
   public static final String DESIGNER = "designer";
@@ -48,7 +42,7 @@ public class EngineUrl {
   private String base;
   private String app;
   private SERVLET servlet;
-  private String path;
+  private String path = "";
 
   private EngineUrl() {
     this.base = base();
@@ -136,10 +130,14 @@ public class EngineUrl {
   }
 
   public String toUrl() {
-    return Stream.of(trim(base), trim(app), trim(getServletPath()), trim(path))
-            .filter(Objects::nonNull)
-            .filter(Predicate.not(String::isEmpty))
-            .collect(Collectors.joining(SLASH));
+    return builder().toString();
+  }
+
+  UriBuilder builder() {
+    return UriBuilder.fromUri(base)
+            .path(app)
+            .path(getServletPath())
+            .path(path);
   }
 
   private String getServletPath() {
@@ -147,10 +145,6 @@ public class EngineUrl {
       return servlet.path;
     }
     return "";
-  }
-
-  private static String trim(String base) {
-    return StringUtils.removeStart(StringUtils.removeEnd(base, SLASH), SLASH);
   }
 
   /**

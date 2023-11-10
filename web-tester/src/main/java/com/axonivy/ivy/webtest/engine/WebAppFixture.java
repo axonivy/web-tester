@@ -19,11 +19,12 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,6 +57,9 @@ import com.codeborne.selenide.Selenide;
  * @since 10.0.14
  */
 public class WebAppFixture {
+
+  private static final String VAR_PATH = "var";
+  private static final String CONFIG_PATH = "config";
 
   /**
    * <p>Login to a user.
@@ -121,8 +125,11 @@ public class WebAppFixture {
    */
   public void var(String name, String value) {
     try {
-      var url = EngineUrl.create().rest("webtest/var").toUrl() + "?name=" + name + "&value=" + value;
-      sendRequest(HttpRequest.newBuilder(new URI(url)).POST(BodyPublishers.noBody()));
+      var url = configRestUrl().path(VAR_PATH)
+              .queryParam("name", name)
+              .queryParam("value", value)
+              .build();
+      sendRequest(HttpRequest.newBuilder(url).POST(BodyPublishers.noBody()));
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't set variable", ex);
     }
@@ -142,8 +149,10 @@ public class WebAppFixture {
    */
   public void resetVar(String name) {
     try {
-      var url = EngineUrl.create().rest("webtest/var").toUrl() + "?name=" + name;
-      sendRequest(HttpRequest.newBuilder(new URI(url)).DELETE());
+      var url = configRestUrl().path(VAR_PATH)
+              .queryParam("name", name)
+              .build();
+      sendRequest(HttpRequest.newBuilder(url).DELETE());
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't remove variable", ex);
     }
@@ -162,8 +171,11 @@ public class WebAppFixture {
    */
   public void config(String name, String value) {
     try {
-      var url = EngineUrl.create().rest("webtest/config").toUrl() + "?key=" + name + "&value=" + value;
-      sendRequest(HttpRequest.newBuilder(new URI(url)).POST(BodyPublishers.noBody()));
+      var url = configRestUrl().path(CONFIG_PATH)
+              .queryParam("key", name)
+              .queryParam("value", value)
+              .build();
+      sendRequest(HttpRequest.newBuilder(url).POST(BodyPublishers.noBody()));
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't set config", ex);
     }
@@ -183,11 +195,17 @@ public class WebAppFixture {
    */
   public void resetConfig(String name) {
     try {
-      var url = EngineUrl.create().rest("webtest/config").toUrl() + "?key=" + name;
-      sendRequest(HttpRequest.newBuilder(new URI(url)).DELETE());
+      var url = configRestUrl().path(CONFIG_PATH)
+              .queryParam("key", name)
+              .build();
+      sendRequest(HttpRequest.newBuilder(url).DELETE());
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't remove config", ex);
     }
+  }
+
+  private static UriBuilder configRestUrl() {
+    return EngineUrl.create().rest("webtest").builder();
   }
 
   private void sendRequest(HttpRequest.Builder requestBuilder) throws Exception {
