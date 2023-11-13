@@ -61,7 +61,17 @@ class TestEngineUrl {
     assertThat(
             EngineUrl.create().base("http://base").app("app").servlet(SERVLET.PROCESS).path("path").toUrl())
                     .isEqualTo("http://base/app/pro/path");
-    assertThat(EngineUrl.create().base("http://base/").app("/app/").servlet(SERVLET.PROCESS).path("/path/").toUrl())
-            .isEqualTo("http://base/app/pro/path/");
+    assertThat(EngineUrl.create().base("http://base/").app("/app/").servlet(SERVLET.PROCESS).path("/path/")
+            .toUrl()).isEqualTo("http://base/app/pro/path/");
+  }
+
+  @Test
+  void queryParam() {
+    String baseUrl = "http://www.axonivy.com:8080/ivy/";
+    String app = "test";
+    System.setProperty(EngineUrl.TEST_ENGINE_URL, baseUrl);
+    System.setProperty(EngineUrl.TEST_ENGINE_APP, app);
+    var url = EngineUrl.create().staticView("abc.xhtml").queryParam("userName", "crazy user").toUrl();
+    assertThat(url).isEqualTo(baseUrl + app + "/faces/view/abc.xhtml?userName=crazy+user");
   }
 }
