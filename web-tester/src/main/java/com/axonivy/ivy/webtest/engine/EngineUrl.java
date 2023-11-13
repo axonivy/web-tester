@@ -15,6 +15,9 @@
  */
 package com.axonivy.ivy.webtest.engine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.core.UriBuilder;
 
 /**
@@ -24,6 +27,7 @@ import javax.ws.rs.core.UriBuilder;
  * To run a test engine have a look at the project-build-plugin:
  * https://github.com/axonivy/project-build-plugin
  */
+@SuppressWarnings("hiding")
 public class EngineUrl {
   public static enum SERVLET {
     PROCESS("pro"), REST("api"), WEBSERVICE("ws"), STATIC_VIEW("faces/view"), CASEMAP("casemap");
@@ -43,6 +47,7 @@ public class EngineUrl {
   private String app;
   private SERVLET servlet;
   private String path = "";
+  private List<QueryParam> queryParams = new ArrayList<>();
 
   private EngineUrl() {
     this.base = base();
@@ -89,43 +94,48 @@ public class EngineUrl {
     return create().caseMap(path).toUrl();
   }
 
-  public EngineUrl base(@SuppressWarnings("hiding") String base) {
+  public EngineUrl base(String base) {
     this.base = base;
     return this;
   }
 
-  public EngineUrl app(@SuppressWarnings("hiding") String app) {
+  public EngineUrl app(String app) {
     this.app = app;
     return this;
   }
 
-  public EngineUrl process(@SuppressWarnings("hiding") String path) {
+  public EngineUrl process(String path) {
     return this.servlet(SERVLET.PROCESS).path(path);
   }
 
-  public EngineUrl rest(@SuppressWarnings("hiding") String path) {
+  public EngineUrl rest(String path) {
     return this.servlet(SERVLET.REST).path(path);
   }
 
-  public EngineUrl webService(@SuppressWarnings("hiding") String path) {
+  public EngineUrl webService(String path) {
     return this.servlet(SERVLET.WEBSERVICE).path(path);
   }
 
-  public EngineUrl staticView(@SuppressWarnings("hiding") String path) {
+  public EngineUrl staticView(String path) {
     return this.servlet(SERVLET.STATIC_VIEW).path(path);
   }
 
-  public EngineUrl caseMap(@SuppressWarnings("hiding") String path) {
+  public EngineUrl caseMap(String path) {
     return this.servlet(SERVLET.CASEMAP).path(path);
   }
 
-  public EngineUrl servlet(@SuppressWarnings("hiding") SERVLET servlet) {
+  public EngineUrl servlet(SERVLET servlet) {
     this.servlet = servlet;
     return this;
   }
 
-  public EngineUrl path(@SuppressWarnings("hiding") String path) {
+  public EngineUrl path(String path) {
     this.path = path;
+    return this;
+  }
+
+  public EngineUrl queryParam(String key, String value) {
+    this.queryParams.add(new QueryParam(key, value));
     return this;
   }
 
@@ -134,10 +144,14 @@ public class EngineUrl {
   }
 
   UriBuilder builder() {
-    return UriBuilder.fromUri(base)
+    var builder = UriBuilder.fromUri(base)
             .path(app)
             .path(getServletPath())
             .path(path);
+    for (var queryParam : queryParams) {
+      builder = builder.queryParam(queryParam.key, queryParam.value);
+    }
+    return builder;
   }
 
   private String getServletPath() {
@@ -223,4 +237,6 @@ public class EngineUrl {
   public static Boolean isDesigner() {
     return Boolean.valueOf(applicationName() == DESIGNER);
   }
+
+  private static record QueryParam(String key, String value) {}
 }
