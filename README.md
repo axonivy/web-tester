@@ -74,16 +74,14 @@ class WebTest {
 
 ## Changelog
 
-* [web-tester](web-tester/CHANGELOG.md)
-* [primeui-tester](primeui-tester/CHANGELOG.md)
-* [unit-tester](unit-tester/CHANGELOG.md)
+* [Changelog](CHANGELOG.md)
 
 ## Release new version
 
 ### Preparation
 
 * Update the badge versions in this file at the bottom
-* Check/Update the changelog files above
+* Check/Update the changelog file above
 
 ### Release
 
