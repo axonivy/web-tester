@@ -28,6 +28,7 @@ pipeline {
                   sh "gpg --batch --import ${env.GPG_FILE}"
                   def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
                   maven cmd: "clean ${phase} " +
+                    "-f pom.test.xml " +
                     "-Dmaven.test.failure.ignore=true " +
                     "-Dengine.page.url=${params.engineSource} " +
                     "-Dskip.gpg=false " +
