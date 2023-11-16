@@ -1,5 +1,10 @@
 # Changelog
 
+## [11.2.1] - 2023-11-16
+
+**Breaking Change:** If you use the EngineUrl#path method with a query parameter, an IllegalArgumentException will be thrown.
+Please use the EngineUrl#queryParam method instead.
+
 ## [11.2.0] - 2023-11-15
 
 ### Added
