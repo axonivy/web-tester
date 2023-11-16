@@ -20,6 +20,8 @@ import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * This is a Util to build URLs against the designer (localhost:8081) or a test
  * engine.
@@ -75,23 +77,28 @@ public class EngineUrl {
   }
 
   public static String createProcessUrl(String path) {
-    return create().process(path).toUrl();
+    var parts = splitQueryFromPath(path);
+    return create().process(parts.path).toUrl() + parts.query;
   }
 
   public static String createRestUrl(String path) {
-    return create().rest(path).toUrl();
+    var parts = splitQueryFromPath(path);
+    return create().rest(parts.path).toUrl() + parts.query;
   }
 
   public static String createWebServiceUrl(String path) {
-    return create().webService(path).toUrl();
+    var parts = splitQueryFromPath(path);
+    return create().webService(parts.path).toUrl() + parts.query;
   }
 
   public static String createStaticViewUrl(String path) {
-    return create().staticView(path).toUrl();
+    var parts = splitQueryFromPath(path);
+    return create().staticView(parts.path).toUrl() + parts.query;
   }
 
   public static String createCaseMapUrl(String path) {
-    return create().caseMap(path).toUrl();
+    var parts = splitQueryFromPath(path);
+    return create().caseMap(parts.path).toUrl() + parts.query;
   }
 
   public EngineUrl base(String base) {
@@ -130,6 +137,9 @@ public class EngineUrl {
   }
 
   public EngineUrl path(String path) {
+    if (StringUtils.contains(path, "?")) {
+      throw new IllegalArgumentException("Adding query parameters via the path method will not work, please use the queryParam method or encode the '?' with '%3F'.");
+    }
     this.path = path;
     return this;
   }
@@ -159,6 +169,18 @@ public class EngineUrl {
       return servlet.path;
     }
     return "";
+  }
+
+  private static PathAndQuery splitQueryFromPath(String pathWithQuery) {
+    if (pathWithQuery == null) {
+      return new PathAndQuery("", "");
+    }
+    var path = StringUtils.substringBefore(pathWithQuery, "?");
+    var query = StringUtils.substringAfter(pathWithQuery, "?");
+    if (query.length() > 0) {
+      query = "?" + query;
+    }
+    return new PathAndQuery(path, query);
   }
 
   /**
@@ -239,4 +261,5 @@ public class EngineUrl {
   }
 
   private static record QueryParam(String key, String value) {}
+  private static record PathAndQuery(String path, String query) {}
 }
