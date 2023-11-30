@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebElementCondition;
 
 public class InputNumber {
 
@@ -34,7 +34,7 @@ public class InputNumber {
    * @param condition condition which will be asserted
    * @return input number
    */
-  public InputNumber should(Condition condition) {
+  public InputNumber should(WebElementCondition condition) {
     $(By.id(inputNumberId)).should(condition);
     return this;
   }

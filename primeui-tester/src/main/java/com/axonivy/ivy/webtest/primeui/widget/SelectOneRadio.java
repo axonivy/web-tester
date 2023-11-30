@@ -24,6 +24,7 @@ import org.openqa.selenium.By;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebElementCondition;
 
 public class SelectOneRadio {
   private final String oneRadioId;
@@ -70,7 +71,7 @@ public class SelectOneRadio {
    * @param condition condition
    * @return SelectOneRadio
    */
-  public SelectOneRadio selectedValueShouldBe(Condition condition) {
+  public SelectOneRadio selectedValueShouldBe(WebElementCondition condition) {
     $(By.id(oneRadioId)).findAll(".ui-radiobutton-box").find(Condition.cssClass("ui-state-active"))
             .parent().find("div > input").shouldBe(condition);
     return this;
