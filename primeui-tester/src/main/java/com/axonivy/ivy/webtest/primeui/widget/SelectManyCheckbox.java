@@ -25,10 +25,10 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.WebElementsCondition;
 import com.codeborne.selenide.impl.WebElementsCollectionWrapper;
 
 public class SelectManyCheckbox {
@@ -39,7 +39,7 @@ public class SelectManyCheckbox {
   }
 
   /**
-   * @deprecated use {@link #shouldBe(CollectionCondition)} instead, so you will
+   * @deprecated use {@link #shouldBe(WebElementsCondition)} instead, so you will
    *             get a screenshot on failure.
    * @return checkboxes
    */
@@ -56,7 +56,7 @@ public class SelectManyCheckbox {
    * @param condition condition
    * @return SelectManyCheckbox
    */
-  public SelectManyCheckbox shouldBe(CollectionCondition condition) {
+  public SelectManyCheckbox shouldBe(WebElementsCondition  condition) {
     var elements = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box")
             .filter(cssClass("ui-state-active"))
             .asDynamicIterable().stream().map(e -> e.parent().parent().find("label"))
