@@ -43,7 +43,7 @@ pipeline {
         }
         archiveArtifacts '**/target/*.jar'
         junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: '**/target/*-reports/**/*.xml'
-        recordIssues tools: [mavenConsole(), eclipse(), javaDoc()], unstableTotalAll: 1, filters: [
+        recordIssues tools: [mavenConsole(), eclipse(), javaDoc()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
           excludeMessage('.*JAR will be empty.*'), // for unit tester          
         ]
       }
