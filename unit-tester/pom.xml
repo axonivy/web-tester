@@ -4,13 +4,13 @@
   <parent>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-config</artifactId>
-    <version>10.0.15</version>
+    <version>10.0.16-SNAPSHOT</version>
     <relativePath>../maven-config</relativePath>
   </parent>
 
   <groupId>com.axonivy.ivy.test</groupId>
   <artifactId>unit-tester</artifactId>
-  <version>10.0.15</version>
+  <version>10.0.16-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>unit-tester</name>
