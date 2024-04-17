@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>web-tester-fixture</artifactId>
-  <version>10.0.16-SNAPSHOT</version>
+  <version>10.0.17-SNAPSHOT</version>
   <packaging>iar-integration-test</packaging>
   <properties>
     <project.build.plugin.version>10.0.14</project.build.plugin.version>
