@@ -1,5 +1,14 @@
 # Change Log (web-tester)
 
+## [10.0.16] - 2024-04-17
+
+### Added
+
+- Add EngineUrl#queryParam method: This was needed due to the change in 10.0.14, which encoded query parameters if they were added via the EngineUrl#path method.
+
+**Breaking Change:** If you use the EngineUrl#path method with a query parameter, an IllegalArgumentException will be thrown.
+Please use the EngineUrl#queryParam method instead.
+
 ## [10.0.15] - 2024-04-16
 
 ### Changed
@@ -70,6 +79,6 @@ base URL of your running Axon Ivy Engine (**EngineUrl**).
 #### Change Log notes
 
 All notable changes to this project will be documented in this file.
- 
+
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
