@@ -1,5 +1,11 @@
 # Changelog
 
+## [11.3.0] - 2024-05-02
+
+### Changed
+
+- Upgrade selenide to 7.3.1
+
 ## [11.2.1] - 2023-11-16
 
 **Breaking Change:** If you use the EngineUrl#path method with a query parameter, an IllegalArgumentException will be thrown.
