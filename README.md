@@ -89,10 +89,10 @@ Since 9.4: Releasing is only possible on a release branch.
 * Create a release branch if it does not exist yet (e.g. release/10.0)
 * Run the [release build](build/release/Jenkinsfile) on the release branch
 * Merge the Pull Request for next development iteration
-* If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project:
+* If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project (adjust version number accordingly):
 
 ```bash
-mvn versions:set -DnewVersion=10.0.0-SNAPSHOT -DprocessAllModules -DgenerateBackupPoms=false
+.ivy/raise-version.sh 10.0.0-SNAPSHOT
 ```
 
 ### Post-Release
