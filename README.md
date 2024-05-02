@@ -80,7 +80,6 @@ class WebTest {
 
 ### Preparation
 
-* Update the badge versions in this file at the bottom
 * Check/Update the changelog file above
 
 ### Release
