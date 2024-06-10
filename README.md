@@ -74,7 +74,7 @@ class WebTest {
 
 ## Changelog
 
-* [Changelog](CHANGELOG.md)
+* See the [Releases](https://github.com/axonivy/web-tester/releases)
 
 ## Release new version
 
@@ -99,8 +99,12 @@ Since 9.4: Releasing is only possible on a release branch.
 
 Wait until the maven central release is available: this may take several hours until it's fully distributed.
 
-* Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
-
+- Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
+- Publish the latest [draft release](https://github.com/axonivy/web-tester/releases) do preserve the current changelog.
+  - Select the tag which was created for this release by the release-pipeline
+  - Verify that the title is correct
+  - Set the release as 'latest release'
+  - Publish it
 
 ## Authors
 
