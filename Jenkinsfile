@@ -31,6 +31,7 @@ pipeline {
                     "-f pom.test.xml " +
                     "-Dmaven.test.failure.ignore=true " +
                     "-Dengine.page.url=${params.engineSource} " +
+                    "-Divy.engine.version.latest.minor=true " +
                     "-Dskip.gpg=false " +
                     "-Dgpg.passphrase='${env.GPG_PWD}' " +
                     "-Dselenide.remote=http://${seleniumName}:4444/wd/hub "
