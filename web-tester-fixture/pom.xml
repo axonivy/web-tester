@@ -24,10 +24,9 @@
       <plugin>
         <groupId>com.axonivy.ivy.ci</groupId>
         <artifactId>project-build-plugin</artifactId>
-        <version>11.2.0-SNAPSHOT</version>
+        <version>11.3.0-SNAPSHOT</version>
         <extensions>true</extensions>
         <configuration>
-          <ivyVersion>[11.1.0,12.0.0)</ivyVersion>
           <engineListPageUrl>${engine.page.url}</engineListPageUrl>
         </configuration>
       </plugin>
