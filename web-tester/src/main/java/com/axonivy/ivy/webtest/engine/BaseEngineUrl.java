@@ -32,6 +32,7 @@ import com.codeborne.selenide.Configuration;
  */
 class BaseEngineUrl {
 
+  private static final String DEFAULT_URL = "http://localhost:8081/";
   static final String TEST_ENGINE_URL = "test.engine.url";
 
   static String url() {
@@ -39,7 +40,11 @@ class BaseEngineUrl {
   }
 
   private String evaluate() {
-    var engineUrl = System.getProperty(TEST_ENGINE_URL, "http://localhost:8081/");
+    var engineUrl = System.getProperty(TEST_ENGINE_URL);
+    if (engineUrl == null || engineUrl.isBlank()) {
+      System.err.println("Missing system property '"+TEST_ENGINE_URL+"' falling back to '"+DEFAULT_URL+"'.");
+      engineUrl = DEFAULT_URL;
+    }
     try {
       return evaluate(engineUrl);
     } catch(Exception ex) {
