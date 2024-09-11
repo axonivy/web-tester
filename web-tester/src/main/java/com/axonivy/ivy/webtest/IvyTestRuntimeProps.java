@@ -20,7 +20,9 @@ class IvyTestRuntimeProps {
     var props = new Properties();
     ClassLoader loader = IvyWebTestExtension.class.getClassLoader();
     try(var in = loader.getResourceAsStream(RT_PROPS)) {
-      props.load(in);
+      if (in != null) {
+        props.load(in);
+      }
     } catch (Exception ex) {
       System.err.println("Failed to read properties " + RT_PROPS);
       ex.printStackTrace();
