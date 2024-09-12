@@ -19,12 +19,11 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Base64;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -201,20 +200,18 @@ public class WebAppFixture {
   }
 
   private void sendRequest(HttpRequest.Builder requestBuilder) throws Exception {
-    var client = HttpClient.newBuilder()
-            .authenticator(new RestConfigAuthentication())
-            .build();
-    var request = requestBuilder.header("X-Requested-By", "webtest").build();
+    var client = HttpClient.newBuilder().build();
+    var request = requestBuilder
+      .header("Authorization", basicAuth("admin", "admin"))
+      .header("X-Requested-By", "webtest").build();
     var response = client.send(request, BodyHandlers.ofString());
     if (response.statusCode() > 399) {
       throw new RuntimeException("Couldn't send web app fixture request (status code: " + response.statusCode() + "): " + response.body());
     }
   }
 
-  private static class RestConfigAuthentication extends Authenticator {
-    @Override
-    protected PasswordAuthentication getPasswordAuthentication() {
-      return new PasswordAuthentication("admin", "admin".toCharArray());
-    }
+  private static final String basicAuth(String username, String password) {
+    var value = username + ":" + password;
+    return "Basic " + Base64.getEncoder().encodeToString(value.getBytes());
   }
 }
