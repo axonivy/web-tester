@@ -4,7 +4,7 @@ on:
   push:
     # branches to consider in the event; optional, defaults to all
     branches:
-      - master
+      - release/12.0
   # pull_request event is required only for autolabeler
   pull_request:
     # Only following types are handled by the action, but one can default to all as well
@@ -29,6 +29,6 @@ jobs:
       - uses: release-drafter/release-drafter@v6
         with:
           # reference to template from 'master'
-          config-name: release-drafter.yml
+          config-name: release-drafter-lts12.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
