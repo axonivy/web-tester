@@ -1,0 +1,42 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '20'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        script {
+          if (isReleaseOrMasterBranch()) {
+            docker.build('maven').inside() {
+              maven cmd: "org.cyclonedx:cyclonedx-maven-plugin:makeBom -DincludeLicenseText=true -DoutputFormat=json"
+              withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
+                def components = ["unit-tester", "primeui-tester", "web-tester"]
+                for (component in components) {
+                def version = sh (script: "mvn -f ${component}/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true)
+                  sh 'curl -v --fail -X POST https://api.dependency-track.ivyteam.io/api/v1/bom \
+                      -H "Content-Type: multipart/form-data" \
+                      -H "X-API-Key: ' + API_KEY + '" \
+                      -F "autoCreate=true" \
+                      -F "projectName=' + component + '" \
+                      -F "projectVersion=' + version + '" \
+                      -F "bom=@unit-tester/target/bom.json"'
+                }
+              }
+            }
+          }        
+        }        
+      }
+    }
+  }
+}
+
+def isReleaseOrMasterBranch() {
+  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
+}
