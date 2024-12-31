@@ -73,14 +73,14 @@ public class SelectOneRadio {
    */
   public SelectOneRadio selectedValueShouldBe(WebElementCondition condition) {
     $(By.id(oneRadioId)).findAll(".ui-radiobutton-box").find(Condition.cssClass("ui-state-active"))
-            .parent().find("div > input").shouldBe(condition);
+        .parent().find("div > input").shouldBe(condition);
     return this;
   }
 
   @Deprecated
   public String getSelectedValue() {
     return $(By.id(oneRadioId)).findAll(".ui-radiobutton-box").find(Condition.cssClass("ui-state-active"))
-            .parent().find("div > input").getValue();
+        .parent().find("div > input").getValue();
   }
 
   private SelenideElement radioById(String id) {
@@ -89,11 +89,11 @@ public class SelectOneRadio {
 
   private SelenideElement radioByValue(String value) {
     return $(By.cssSelector("input[type='radio'][value='" + value + "']")).parent().parent()
-            .find("div.ui-radiobutton-box").shouldBe(visible);
+        .find("div.ui-radiobutton-box").shouldBe(visible);
   }
 
   private SelenideElement radioByLabel(String label) {
     return $(By.id(oneRadioId)).findAll("label").find(exactText(label)).parent()
-            .find("div.ui-radiobutton-box").shouldBe(visible);
+        .find("div.ui-radiobutton-box").shouldBe(visible);
   }
 }

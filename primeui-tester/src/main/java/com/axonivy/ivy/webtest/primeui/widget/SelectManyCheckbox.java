@@ -46,9 +46,9 @@ public class SelectManyCheckbox {
   @Deprecated
   public List<String> getSelectedCheckboxes() {
     return $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box")
-            .filter(cssClass("ui-state-active"))
-            .asDynamicIterable().stream().map(e -> e.parent().parent().find("label").getText())
-            .collect(Collectors.toList());
+        .filter(cssClass("ui-state-active"))
+        .asDynamicIterable().stream().map(e -> e.parent().parent().find("label").getText())
+        .collect(Collectors.toList());
   }
 
   /**
@@ -56,11 +56,11 @@ public class SelectManyCheckbox {
    * @param condition condition
    * @return SelectManyCheckbox
    */
-  public SelectManyCheckbox shouldBe(WebElementsCondition  condition) {
+  public SelectManyCheckbox shouldBe(WebElementsCondition condition) {
     var elements = $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box")
-            .filter(cssClass("ui-state-active"))
-            .asDynamicIterable().stream().map(e -> e.parent().parent().find("label"))
-            .collect(Collectors.toList());
+        .filter(cssClass("ui-state-active"))
+        .asDynamicIterable().stream().map(e -> e.parent().parent().find("label"))
+        .collect(Collectors.toList());
     var collection = new WebElementsCollectionWrapper(WebDriverRunner.driver(), elements);
     new ElementsCollection(collection).shouldBe(condition);
     return this;
@@ -74,7 +74,7 @@ public class SelectManyCheckbox {
   @Deprecated
   public boolean isManyCheckboxDisabled() {
     return $(By.id(manyCheckboxId)).shouldBe(visible).findAll(".ui-chkbox-box").asDynamicIterable().stream()
-            .anyMatch(e -> e.has(cssClass("ui-state-disabled")));
+        .anyMatch(e -> e.has(cssClass("ui-state-disabled")));
   }
 
   /**
@@ -123,6 +123,6 @@ public class SelectManyCheckbox {
 
   private SelenideElement getCheckboxForLabel(String value) {
     return $(By.id(manyCheckboxId)).findAll("label").find(exactText(value)).parent().find(".ui-chkbox-box")
-            .shouldBe(visible);
+        .shouldBe(visible);
   }
 }

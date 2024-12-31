@@ -60,17 +60,17 @@ class TestEngineUrl {
     String baseUrl = "http://test/";
     String app = "bla";
     assertThat(EngineUrl.create().base(baseUrl).app(app).process("/test.ivp").toUrl())
-            .isEqualTo(baseUrl + app + "/pro/test.ivp");
+        .isEqualTo(baseUrl + app + "/pro/test.ivp");
     assertThat(EngineUrl.create().base(baseUrl).app(app).process("test.ivp").toUrl())
-            .isEqualTo(baseUrl + app + "/pro/test.ivp");
+        .isEqualTo(baseUrl + app + "/pro/test.ivp");
     assertThat(EngineUrl.create().base(baseUrl).app("").path("test").toUrl()).isEqualTo(baseUrl + "test");
     assertThat(EngineUrl.create().base(baseUrl).app(app).servlet(null).path("test").toUrl())
-            .isEqualTo(baseUrl + app + "/test");
+        .isEqualTo(baseUrl + app + "/test");
     assertThat(
-            EngineUrl.create().base("http://base").app("app").servlet(SERVLET.PROCESS).path("path").toUrl())
-                    .isEqualTo("http://base/app/pro/path");
+        EngineUrl.create().base("http://base").app("app").servlet(SERVLET.PROCESS).path("path").toUrl())
+            .isEqualTo("http://base/app/pro/path");
     assertThat(EngineUrl.create().base("http://base/").app("/app/").servlet(SERVLET.PROCESS).path("/path/")
-            .toUrl()).isEqualTo("http://base/app/pro/path/");
+        .toUrl()).isEqualTo("http://base/app/pro/path/");
   }
 
   @Test
@@ -82,7 +82,7 @@ class TestEngineUrl {
   @Test
   void queryParamInPath() {
     assertThatThrownBy(() -> EngineUrl.create().path("bla?embedInFrame")).isInstanceOf(IllegalArgumentException.class)
-      .hasMessageContaining("Adding query parameters via the path method will not work");
+        .hasMessageContaining("Adding query parameters via the path method will not work");
     assertThat(EngineUrl.createProcessUrl("start.ivp?locale=en&format=DE")).isEqualTo("http://www.axonivy.com:8080/ivy/test/pro/start.ivp?locale=en&format=DE");
     assertThat(EngineUrl.createRestUrl("variable/myVar?value=new")).isEqualTo("http://www.axonivy.com:8080/ivy/test/api/variable/myVar?value=new");
   }

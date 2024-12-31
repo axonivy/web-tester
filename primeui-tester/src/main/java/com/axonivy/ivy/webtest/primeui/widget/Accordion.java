@@ -45,7 +45,7 @@ public class Accordion {
     accordionTab(tabName).click();
     String tabContentId = StringUtils.removeEnd(accordionTab(tabName).getAttribute("id"), "_header");
     $(By.id(tabContentId)).should(match("accordion should not animate",
-            el -> !el.getAttribute("style").contains("overflow")));
+        el -> !el.getAttribute("style").contains("overflow")));
     $(By.id(tabContentId)).shouldBe(attribute("aria-hidden", previousState));
     return this;
   }
@@ -86,6 +86,6 @@ public class Accordion {
 
   private SelenideElement accordionTab(String tabName) {
     return $(By.id(accordionId)).findAll(".ui-accordion-header").find(text(tabName)).shouldBe(visible,
-            enabled);
+        enabled);
   }
 }

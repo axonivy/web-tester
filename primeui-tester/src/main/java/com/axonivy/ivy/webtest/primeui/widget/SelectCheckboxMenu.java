@@ -39,7 +39,7 @@ public class SelectCheckboxMenu {
     openCheckboxPanel();
     $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box").shouldBe(visible).click();
     $(By.id(checkBoxMenuId + "_panel")).find(".ui-widget-header .ui-chkbox-box")
-            .shouldHave(cssClass("ui-state-active"));
+        .shouldHave(cssClass("ui-state-active"));
     closeCheckboxPanel();
     return this;
   }
@@ -80,13 +80,13 @@ public class SelectCheckboxMenu {
 
   private void selectItemInternal(String label) {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
-            .find(text(label)).find(".ui-chkbox-box").shouldBe(visible).click();
+        .find(text(label)).find(".ui-chkbox-box").shouldBe(visible).click();
     checkThatLabelIsSelected(label);
   }
 
   private void checkThatLabelIsSelected(String label) {
     $(By.id(checkBoxMenuId + "_panel")).findAll(".ui-selectcheckboxmenu-items li")
-            .find(text(label)).find(".ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
+        .find(text(label)).find(".ui-chkbox-box").shouldHave(cssClass("ui-state-active"));
   }
 
   private void openCheckboxPanel() {
