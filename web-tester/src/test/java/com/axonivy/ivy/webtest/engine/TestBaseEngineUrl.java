@@ -46,13 +46,12 @@ class TestBaseEngineUrl {
         .isEqualTo("gugus sugus");
   }
 
-
   @Test
   void driverRemote() throws UnknownHostException {
     Configuration.remote = "http://selenium:5678/wd/hub";
     assertThat(BaseEngineUrl.url())
         .as("Selenium is running remote therefore replace localhost in engine url with explicit host name")
-        .isEqualTo("http://"+hostName()+":8081/");
+        .isEqualTo("http://" + hostName() + ":8081/");
   }
 
   @Test
@@ -69,7 +68,7 @@ class TestBaseEngineUrl {
     System.setProperty(BaseEngineUrl.TEST_ENGINE_URL, "http://127.0.0.1:8081/");
     assertThat(BaseEngineUrl.url())
         .as("Selenium is running remote therefore replace localhost in engine url with explicit host name")
-        .isEqualTo("http://"+hostName()+":8081/");
+        .isEqualTo("http://" + hostName() + ":8081/");
   }
 
   @Test
@@ -78,11 +77,11 @@ class TestBaseEngineUrl {
     System.setProperty(BaseEngineUrl.TEST_ENGINE_URL, "http://[::1]:8080/ivy");
     assertThat(BaseEngineUrl.url())
         .as("Selenium is running remote therefore replace localhost in engine url with explicit host name")
-        .isEqualTo("http://"+hostName()+":8080/ivy");
+        .isEqualTo("http://" + hostName() + ":8080/ivy");
   }
 
   @Test
-  void driverLocal()  {
+  void driverLocal() {
     Configuration.remote = "http://localhost:5678/wd/hub";
     assertThat(BaseEngineUrl.url())
         .as("Selenium is running local no need to replace localhost")
@@ -90,7 +89,7 @@ class TestBaseEngineUrl {
   }
 
   @Test
-  void driverRemote_ivyRemote()  {
+  void driverRemote_ivyRemote() {
     Configuration.remote = "http://localhost:5678/wd/hub";
     System.setProperty(BaseEngineUrl.TEST_ENGINE_URL, "http://dev.axonivy.com:9090/ivy");
     assertThat(BaseEngineUrl.url())

@@ -31,12 +31,12 @@ import org.apache.commons.lang3.StringUtils;
  */
 @SuppressWarnings("hiding")
 public class EngineUrl {
-  public static enum SERVLET {
+  public enum SERVLET {
     PROCESS("pro"), REST("api"), WEBSERVICE("ws"), STATIC_VIEW("faces/view"), CASEMAP("casemap");
 
     final String path;
 
-    private SERVLET(String path) {
+    SERVLET(String path) {
       this.path = path;
     }
   }
@@ -49,7 +49,7 @@ public class EngineUrl {
   private String app;
   private SERVLET servlet;
   private String path = "";
-  private List<QueryParam> queryParams = new ArrayList<>();
+  private final List<QueryParam> queryParams = new ArrayList<>();
 
   private EngineUrl() {
     this.base = base();
@@ -155,9 +155,9 @@ public class EngineUrl {
 
   UriBuilder builder() {
     var builder = UriBuilder.fromUri(base)
-            .path(app)
-            .path(getServletPath())
-            .path(path);
+        .path(app)
+        .path(getServletPath())
+        .path(path);
     for (var queryParam : queryParams) {
       builder = builder.queryParam(queryParam.key, queryParam.value);
     }
@@ -261,5 +261,6 @@ public class EngineUrl {
   }
 
   private static record QueryParam(String key, String value) {}
+
   private static record PathAndQuery(String path, String query) {}
 }
