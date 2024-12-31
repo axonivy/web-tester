@@ -86,7 +86,7 @@ public class SelectOneMenu {
   private void selectItem(final String label) {
     $(By.id(oneMenuId)).find("span.ui-icon.ui-icon-triangle-1-s").shouldBe(visible).click();
     $(By.id(oneMenuId + "_panel")).should(match("menupanel should not animate",
-            el -> !el.getAttribute("style").contains("opacity")));
+        el -> !el.getAttribute("style").contains("opacity")));
     $(By.id(oneMenuId + "_items")).shouldBe(visible);
     $(By.id(oneMenuId + "_items")).findAll("li").find(exactText(label)).shouldBe(visible, enabled).click();
     $(By.id(oneMenuId + "_items")).shouldNotBe(visible);

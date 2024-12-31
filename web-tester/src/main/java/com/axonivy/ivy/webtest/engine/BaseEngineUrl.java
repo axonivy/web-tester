@@ -42,12 +42,12 @@ class BaseEngineUrl {
   private String evaluate() {
     var engineUrl = System.getProperty(TEST_ENGINE_URL);
     if (engineUrl == null || engineUrl.isBlank()) {
-      System.err.println("Missing system property '"+TEST_ENGINE_URL+"' falling back to '"+DEFAULT_URL+"'.");
+      System.err.println("Missing system property '" + TEST_ENGINE_URL + "' falling back to '" + DEFAULT_URL + "'.");
       engineUrl = DEFAULT_URL;
     }
     try {
       return evaluate(engineUrl);
-    } catch(Exception ex) {
+    } catch (Exception ex) {
       return engineUrl;
     }
   }
@@ -67,8 +67,8 @@ class BaseEngineUrl {
   private boolean isLocalHost(URI engineUri) {
     String host = engineUri.getHost();
     return "localhost".equalsIgnoreCase(host) ||
-           "127.0.0.1".equals(host) ||
-           "[::1]".equals(host);
+        "127.0.0.1".equals(host) ||
+        "[::1]".equals(host);
   }
 
   private boolean seleniumRunsOnDifferentHost(URI engineUri) throws URISyntaxException {
@@ -79,17 +79,17 @@ class BaseEngineUrl {
     URI remoteUri = new URI(Configuration.remote);
     var remoteHost = remoteUri.getHost();
     return remoteHost != null &&
-           !remoteHost.equalsIgnoreCase(engineUri.getHost());
+        !remoteHost.equalsIgnoreCase(engineUri.getHost());
   }
 
   private URI replaceHost(URI engineUri, String hostName) throws URISyntaxException {
     return new URI(
-            engineUri.getScheme(),
-            engineUri.getUserInfo(),
-            hostName,
-            engineUri.getPort(),
-            engineUri.getPath(),
-            engineUri.getQuery(),
-            engineUri.getFragment());
+        engineUri.getScheme(),
+        engineUri.getUserInfo(),
+        hostName,
+        engineUri.getPort(),
+        engineUri.getPath(),
+        engineUri.getQuery(),
+        engineUri.getFragment());
   }
 }

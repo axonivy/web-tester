@@ -46,13 +46,13 @@ import com.codeborne.selenide.Selenide;
  * <pre><code>
  * {@literal @IvyWebTest}
  * class Test {
- *   {@literal @Test}
- *   void test(WebAppFixture fixture) {
- *     open(EngineUrl.create().toUrl());
- *     $(By.id("sessionUserName")).shouldBe(Condition.exactText("Developer"));
- *     fixture.login("test", "test");
- *     $(By.id("sessionUserName")).shouldBe(Condition.exactText("test"));
- *   }
+ * &nbsp;&nbsp;{@literal @Test}
+ * &nbsp;&nbsp;void test(WebAppFixture fixture) {
+ * &nbsp;&nbsp;&nbsp;&nbsp;open(EngineUrl.create().toUrl());
+ * &nbsp;&nbsp;&nbsp;&nbsp;$(By.id("sessionUserName")).shouldBe(Condition.exactText("Developer"));
+ * &nbsp;&nbsp;&nbsp;&nbsp;fixture.login("test", "test");
+ * &nbsp;&nbsp;&nbsp;&nbsp;$(By.id("sessionUserName")).shouldBe(Condition.exactText("test"));
+ * &nbsp;&nbsp;}
  * }
  * </code></pre>
  * @since 10.0.14
@@ -70,10 +70,10 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   *   open(EngineUrl.create().toUrl());
-   *   $(By.id("sessionUserName")).shouldBe(Condition.exactText("Developer"));
-   *   fixture.login("test", "test");
-   *   $(By.id("sessionUserName")).shouldBe(Condition.exactText("test"));
+   * &nbsp;&nbsp;open(EngineUrl.create().toUrl());
+   * &nbsp;&nbsp;$(By.id("sessionUserName")).shouldBe(Condition.exactText("Developer"));
+   * &nbsp;&nbsp;fixture.login("test", "test");
+   * &nbsp;&nbsp;$(By.id("sessionUserName")).shouldBe(Condition.exactText("test"));
    * }
    * </code></pre>
    * @param username the name of the user
@@ -98,10 +98,10 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   *   open(EngineUrl.create().toUrl());
-   *   $(By.id("sessionUserName")).shouldBe(Condition.exactText("Developer"));
-   *   fixture.logout();
-   *   $(By.id("sessionUserName")).shouldBe(Condition.exactText("test"));
+   * &nbsp;&nbsp;open(EngineUrl.create().toUrl());
+   * &nbsp;&nbsp;$(By.id("sessionUserName")).shouldBe(Condition.exactText("Developer"));
+   * &nbsp;&nbsp;fixture.logout();
+   * &nbsp;&nbsp;$(By.id("sessionUserName")).shouldBe(Condition.exactText("test"));
    * }
    * </code></pre>
    */
@@ -120,7 +120,7 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   *   fixture.var("myVar", "myNewValue");
+   * &nbsp;&nbsp;fixture.var("myVar", "myNewValue");
    * }
    * </code></pre>
    */
@@ -139,9 +139,9 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   *   fixture.var("myVar", "myNewValue");
-   *   //do some tests
-   *   fixture.resetVar("myVar");
+   * &nbsp;&nbsp;fixture.var("myVar", "myNewValue");
+   * &nbsp;&nbsp;//do some tests
+   * &nbsp;&nbsp;fixture.resetVar("myVar");
    * }
    * </code></pre>
    */
@@ -161,7 +161,7 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   *   fixture.config("RestClients.MyRestClient.Url", "${ivy.app.baseurl}/api/myCoolMockService");
+   * &nbsp;&nbsp;fixture.config("RestClients.MyRestClient.Url", "${ivy.app.baseurl}/api/myCoolMockService");
    * }
    * </code></pre>
    */
@@ -180,9 +180,9 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   *   fixture.config("RestClients.MyRestClient.Url", "${ivy.app.baseurl}/api/myCoolMockService");
-   *   //do some tests
-   *   fixture.resetConfig("RestClients.MyRestClient.Url");
+   * &nbsp;&nbsp;fixture.config("RestClients.MyRestClient.Url", "${ivy.app.baseurl}/api/myCoolMockService");
+   * &nbsp;&nbsp;//do some tests
+   * &nbsp;&nbsp;fixture.resetConfig("RestClients.MyRestClient.Url");
    * }
    * </code></pre>
    */
@@ -202,8 +202,8 @@ public class WebAppFixture {
   private void sendRequest(HttpRequest.Builder requestBuilder) throws Exception {
     var client = HttpClient.newBuilder().build();
     var request = requestBuilder
-      .header("Authorization", basicAuth("admin", "admin"))
-      .header("X-Requested-By", "webtest").build();
+        .header("Authorization", basicAuth("admin", "admin"))
+        .header("X-Requested-By", "webtest").build();
     var response = client.send(request, BodyHandlers.ofString());
     if (response.statusCode() > 399) {
       throw new RuntimeException("Couldn't send web app fixture request (status code: " + response.statusCode() + "): " + response.body());

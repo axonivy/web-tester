@@ -15,6 +15,7 @@
  */
 package com.axonivy.ivy.webtest;
 
+import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -50,23 +51,23 @@ class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback, Para
 
   private boolean headless(ExtensionContext context) {
     return context.getConfigurationParameter("ivy.selenide.headless")
-            .map(param -> BooleanUtils.toBoolean(param))
-            .orElseGet(() -> findAnnotation(context).map(a -> a.headless())
-                    .orElse(HEADLESS_DEFAULT));
+        .map(BooleanUtils::toBoolean)
+        .orElseGet(() -> findAnnotation(context).map(IvyWebTest::headless)
+            .orElse(HEADLESS_DEFAULT));
   }
 
   private String browser(ExtensionContext context) {
     return context.getConfigurationParameter("ivy.selenide.browser")
-            .orElseGet(() -> findAnnotation(context).map(a -> a.browser())
-                    .orElse(BROWSER_DEFAULT));
+        .orElseGet(() -> findAnnotation(context).map(IvyWebTest::browser)
+            .orElse(BROWSER_DEFAULT));
   }
 
   private String reportFolder(ExtensionContext context) {
     String methodDir = context.getTestClass().map(c -> c.getName() + "/").orElse("") +
-            context.getTestMethod().map(m -> m.getName()).orElse("");
+        context.getTestMethod().map(Method::getName).orElse("");
     String reportDir = context.getConfigurationParameter("ivy.selenide.reportfolder")
-            .orElseGet(() -> findAnnotation(context).map(a -> a.reportFolder())
-                    .orElse(REPORT_FOLDER_DEFAULT));
+        .orElseGet(() -> findAnnotation(context).map(IvyWebTest::reportFolder)
+            .orElse(REPORT_FOLDER_DEFAULT));
     return StringUtils.appendIfMissing(reportDir, "/") + methodDir;
   }
 

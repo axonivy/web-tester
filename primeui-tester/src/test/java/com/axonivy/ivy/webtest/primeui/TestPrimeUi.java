@@ -21,80 +21,71 @@ import com.codeborne.selenide.Configuration;
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
  */
-public class TestPrimeUi
-{
+public class TestPrimeUi {
 
   @BeforeAll
-  static void setup()
-  {
+  static void setup() {
     Configuration.browser = "firefox";
     Configuration.headless = true;
     Configuration.reportsFolder = "target/selenide/reports";
   }
 
   @Test
-  void testSelectOneMenu()
-  {
+  void testSelectOneMenu() {
     String option = "Option1";
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu()
-            .selectedItemShould(exactText("Select One"))
-            .selectItemByLabel("Option2")
-            .selectedItemShould(exactText("Option2"))
-            .selectItemByValue(option)
-            .selectedItemShould(exactText(option));
+        .selectedItemShould(exactText("Select One"))
+        .selectItemByLabel("Option2")
+        .selectedItemShould(exactText("Option2"))
+        .selectItemByValue(option)
+        .selectedItemShould(exactText(option));
     assertThat(menu.getSelectedItem()).isEqualTo(option);
   }
 
   @Test
-  void testSelectOneMenuEditable()
-  {
+  void testSelectOneMenuEditable() {
     String option = "New York";
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenuEditable()
-            .selectItemByLabel("Select One")
-            .selectedItemShould(exactValue("Select One"))
-            .selectItemByValue(option)
-            .selectedItemShould(exactValue(option));
+        .selectItemByLabel("Select One")
+        .selectedItemShould(exactValue("Select One"))
+        .selectItemByValue(option)
+        .selectedItemShould(exactValue(option));
     assertThat(menu.getSelectedItem()).isEqualTo(option);
   }
 
   @Test
-  void testSelectCheckBoxMenu_all()
-  {
+  void testSelectCheckBoxMenu_all() {
     ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
-            .selectAllItems()
-            .itemsShouldBeSelected("Brasilia");
+        .selectAllItems()
+        .itemsShouldBeSelected("Brasilia");
   }
 
   @Test
-  void testSelectCheckBoxMenu_itemByValue()
-  {
+  void testSelectCheckBoxMenu_itemByValue() {
     ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
-            .selectItemsByValue("Miami")
-            .itemsShouldBeSelected("Miami");
+        .selectItemsByValue("Miami")
+        .itemsShouldBeSelected("Miami");
   }
 
   @Test
-  void testSelectCheckBoxMenu_itemsByValue()
-  {
+  void testSelectCheckBoxMenu_itemsByValue() {
     ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
-            .selectItemsByValue("Miami", "Brasilia")
-            .itemsShouldBeSelected("Miami", "Brasilia");
+        .selectItemsByValue("Miami", "Brasilia")
+        .itemsShouldBeSelected("Miami", "Brasilia");
   }
 
   @Test
-  void testSelectBooleanCheckBox()
-  {
+  void testSelectBooleanCheckBox() {
     ShowcaseUtil.open(Showcase.CHECKBOX).checkbox("Basic")
-            .shouldBeChecked(false)
-            .setChecked()
-            .shouldBeChecked(true)
-            .removeChecked()
-            .shouldBeChecked(false);
+        .shouldBeChecked(false)
+        .setChecked()
+        .shouldBeChecked(true)
+        .removeChecked()
+        .shouldBeChecked(false);
   }
 
   @Test
-  void testSelectManyCheckbox()
-  {
+  void testSelectManyCheckbox() {
     var manyCheckbox = ShowcaseUtil.open(Showcase.MANYCHECKBOX).manyCheckbox();
     manyCheckbox.shouldBeDisabled(false);
     manyCheckbox.shouldBe(empty);
@@ -105,57 +96,52 @@ public class TestPrimeUi
   }
 
   @Test
-  void testSelectOneRadio() throws Exception
-  {
+  void testSelectOneRadio() throws Exception {
     ShowcaseUtil.open(Showcase.ONERADIO).radio()
-            .selectItemById($$(".ui-selectoneradio").filter(visible).first().attr("id") + ":0")
-            .selectedValueShouldBe(exactValue("Option1"))
-            .selectItemByValue("Option2")
-            .selectedValueShouldBe(exactValue("Option2"))
-            .selectItemByLabel("Option3")
-            .selectedValueShouldBe(exactValue("Option3"));
+        .selectItemById($$(".ui-selectoneradio").filter(visible).first().attr("id") + ":0")
+        .selectedValueShouldBe(exactValue("Option1"))
+        .selectItemByValue("Option2")
+        .selectedValueShouldBe(exactValue("Option2"))
+        .selectItemByLabel("Option3")
+        .selectedValueShouldBe(exactValue("Option3"));
   }
 
   @Test
-  void testTableWithValue() throws Exception
-  {
+  void testTableWithValue() throws Exception {
     var table = ShowcaseUtil.open(Showcase.TABLE).table();
     table.column(0).shouldBe(sizeGreaterThan(5));
     var firstCell = table.valueAt(0, 0);
     var secondCell = firstCell;
-    for (var i = 1; firstCell.equals(secondCell); i++)
-    {
+    for (var i = 1; firstCell.equals(secondCell); i++) {
       secondCell = table.valueAt(i, 0);
     }
     table.searchColumn(0, firstCell)
-            .contains(firstCell)
-            .containsNot(secondCell)
-            .column(0).shouldBe(sizeLessThan(5));
-    //searchGlobal seems not to work on new PrimeFaces Showcase yet.
+        .contains(firstCell)
+        .containsNot(secondCell)
+        .column(0).shouldBe(sizeLessThan(5));
+    // searchGlobal seems not to work on new PrimeFaces Showcase yet.
   }
 
   @Test
-  void testAccordion()
-  {
+  void testAccordion() {
     ShowcaseUtil.open(Showcase.ACCORDION).accordion()
-            .toggleTab("Header I")
-            .tabShouldBe("Header I", false)
-            .openTab("Header I")
-            .tabShouldBe("Header I", true)
-            .openTab("Header II")
-            .tabShouldBe("Header I", false)
-            .tabShouldBe("Header II", true);
+        .toggleTab("Header I")
+        .tabShouldBe("Header I", false)
+        .openTab("Header I")
+        .tabShouldBe("Header I", true)
+        .openTab("Header II")
+        .tabShouldBe("Header I", false)
+        .tabShouldBe("Header II", true);
   }
 
   @Test
-  void testInputNumber()
-  {
+  void testInputNumber() {
     ShowcaseUtil.open(Showcase.INPUTNUMBER).inputNumber()
-            .should(exactValue("0.00"))
-            .setValue("5")
-            .should(exactValue("5.00"))
-            .setValue("3.14")
-            .should(exactValue("3.14"));
+        .should(exactValue("0.00"))
+        .setValue("5")
+        .should(exactValue("5.00"))
+        .setValue("3.14")
+        .should(exactValue("3.14"));
   }
 
 }
