@@ -31,7 +31,7 @@ pipeline {
                     "-Dmaven.test.failure.ignore=true " +
                     "-Dengine.page.url=${params.engineSource} " +
                     "-Dskip.gpg=false " +
-                    "-Dgpg.passphrase='${env.GPG_PWD}' " +
+                    "-Dgpg.passphraseEnvName=GPG_PWD " +
                     "-Dselenide.remote=http://${seleniumName}:4444/wd/hub "
                 }
               }
