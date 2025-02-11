@@ -3,5 +3,5 @@
   "extends": [
     "local>axonivy/renovate-config"
   ],
-  "commitMessagePrefix": ""
+  "semanticCommits": "disabled"
 }
