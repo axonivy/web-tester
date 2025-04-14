@@ -1,6 +1,44 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>axonivy/renovate-config"
+    "local>axonivy/renovate-config",
+    "schedule:earlyMondays"
+  ],
+  "baseBranches": [
+    "master",
+    "release/12.0",
+    "release/10.0"
+  ],
+  "packageRules": [
+    {
+      "matchBaseBranches": [
+        "master"
+      ],
+      "matchDepTypes": [
+        "build",
+        "compile",
+        "test"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "matchBaseBranches": [
+        "release/12.0",
+        "release/10.0"
+      ],
+      "matchDepTypes": [
+        "build",
+        "compile",
+        "test"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true
+    }
   ]
 }
