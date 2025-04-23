@@ -1,6 +1,7 @@
 # Web Tester
 
-Der `web-tester`  von Axon Ivy stellte eine API bereit mit der du deine HTML-Dialoge testen kannst.
+Stell dir vor, du hast gerade eine Workflow-App mit mehreren Benutzerdialogen erstellt. Möchtest du wirklich jedes Mal den gesamten Prozess durchklicken, auch wenn du nur einen Teil geändert hast? Zumindest solltest du sicherstellen, dass die Funktionalität (Happy Path) des Prozesses weiterhin gültig ist.
+Web Integration tests will always follow the same steps and can be highly automated.
 
 Dieses Tool:
 
