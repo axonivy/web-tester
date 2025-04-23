@@ -8,7 +8,5 @@ Dieses Tool unterstützt dich mit einer Schritt-für-Schritt-Demo-[Dokumentation
 
 ## Demo
 
-Wie du dieses Utility verwenden kannst, erfährst du im offiziellen  
-[README](https://github.com/axonivy/web-tester#how-to-use-in-your-project) oder in unserer  
-[Dokumentation](https://developer.axonivy.com/doc/9.2/concepts/testing/web-testing.html).
+Weitere Infos erhälst du auch im offiziellen [README](https://github.com/axonivy/web-tester#how-to-use-in-your-project).
 
