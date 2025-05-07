@@ -1,7 +1,7 @@
 
 # Web Tester
 
-Imagine you've developed a workflow app with multiple user dialogs. Do you really want to manually click through the entire process every time you make a small change? A much more efficient approach is to use automated web integration tests: they reliably validate the functional flow (happy path) and are highly automatable thanks to their repetitive nature.
+This connector is all about keeping your workflow app functional—without the need for constant manual verification. Instead of testing by manually clicking through every user dialog after each small change, automated web integration tests ensure that the core flow (happy path) remains intact. These tests are not only highly automatable due to their repetitive nature but also enable CI/CD initiatives with minimal effort.
 
 This tool supports you with a step-by-step [documentation](https://developer.axonivy.com/doc/12.0/concepts/testing/web-testing.html).
 
