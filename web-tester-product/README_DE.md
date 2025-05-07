@@ -1,12 +1,13 @@
 # Web Tester
 
-Stell dir vor, du hast eine Workflow-App mit mehreren Benutzerdialogen entwickelt. Willst du wirklich jedes Mal den kompletten Prozess manuell durchklicken – nur weil du eine Kleinigkeit geändert hast? Viel effizienter ist es, automatisierte Web-Integrationstests einzusetzen: Sie prüfen zuverlässig den funktionalen Ablauf (Happy Path) und lassen sich dank wiederkehrender Schritte sehr gut automatisieren.
+Dieser **Konnektor** unterstützt dich dabei, deine Workflow-Anwendung  funktionsfähig zu halten – ganz ohne ständiges, manuelles Nachtesten.  
+Anstatt nach jeder kleinen Änderung alle Dialoge per Hand durchzuklicken, prüfen automatisierte Webtests, ob der zentrale Ablauf (Happy Path) weiterhin funktioniert.  
+Durch ihre Wiederholbarkeit lassen sich diese Tests einfach automatisieren und ermöglichen Continuous Integration und Deployment mit minimalem Aufwand.
 
-Dieses Tool unterstützt dich mit einer Schritt-für-Schritt-Demo-[Dokumentation](https://developer.axonivy.com/doc/12.0/concepts/testing/web-testing.html).
+Eine Schritt-für-Schritt-[Anleitung](https://developer.axonivy.com/doc/12.0/concepts/testing/web-testing.html) hilft dir beim Einstieg.
 
 [![IvyWebTest](https://developer.axonivy.com/doc/9.2/_images/webtesting-run.gif)](https://developer.axonivy.com/doc/9.2/concepts/testing/web-testing.html)
 
 ## Demo
 
-Weitere Infos erhälst du auch im offiziellen [README](https://github.com/axonivy/web-tester#how-to-use-in-your-project).
-
+Weitere Informationen findest du in der offiziellen [README-Datei](https://github.com/axonivy/web-tester#how-to-use-in-your-project).
