@@ -1,6 +1,6 @@
 # web-tester
 
-[![web-tester version][0]][1] [![primeui-tester version][2]][3] [![unit-tester version][4]][5]
+[![web-tester version][web-lts]][web-central] [![primeui-tester version][prime-lts]][prime-central] [![unit-tester version][unit-lts]][unit-central]
 
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
@@ -116,9 +116,9 @@ Wait until the maven central release is available: this may take several hours u
 
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
-[1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
-[3]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[4]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=unit-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
-[5]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
+[web-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
+[web-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
+[prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
+[prime-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
+[unit-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=unit-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
+[unit-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
