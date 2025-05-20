@@ -40,7 +40,7 @@ the pom.xml:
   <dependency>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-tester</artifactId>
-    <version>9.2.2</version>
+    <version>12.0.1</version>
     <scope>test</scope>
   </dependency>
 </dependencies>
@@ -90,20 +90,23 @@ class WebTest {
 
 Since 9.4: Releasing is only possible on a release branch.
 
-* Create a release branch if it does not exist yet (e.g. release/10.0)
+* Verify:
+  - the consuming repos use the latest SNAPSHOT. To be sure run the raise build using, providing your current SNAPSHOT [build][raise-job].
+  - renovate dependencies are accurate; especially jersey-client must be sync with the current core!
+* Create a release branch if it does not exist yet (e.g. release/13.2)
 * Run the [release build](build/release/Jenkinsfile) on the release branch
 * Merge the Pull Request for next development iteration
 * If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project (adjust version number accordingly):
 
 ```bash
-.ivy/raise-version.sh 10.0.0-SNAPSHOT
+.ivy/raise-version.sh 13.2.0-SNAPSHOT
 ```
 
 ### Post-Release
 
 Wait until the maven central release is available: this may take several hours until it's fully distributed.
 
-- Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
+- Raise web-tester in other repos by triggering this [build][raise-job]
 - Publish the latest [draft release](https://github.com/axonivy/web-tester/releases) do preserve the current changelog.
   - Select the tag which was created for this release by the release-pipeline
   - Verify that the title is correct
@@ -129,3 +132,5 @@ The Apache License, Version 2.0
 [unit-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=unit-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
 [unit-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
 [unit-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
+
+[raise-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/
