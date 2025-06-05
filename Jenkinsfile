@@ -29,6 +29,7 @@ pipeline {
                   def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
                   maven cmd: "clean ${phase} " +
                     "-f pom.test.xml " +
+                    "-P central.snapshot " +
                     "-Dmaven.test.failure.ignore=true " +
                     "-Dengine.page.url=${params.engineSource} " +
                     "-Divy.engine.version.latest.minor=true " +
