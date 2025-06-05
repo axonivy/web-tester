@@ -24,7 +24,6 @@ pipeline {
 
             withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
               sh "gpg --batch --import ${env.GPG_FILE}"
-              def dryRun = isReleaseBranch() ? '' : '-DdryRun=true'
               def reactorArgs = "-Dmaven.test.skip=true " +
                                 "-Dengine.page.url=${params.engineSource} " +
                                 "-Dskip.gpg=false " +
@@ -33,7 +32,7 @@ pipeline {
                                 "-DautoVersionSubmodules=true " +
                                 "-DpushChanges=false " +
                                 "-DlocalCheckout=true"
-              maven cmd: '--batch-mode -f pom.test.xml ' + dryRun + ' -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
+              maven cmd: '--batch-mode -f pom.test.xml -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
             }
 
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
