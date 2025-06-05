@@ -12,6 +12,8 @@
   <version>10.0.17-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>web-module</name>
+
   <modules>
     <module>maven-config</module>
     <module>primeui-tester</module>
@@ -37,6 +39,7 @@
         <version>3.1.1</version>
         <configuration>
           <tagNameFormat>v@{project.version}</tagNameFormat>
+          <releaseProfiles>central.release</releaseProfiles>
         </configuration>
       </plugin>
     </plugins>
