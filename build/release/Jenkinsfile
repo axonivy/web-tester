@@ -17,26 +17,35 @@ pipeline {
       steps {
         script {
           docker.build('maven').inside {
+            def publishingUri = "https://central.sonatype.com/publishing/deployments"
             def targetBranch = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
             sh "git config --global user.name 'ivy-team'"
             sh "git config --global user.email 'info@ivyteam.ch'"
             sh "git checkout -b ${targetBranch}"
+            sh "git tag -l | xargs git tag -d"
 
             withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
               sh "gpg --batch --import ${env.GPG_FILE}"
-              def dryRun = isReleaseBranch() ? '' : '-DdryRun=true'
-              def args = "-Dmaven.test.skip=true -Dengine.page.url=${params.engineSource} -Dskip.gpg=false -Dgpg.passphrase='${env.GPG_PWD}'";
-              maven cmd: '--batch-mode ' + dryRun + ' -Darguments="' + args + '" -DpushChanges=false -DlocalCheckout=true release:prepare release:perform'
+              def reactorArgs = "-Dmaven.test.skip=true " +
+                                "-Dengine.page.url=${params.engineSource} " +
+                                "-Dskip.gpg=false " +
+                                "-Dgpg.passphrase='${env.GPG_PWD}'"
+              def releaseArgs = "-DpushChanges=false " +
+                                "-DlocalCheckout=true"
+              maven cmd: '--batch-mode -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
             }
+            currentBuild.description = "<a href='${publishingUri}'>publishing</a>"
 
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
                 sh "git push origin --tags"
                 sh "git push -u origin ${targetBranch}"
-                def message = "Prepare for next development cycle (${env.BRANCH_NAME})"
+
+                def title = "Prepare for next development cycle (${env.BRANCH_NAME})"
+                def message = ":warning: merge this PR only if you published the artifact on [CentralPortal](${publishingUri})"
                 withCredentials([file(credentialsId: 'github-ivyteam-token-repo-manager', variable: 'tokenFile')]) {
                   sh "gh auth login --with-token < ${tokenFile}"
-                  sh "gh pr create --title '${message}' --body '${message}' --head ${targetBranch} --base ${env.BRANCH_NAME}"
+                  sh "gh pr create --title '${title}' --body '${message}' --head ${targetBranch} --base ${env.BRANCH_NAME}"
                 }
               }
             }
