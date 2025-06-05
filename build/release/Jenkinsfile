@@ -17,10 +17,12 @@ pipeline {
       steps {
         script {
           docker.build('maven').inside {
+            def publishingUri = "https://central.sonatype.com/publishing/deployments"
             def targetBranch = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
             sh "git config --global user.name 'ivy-team'"
             sh "git config --global user.email 'info@ivyteam.ch'"
             sh "git checkout -b ${targetBranch}"
+            sh "git tag -l | xargs git tag -d"
 
             withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
               sh "gpg --batch --import ${env.GPG_FILE}"
@@ -34,15 +36,18 @@ pipeline {
                                 "-DlocalCheckout=true"
               maven cmd: '--batch-mode -f pom.test.xml -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
             }
+            currentBuild.description = "<a href='${publishingUri}'>publishing</a>"
 
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
                 sh "git push origin --tags"
                 sh "git push -u origin ${targetBranch}"
-                def message = "Prepare for next development cycle (${env.BRANCH_NAME})"
+
+                def title = "Prepare for next development cycle (${env.BRANCH_NAME})"
+                def message = ":warning: merge this PR only if you published the artifact on [CentralPortal](${publishingUri})"
                 withCredentials([file(credentialsId: 'github-ivyteam-token-repo-manager', variable: 'tokenFile')]) {
                   sh "gh auth login --with-token < ${tokenFile}"
-                  sh "gh pr create --title '${message}' --body '${message}' --head ${targetBranch} --base ${env.BRANCH_NAME}"
+                  sh "gh pr create --title '${title}' --body '${message}' --head ${targetBranch} --base ${env.BRANCH_NAME}"
                 }
               }
             }
