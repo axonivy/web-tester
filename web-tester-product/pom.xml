@@ -12,6 +12,8 @@
   <artifactId>web-tester-product</artifactId>
   <version>13.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
+  
+  <name>web-tester-product</name>
 
   <build>
     <plugins>
