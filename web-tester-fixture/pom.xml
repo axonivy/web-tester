@@ -9,7 +9,7 @@
   </parent>
   <groupId>com.axonivy.ivy.webtest</groupId>
   <artifactId>web-tester-fixture</artifactId>
-  <version>13.2.0</version>
+  <version>13.2.1-SNAPSHOT</version>
   <packaging>iar-integration-test</packaging>
   <properties>
     <project.build.plugin.version>13.1.1</project.build.plugin.version>
