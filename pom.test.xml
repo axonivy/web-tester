@@ -12,6 +12,8 @@
   <version>12.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>web-test-module</name>
+
   <modules>
     <module>.</module>
     <module>web-tester-fixture</module>
@@ -25,6 +27,15 @@
         <version>3.1.1</version>
         <configuration>
           <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+          <releaseProfiles>central.release</releaseProfiles>
         </configuration>
       </plugin>
     </plugins>

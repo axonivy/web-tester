@@ -12,6 +12,8 @@
   <version>12.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>web-module</name>
+
   <modules>
     <module>maven-config</module>
     <module>primeui-tester</module>
@@ -28,14 +30,6 @@
         <version>3.1.4</version>
         <configuration>
           <skip>true</skip>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
         </configuration>
       </plugin>
     </plugins>
