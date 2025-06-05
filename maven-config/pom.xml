@@ -39,7 +39,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <autoRelease>true</autoRelease>
+    <autoRelease>false</autoRelease>
     <skip.gpg>true</skip.gpg>
   </properties>
 
