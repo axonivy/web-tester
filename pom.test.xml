@@ -12,6 +12,8 @@
   <version>13.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>web-test-module</name>
+
   <modules>
     <module>.</module>
     <module>web-tester-fixture</module>
@@ -33,6 +35,7 @@
         <version>3.1.1</version>
         <configuration>
           <tagNameFormat>v@{project.version}</tagNameFormat>
+          <releaseProfiles>central.release</releaseProfiles>
         </configuration>
       </plugin>
     </plugins>
