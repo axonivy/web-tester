@@ -40,6 +40,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <skip.gpg>true</skip.gpg>
+    <skip.publishing>false</skip.publishing>
   </properties>
 
   <distributionManagement>
@@ -127,7 +128,7 @@
         <artifactId>maven-deploy-plugin</artifactId>
         <version>3.1.4</version>
         <configuration>
-          <skip>true</skip>
+          <skip>${skip.publishing}</skip>
         </configuration>
       </plugin>
       <plugin>
@@ -187,24 +188,6 @@
   </build>
   
   <profiles>
-    <profile>
-      <id>central.snapshot</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.7.0</version>
-            <extensions>true</extensions>
-            <configuration>
-              <publishingServerId>central.snapshots</publishingServerId>
-              <autoPublish>true</autoPublish>
-              <waitUntil>published</waitUntil>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>central.release</id>
       <properties>
