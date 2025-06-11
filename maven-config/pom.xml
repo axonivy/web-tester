@@ -45,7 +45,7 @@
 
   <distributionManagement>
     <snapshotRepository>
-      <id>central.sonatype.snapshots</id>
+      <id>central.snapshots</id>
       <name>Maven Central Snapshots Repo</name>
       <url>https://central.sonatype.com/repository/maven-snapshots/</url>
     </snapshotRepository>
@@ -128,7 +128,7 @@
         <artifactId>maven-deploy-plugin</artifactId>
         <version>3.1.4</version>
         <configuration>
-          <skip>true</skip>
+          <skip>${skip.publishing}</skip>
         </configuration>
       </plugin>
       <plugin>
@@ -203,25 +203,6 @@
   </build>
   
   <profiles>
-    <profile>
-      <id>central.snapshot</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.7.0</version>
-            <extensions>true</extensions>
-            <configuration>
-              <publishingServerId>central.snapshots</publishingServerId>
-              <autoPublish>true</autoPublish>
-              <waitUntil>published</waitUntil>
-              <skipPublishing>${skip.publishing}</skipPublishing>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>central.release</id>
       <properties>
