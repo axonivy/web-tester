@@ -13,7 +13,6 @@
   <version>13.2.0-SNAPSHOT</version>
   <packaging>iar-integration-test</packaging>
   <properties>
-    <project.build.plugin.version>13.1.1</project.build.plugin.version>
     <engine.page.url>https://product.ivyteam.io</engine.page.url>
   </properties>
   <dependencies>
