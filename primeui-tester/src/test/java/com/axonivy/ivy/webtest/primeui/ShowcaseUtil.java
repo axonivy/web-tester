@@ -29,7 +29,7 @@ public class ShowcaseUtil {
   public enum Showcase {
     CHECKBOX("input/booleanCheckbox.xhtml", ".ui-selectbooleancheckbox"),
     ONEMENU("input/oneMenu.xhtml", ".ui-selectonemenu"),
-    CHECKBOXMENU("input/checkboxMenu.xhtml", ".ui-selectcheckboxmenu"),
+    CHECKBOXMENU("input/checkboxMenu.xhtml", ".ui-selectcheckboxmenu.ui-selectcheckboxmenu-multiple"),
     MANYCHECKBOX("input/manyCheckbox.xhtml", ".ui-selectmanycheckbox"),
     ONERADIO("input/oneRadio.xhtml", ".ui-selectoneradio"),
     TABLE("data/datatable/filter.xhtml", ".ui-datatable"),
