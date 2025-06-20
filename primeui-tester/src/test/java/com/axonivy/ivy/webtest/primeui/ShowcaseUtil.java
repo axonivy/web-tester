@@ -28,16 +28,15 @@ public class ShowcaseUtil
     return showcase;
   }
 
-  public static enum Showcase
-  {
-    CHECKBOX ("input/booleanCheckbox.xhtml", ".ui-selectbooleancheckbox"),
-    ONEMENU ("input/oneMenu.xhtml", ".ui-selectonemenu"),
-    CHECKBOXMENU ("input/checkboxMenu.xhtml", ".ui-selectcheckboxmenu"),
-    MANYCHECKBOX ("input/manyCheckbox.xhtml", ".ui-selectmanycheckbox"),
-    ONERADIO ("input/oneRadio.xhtml", ".ui-selectoneradio"),
-    TABLE ("data/datatable/filter.xhtml", ".ui-datatable"),
-    ACCORDION ("panel/accordionPanel.xhtml", ".ui-accordion"),
-    INPUTNUMBER ("input/inputNumber.xhtml", ".ui-inputnumber");
+  public enum Showcase {
+    CHECKBOX("input/booleanCheckbox.xhtml", ".ui-selectbooleancheckbox"),
+    ONEMENU("input/oneMenu.xhtml", ".ui-selectonemenu"),
+    CHECKBOXMENU("input/checkboxMenu.xhtml", ".ui-selectcheckboxmenu.ui-selectcheckboxmenu-multiple"),
+    MANYCHECKBOX("input/manyCheckbox.xhtml", ".ui-selectmanycheckbox"),
+    ONERADIO("input/oneRadio.xhtml", ".ui-selectoneradio"),
+    TABLE("data/datatable/filter.xhtml", ".ui-datatable"),
+    ACCORDION("panel/accordionPanel.xhtml", ".ui-accordion"),
+    INPUTNUMBER("input/inputNumber.xhtml", ".ui-inputnumber");
 
     private String url;
     private String selector;
