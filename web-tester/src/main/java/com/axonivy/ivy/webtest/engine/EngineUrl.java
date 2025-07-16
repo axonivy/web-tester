@@ -21,6 +21,7 @@ import java.util.List;
 import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * This is a Util to build URLs against the designer (localhost:8081) or a test
@@ -137,7 +138,7 @@ public class EngineUrl {
   }
 
   public EngineUrl path(String path) {
-    if (StringUtils.contains(path, "?")) {
+    if (Strings.CS.contains(path, "?")) {
       throw new IllegalArgumentException("Adding query parameters via the path method will not work, please use the queryParam method or encode the '?' with '%3F'.");
     }
     this.path = path;

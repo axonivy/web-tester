@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -68,7 +68,7 @@ class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback, Para
     String reportDir = context.getConfigurationParameter("ivy.selenide.reportfolder")
         .orElseGet(() -> findAnnotation(context).map(IvyWebTest::reportFolder)
             .orElse(REPORT_FOLDER_DEFAULT));
-    return StringUtils.appendIfMissing(reportDir, "/") + methodDir;
+    return Strings.CS.appendIfMissing(reportDir, "/") + methodDir;
   }
 
   private Optional<IvyWebTest> findAnnotation(ExtensionContext context) {
