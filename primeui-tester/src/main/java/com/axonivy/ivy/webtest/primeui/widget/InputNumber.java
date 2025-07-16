@@ -3,6 +3,8 @@ package com.axonivy.ivy.webtest.primeui.widget;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -48,7 +50,7 @@ public class InputNumber {
     while (StringUtils.isNotBlank(oldValue)) {
       $(By.id(inputNumberId)).sendKeys(Keys.BACK_SPACE);
       var value = getValue();
-      if (StringUtils.equals(oldValue, value)) {
+      if (Objects.equals(oldValue, value)) {
         throw new RuntimeException("Couldn't clear number input field, maybe minValue is set");
       }
       oldValue = value;
