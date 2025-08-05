@@ -22,7 +22,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Optional;
+
 import org.openqa.selenium.By;
 
 import com.codeborne.selenide.SelenideElement;
@@ -43,7 +44,12 @@ public class Accordion {
   public Accordion toggleTab(String tabName) {
     String previousState = accordionTab(tabName).getAttribute("aria-expanded");
     accordionTab(tabName).click();
-    String tabContentId = StringUtils.removeEnd(accordionTab(tabName).getAttribute("id"), "_header");
+    var id = accordionTab(tabName).getAttribute("id");
+    var suffix = "_header";
+    var tabContentId = Optional.of(id)
+        .filter(s -> s.endsWith(suffix))
+        .map(s -> s.substring(0, s.length() - suffix.length()))
+        .orElse(id);
     $(By.id(tabContentId)).should(match("accordion should not animate",
         el -> !el.getAttribute("style").contains("overflow")));
     $(By.id(tabContentId)).shouldBe(attribute("aria-hidden", previousState));
