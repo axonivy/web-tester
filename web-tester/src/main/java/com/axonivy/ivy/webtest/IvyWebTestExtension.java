@@ -16,10 +16,9 @@
 package com.axonivy.ivy.webtest;
 
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.util.Optional;
 
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.Strings;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -51,7 +50,7 @@ class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback, Para
 
   private boolean headless(ExtensionContext context) {
     return context.getConfigurationParameter("ivy.selenide.headless")
-        .map(BooleanUtils::toBoolean)
+        .map(Boolean::parseBoolean)
         .orElseGet(() -> findAnnotation(context).map(IvyWebTest::headless)
             .orElse(HEADLESS_DEFAULT));
   }
@@ -68,7 +67,7 @@ class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback, Para
     String reportDir = context.getConfigurationParameter("ivy.selenide.reportfolder")
         .orElseGet(() -> findAnnotation(context).map(IvyWebTest::reportFolder)
             .orElse(REPORT_FOLDER_DEFAULT));
-    return Strings.CS.appendIfMissing(reportDir, "/") + methodDir;
+    return Path.of(reportDir, methodDir).toString();
   }
 
   private Optional<IvyWebTest> findAnnotation(ExtensionContext context) {

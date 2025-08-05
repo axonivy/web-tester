@@ -5,7 +5,6 @@ import static com.codeborne.selenide.Selenide.$;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
@@ -47,7 +46,7 @@ public class InputNumber {
    */
   public InputNumber clear() {
     var oldValue = getValue();
-    while (StringUtils.isNotBlank(oldValue)) {
+    while (oldValue != null && !oldValue.isBlank()) {
       $(By.id(inputNumberId)).sendKeys(Keys.BACK_SPACE);
       var value = getValue();
       if (Objects.equals(oldValue, value)) {
