@@ -20,9 +20,6 @@ import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-
 /**
  * This is a Util to build URLs against the designer (localhost:8081) or a test
  * engine.
@@ -138,7 +135,7 @@ public class EngineUrl {
   }
 
   public EngineUrl path(String path) {
-    if (Strings.CS.contains(path, "?")) {
+    if (path != null && path.contains("?")) {
       throw new IllegalArgumentException("Adding query parameters via the path method will not work, please use the queryParam method or encode the '?' with '%3F'.");
     }
     this.path = path;
@@ -176,11 +173,12 @@ public class EngineUrl {
     if (pathWithQuery == null) {
       return new PathAndQuery("", "");
     }
-    var path = StringUtils.substringBefore(pathWithQuery, "?");
-    var query = StringUtils.substringAfter(pathWithQuery, "?");
-    if (query.length() > 0) {
-      query = "?" + query;
+    final int queryIndex = pathWithQuery.indexOf("?");
+    if (queryIndex == -1) {
+      return new PathAndQuery(pathWithQuery, "");
     }
+    var path = pathWithQuery.substring(0, queryIndex);
+    var query = pathWithQuery.substring(queryIndex);
     return new PathAndQuery(path, query);
   }
 
