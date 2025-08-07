@@ -28,6 +28,7 @@ pipeline {
               sh "gpg --batch --import ${env.GPG_FILE}"
               def reactorArgs = "-Dmaven.test.skip=true " +
                                 "-Dengine.page.url=${params.engineSource} " +
+                                "-Divy.engine.version.latest.minor=true " +
                                 "-Dskip.gpg=false " +
                                 "-Dgpg.passphrase='${env.GPG_PWD}'"
               def releaseArgs = "-DpomFileName=pom.test.xml " +
