@@ -12,10 +12,6 @@
   <version>13.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <properties>
-    <skip.publishing>true</skip.publishing>
-  </properties>
-
   <modules>
     <module>.</module>
     <module>web-tester-fixture</module>
