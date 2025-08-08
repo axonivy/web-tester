@@ -9,10 +9,10 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
 
-public class TestEnironmentInvocationContext implements TestTemplateInvocationContext {
+public class TestEnvironmentInvocationContext implements TestTemplateInvocationContext {
   private String contextDisplayName;
 
-  public TestEnironmentInvocationContext(String contextDisplayName) {
+  public TestEnvironmentInvocationContext(String contextDisplayName) {
     super();
     this.contextDisplayName = contextDisplayName;
   }
