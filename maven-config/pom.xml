@@ -203,7 +203,14 @@
             <configuration>
               <publishingServerId>central.releases</publishingServerId>
               <autoPublish>${autoRelease}</autoPublish>
-              <waitUntil>published</waitUntil>
+              <waitUntil>uploaded</waitUntil>
+              <skipPublishing>${skip.publishing}</skipPublishing>
+              <excludeArtifacts>
+                <excludeArtifact>web-config</excludeArtifact>
+                <excludeArtifact>web-module</excludeArtifact>
+                <excludeArtifact>web-tester-fixture</excludeArtifact>
+                <excludeArtifact>web-test-module</excludeArtifact>
+              </excludeArtifacts>
             </configuration>
           </plugin>
         </plugins>
