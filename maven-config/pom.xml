@@ -220,6 +220,12 @@
               <autoPublish>${autoRelease}</autoPublish>
               <waitUntil>uploaded</waitUntil>
               <skipPublishing>${skip.publishing}</skipPublishing>
+              <excludeArtifacts>
+                <excludeArtifact>web-config</excludeArtifact>
+                <excludeArtifact>web-module</excludeArtifact>
+                <excludeArtifact>web-tester-fixture</excludeArtifact>
+                <excludeArtifact>web-test-module</excludeArtifact>
+              </excludeArtifacts>
             </configuration>
           </plugin>
         </plugins>
