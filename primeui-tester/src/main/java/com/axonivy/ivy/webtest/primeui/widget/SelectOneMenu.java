@@ -88,6 +88,7 @@ public class SelectOneMenu {
     $(By.id(oneMenuId + "_panel")).should(match("menupanel should not animate",
         el -> !el.getAttribute("style").contains("opacity")));
     $(By.id(oneMenuId + "_items")).shouldBe(visible);
+    $(By.id(oneMenuId + "_items")).findAll("li").first().hover();
     $(By.id(oneMenuId + "_items")).findAll("li").find(exactText(label)).shouldBe(visible, enabled).click();
     $(By.id(oneMenuId + "_items")).shouldNotBe(visible);
     if ("input".equals(selectLabel().getTagName())) {
