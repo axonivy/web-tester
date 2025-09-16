@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { label 'fast' }
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '20'))

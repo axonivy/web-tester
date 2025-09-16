@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.ivy.webtest.primeui.ShowcaseUtil.Showcase;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 
 /**
@@ -33,57 +34,50 @@ public class TestPrimeUi
   }
 
   @Test
-  void testSelectOneMenu()
-  {
-    String option = "Option1";
+  void selectOneMenu() {
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu()
-            .selectedItemShould(exactText("Select One"))
-            .selectItemByLabel("Option2")
-            .selectedItemShould(exactText("Option2"))
-            .selectItemByValue(option)
-            .selectedItemShould(exactText(option));
-    assertThat(menu.getSelectedItem()).isEqualTo(option);
+        .selectedItemShould(exactText("Select One"))
+        .selectItemByLabel("Option1")
+        .selectedItemShould(exactText("Option1"))
+        .selectItemByValue("Option2")
+        .selectedItemShould(exactText("Option2"));
+    assertThat(menu.getSelectedItem()).isEqualTo("Option2");
   }
 
   @Test
-  void testSelectOneMenuEditable()
-  {
-    String option = "New York";
+  void selectOneMenuEditable() {
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenuEditable()
-            .selectItemByLabel("Select One")
-            .selectedItemShould(exactValue("Select One"))
-            .selectItemByValue(option)
-            .selectedItemShould(exactValue(option));
-    assertThat(menu.getSelectedItem()).isEqualTo(option);
+        .selectedItemShould(Condition.empty)
+        .selectItemByLabel("Barcelona")
+        .selectedItemShould(exactValue("Barcelona"))
+        .selectItemByValue("New York")
+        .selectedItemShould(exactValue("New York"));
+    assertThat(menu.getSelectedItem()).isEqualTo("New York");
   }
 
   @Test
-  void testSelectCheckBoxMenu_all()
-  {
+  void selectCheckBoxMenu_all() {
     ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
             .selectAllItems()
             .itemsShouldBeSelected("Brasilia");
   }
 
   @Test
-  void testSelectCheckBoxMenu_itemByValue()
-  {
+  void selectCheckBoxMenu_itemByValue() {
     ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
             .selectItemsByValue("Miami")
             .itemsShouldBeSelected("Miami");
   }
 
   @Test
-  void testSelectCheckBoxMenu_itemsByValue()
-  {
+  void selectCheckBoxMenu_itemsByValue() {
     ShowcaseUtil.open(Showcase.CHECKBOXMENU).checkboxMenu()
             .selectItemsByValue("Miami", "Brasilia")
             .itemsShouldBeSelected("Miami", "Brasilia");
   }
 
   @Test
-  void testSelectBooleanCheckBox()
-  {
+  void selectBooleanCheckBox() {
     ShowcaseUtil.open(Showcase.CHECKBOX).checkbox("Basic")
             .shouldBeChecked(false)
             .setChecked()
@@ -93,8 +87,7 @@ public class TestPrimeUi
   }
 
   @Test
-  void testSelectManyCheckbox()
-  {
+  void selectManyCheckbox() {
     var manyCheckbox = ShowcaseUtil.open(Showcase.MANYCHECKBOX).manyCheckbox();
     manyCheckbox.shouldBeDisabled(false);
     manyCheckbox.shouldBe(empty);
@@ -105,8 +98,7 @@ public class TestPrimeUi
   }
 
   @Test
-  void testSelectOneRadio() throws Exception
-  {
+  void selectOneRadio() throws Exception {
     ShowcaseUtil.open(Showcase.ONERADIO).radio()
             .selectItemById($$(".ui-selectoneradio").filter(visible).first().attr("id") + ":0")
             .selectedValueShouldBe(exactValue("Option1"))
@@ -117,8 +109,7 @@ public class TestPrimeUi
   }
 
   @Test
-  void testTableWithValue() throws Exception
-  {
+  void tableWithValue() throws Exception {
     var table = ShowcaseUtil.open(Showcase.TABLE).table();
     table.column(0).shouldBe(sizeGreaterThan(5));
     var firstCell = table.valueAt(0, 0);
@@ -135,8 +126,7 @@ public class TestPrimeUi
   }
 
   @Test
-  void testAccordion()
-  {
+  void accordion() {
     ShowcaseUtil.open(Showcase.ACCORDION).accordion()
             .toggleTab("Header I")
             .tabShouldBe("Header I", false)
@@ -148,8 +138,7 @@ public class TestPrimeUi
   }
 
   @Test
-  void testInputNumber()
-  {
+  void inputNumber() {
     ShowcaseUtil.open(Showcase.INPUTNUMBER).inputNumber()
             .should(exactValue("0.00"))
             .setValue("5")
