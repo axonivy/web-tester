@@ -6,6 +6,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 
 import com.axonivy.ivy.webtest.primeui.widget.Accordion;
 import com.axonivy.ivy.webtest.primeui.widget.InputNumber;
@@ -22,9 +23,8 @@ public class ShowcaseUtil
 {
   private static String baseShowcaseUrl = "https://primefaces.org/showcase/ui/";
 
-  public static Showcase open(Showcase showcase)
-  {
-    Selenide.open(baseShowcaseUrl + showcase.url);
+  public static Showcase open(Showcase showcase) {
+    open(baseShowcaseUrl + showcase.url, 1);
     return showcase;
   }
 
@@ -102,6 +102,19 @@ public class ShowcaseUtil
     private By elementId(SelenideElement element)
     {
       return By.id(element.attr("id"));
+    }
+  }
+
+  private static void open(String url, int retry) {
+    if (retry >= 3) {
+      throw new RuntimeException("Could not start browser instance.");
+    }
+    try {
+      Selenide.open(url);
+    } catch (TimeoutException ex) {
+      System.out.println("Browser didn't respond in time, retry: " + retry);
+      Selenide.closeWebDriver();
+      open(url, retry++);
     }
   }
 
