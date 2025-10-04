@@ -20,7 +20,7 @@
     <dependency>
       <groupId>com.codeborne</groupId>
       <artifactId>selenide</artifactId>
-      <version>7.11.0</version>
+      <version>7.11.1</version>
 
       <!-- to prevent error logs when executing IvyTest and IvyProcessTest and having primeui-tester dependency in same test project -->
       <exclusions>
