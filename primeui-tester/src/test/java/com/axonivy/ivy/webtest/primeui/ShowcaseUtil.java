@@ -20,10 +20,12 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 public class ShowcaseUtil {
-  private static String baseShowcaseUrl = "https://primefaces.org/showcase/ui/";
+  private static final String TEST_SHOWCASE_URL = "showcase.url";
+  private static final String SHOWCASE_URL = "https://primefaces.org/showcase/";
 
   public static Showcase open(Showcase showcase) {
-    open(baseShowcaseUrl + showcase.url, 1);
+    var showcaseUrl = System.getProperty(TEST_SHOWCASE_URL, SHOWCASE_URL);
+    open(showcaseUrl + "ui/" + showcase.url, 1);
     return showcase;
   }
 

@@ -20,21 +20,25 @@ pipeline {
           def random = (new Random()).nextInt(10000000)
           def networkName = "build-" + random
           def seleniumName = "selenium-" + random
+          def showcaseName = "showcase-" + random
           sh "docker network create ${networkName}"
           try {
-            docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName}") {
-              docker.build('maven').inside("--network ${networkName}") {
-                withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
-                  sh "gpg --batch --import ${env.GPG_FILE}"
-                  def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
-                  maven cmd: "clean ${phase} " +
-                    "-f pom.test.xml " +
-                    "-Dmaven.test.failure.ignore=true " +
-                    "-Dengine.page.url=${params.engineSource} " +
-                    "-Divy.engine.version.latest.minor=true " +
-                    "-Dskip.gpg=false " +
-                    "-Dgpg.passphraseEnvName=GPG_PWD " +
-                    "-Dselenide.remote=http://${seleniumName}:4444/wd/hub "
+            docker.image("ghcr.io/primefaces/primefaces-showcase:14.X-latest").withRun("--name ${showcaseName} --network ${networkName}") {
+              docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName}") {
+                docker.build('maven').inside("--network ${networkName}") {
+                  withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
+                    sh "gpg --batch --import ${env.GPG_FILE}"
+                    def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+                    maven cmd: "clean ${phase} " +
+                      "-f pom.test.xml " +
+                      "-Dmaven.test.failure.ignore=true " +
+                      "-Dengine.page.url=${params.engineSource} " +
+                      "-Divy.engine.version.latest.minor=true " +
+                      "-Dskip.gpg=false " +
+                      "-Dgpg.passphraseEnvName=GPG_PWD " +
+                      "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " + 
+                      "-Dshowcase.url=http://${showcaseName}:8080/"
+                  }
                 }
               }
             }
