@@ -55,6 +55,7 @@ pipeline {
           }
         }
         archiveArtifacts '**/target/*.jar'
+        archiveArtifacts '**/target/test-bom-*.pom'
       }
     }
   }

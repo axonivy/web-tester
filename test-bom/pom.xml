@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.axonivy.ivy.webtest</groupId>
+    <artifactId>web-config</artifactId>
+    <version>13.2.0-SNAPSHOT</version>
+    <relativePath>../maven-config</relativePath>
+  </parent>
+
+  <groupId>com.axonivy.ivy.test</groupId>
+  <artifactId>test-bom</artifactId>
+  <version>13.2.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <name>test-bom</name>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-bom</artifactId>
+        <version>3.27.6</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>5.14.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.codeborne</groupId>
+        <artifactId>selenide</artifactId>
+        <version>7.12.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.codeborne</groupId>
+        <artifactId>selenide-proxy</artifactId>
+        <version>7.12.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

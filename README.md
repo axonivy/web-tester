@@ -4,6 +4,7 @@
 
 [![web-tester version][web-lts] ![web-le][web-le]][web-central] <br/>
 [![primeui-tester version][prime-lts] ![prime-le][prime-le]][prime-central] <br/>
+[![test-bom version][bom-lts] ![bom-le][bom-le]][bom-central] <br/>
 
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
@@ -18,6 +19,14 @@ for more information.
 If your JSF-Page contains [PrimeFaces](https://www.primefaces.org/showcase/)
 widgets, the `primeui-tester` gives you the possibility to interact with those
 widgets and check if it's in the condition you expected it to be.
+
+## test-bom
+
+The `test-bom` artifact defines third-party dependencies that are used for testing.
+
+* [JUnit 5](https://junit.org/junit5/) 
+* [AssertJ](https://assertj.github.io/doc/)
+* [Selenide](https://selenide.org/documentation.html)
 
 # How to use in your project
 
@@ -122,5 +131,8 @@ The Apache License, Version 2.0
 [prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
 [prime-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
 [prime-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
+[bom-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=test-bom&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
+[bom-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
+[bom-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/test-bom/
 
 [raise-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/

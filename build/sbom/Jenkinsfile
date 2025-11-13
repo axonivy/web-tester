@@ -17,7 +17,7 @@ pipeline {
             docker.build('maven').inside() {
               maven cmd: "org.cyclonedx:cyclonedx-maven-plugin:makeBom -DincludeLicenseText=true -DoutputFormat=json"
               withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
-                def projects = ["primeui-tester", "web-tester"]
+                def projects = ["test-bom", "primeui-tester", "web-tester"]
                 for (project in projects) {
                   def version = sh (script: "mvn -f ${project}/pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true)
                   uploadBOM(projectName: project, projectVersion: version, bomFile: project + '/target/bom.json')
