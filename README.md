@@ -4,7 +4,6 @@
 
 [![web-tester version][web-lts] ![web-le][web-le]][web-central] <br/>
 [![primeui-tester version][prime-lts] ![prime-le][prime-le]][prime-central] <br/>
-[![unit-tester version][unit-lts] ![unit-le][unit-le]][unit-central] <br/>
 
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
@@ -19,13 +18,6 @@ for more information.
 If your JSF-Page contains [PrimeFaces](https://www.primefaces.org/showcase/)
 widgets, the `primeui-tester` gives you the possibility to interact with those
 widgets and check if it's in the condition you expected it to be.
-
-## unit-tester
-
-The `unit-tester` artifact provides you the following APIs for unit testing:
-
-* [JUnit 5](https://junit.org/junit5/) 
-* [AssertJ](https://assertj.github.io/doc/)
 
 # How to use in your project
 
@@ -130,8 +122,5 @@ The Apache License, Version 2.0
 [prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
 [prime-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
 [prime-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[unit-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=unit-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
-[unit-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
-[unit-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
 
 [raise-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/

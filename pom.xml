@@ -21,7 +21,6 @@
     <module>primeui-tester</module>
     <module>web-tester</module>
     <module>web-tester-product</module>
-    <module>unit-tester</module>
   </modules>
 
 </project>

@@ -30,10 +30,5 @@
     		</exclusion>
     	</exclusions>
     </dependency>
-    <dependency>
-      <groupId>com.axonivy.ivy.test</groupId>
-      <artifactId>unit-tester</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
 </project>
