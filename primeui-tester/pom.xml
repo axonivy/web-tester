@@ -16,6 +16,18 @@
   <description>API that simplifies testing of JSF pages that contain Primefaces Widgets.</description>
   <url>https://github.com/ivy-supplements/web-tester/primeui-tester</url>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.axonivy.ivy.test</groupId>
+        <artifactId>test-bom</artifactId>
+        <version>${project.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>com.codeborne</groupId>
@@ -31,9 +43,14 @@
     	</exclusions>
     </dependency>
     <dependency>
-      <groupId>com.axonivy.ivy.test</groupId>
-      <artifactId>unit-tester</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
