@@ -24,6 +24,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Base64;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -172,6 +174,21 @@ public class WebAppFixture {
     } catch (Exception ex) {
       throw new RuntimeException("Couldn't set config", ex);
     }
+  }
+
+  /**
+   * <p>Set an app configuration (like rest or web service features,...) to a given value.
+   * This configuration will be set as long it is not been {@link #resetConfig(String)}.</p>
+   * <p>Example:
+   * <pre><code>
+   * {@literal @Test}
+   * void test(WebAppFixture fixture) {
+   * &nbsp;&nbsp;fixture.config("RestClients.MyRestClient.Features", List.of("myFirstFeature", "mySecondFeature");
+   * }
+   * </code></pre>
+   */
+  public void config(String name, List<String> value) {
+    config(name, value.stream().collect(Collectors.joining("\n")));
   }
 
   /**
