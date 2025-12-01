@@ -188,7 +188,7 @@ public class WebAppFixture {
    * </code></pre>
    */
   public void config(String name, List<String> value) {
-    config(name, value.stream().collect(Collectors.joining("\n")));
+    config(name, value.stream().collect(Collectors.joining(",")));
   }
 
   /**
