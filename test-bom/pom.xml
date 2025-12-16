@@ -15,6 +15,8 @@
   <packaging>pom</packaging>
   
   <name>test-bom</name>
+  <description>BOM about the testing dependencies in a Axon Ivy project.</description>
+  <url>https://github.com/axonivy/web-tester</url>
 
   <dependencyManagement>
     <dependencies>
@@ -44,4 +46,16 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <configuration>
+          <flattenMode>bom</flattenMode>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
