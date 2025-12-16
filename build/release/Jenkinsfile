@@ -38,8 +38,8 @@ pipeline {
               
               // Update web-tester-fixture version to match the next development version
               def nextDevVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
-              sh "mvn versions:set -DnewVersion=${nextDevVersion} -f web-tester-fixture/pom.xml -DgenerateBackupPoms=false"
-              sh "git add web-tester-fixture/pom.xml && git commit -m '[maven-release-plugin] update web-tester-fixture version'"
+              sh ".ivy/manual-raise-version.sh ${nextDevVersion}"
+              sh "git add web-tester-fixture/pom.xml pom.test.xml && git commit --amend --no-edit"
             }
             currentBuild.description = "<a href='${publishingUri}'>publishing</a>"
 

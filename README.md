@@ -101,7 +101,7 @@ Since 9.4: Releasing is only possible on a release branch.
 * If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project (adjust version number accordingly):
 
 ```bash
-.ivy/raise-version.sh 13.2.0-SNAPSHOT
+.ivy/manual-raise-version.sh 13.2.0-SNAPSHOT
 ```
 
 ### Post-Release
