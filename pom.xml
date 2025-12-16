@@ -24,4 +24,17 @@
     <module>test-bom</module>
   </modules>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <tagNameFormat>v@{project.version}</tagNameFormat>
+          <releaseProfiles>central.release</releaseProfiles>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
