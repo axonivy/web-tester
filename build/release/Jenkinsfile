@@ -31,11 +31,15 @@ pipeline {
                                 "-Divy.engine.version.latest.minor=true " +
                                 "-Dskip.gpg=false " +
                                 "-Dgpg.passphrase='${env.GPG_PWD}'"
-              def releaseArgs = "-DpomFileName=pom.test.xml " +
-                                "-DautoVersionSubmodules=true " +
+              def releaseArgs = "-DautoVersionSubmodules=true " +
                                 "-DpushChanges=false " +
                                 "-DlocalCheckout=true"
-              maven cmd: '--batch-mode -f pom.test.xml -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
+              maven cmd: '--batch-mode -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
+              
+              // Update web-tester-fixture version to match the next development version
+              def nextDevVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+              sh ".ivy/manual-raise-version.sh ${nextDevVersion}"
+              sh "git add web-tester-fixture/pom.xml pom.test.xml && git commit --amend --no-edit"
             }
             currentBuild.description = "<a href='${publishingUri}'>publishing</a>"
 

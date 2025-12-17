@@ -5,16 +5,18 @@
   <parent>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-config</artifactId>
-    <version>13.2.0-SNAPSHOT</version>
+    <version>13.3.0-SNAPSHOT</version>
     <relativePath>../maven-config</relativePath>
   </parent>
 
   <groupId>com.axonivy.ivy.test</groupId>
   <artifactId>test-bom</artifactId>
-  <version>13.2.0-SNAPSHOT</version>
+  <version>13.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>test-bom</name>
+  <description>BOM about the testing dependencies in a Axon Ivy project.</description>
+  <url>https://github.com/axonivy/web-tester</url>
 
   <dependencyManagement>
     <dependencies>
@@ -44,4 +46,16 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <configuration>
+          <flattenMode>bom</flattenMode>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
