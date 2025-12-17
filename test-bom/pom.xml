@@ -5,13 +5,13 @@
   <parent>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-config</artifactId>
-    <version>13.3.0-SNAPSHOT</version>
+    <version>14.0.0-SNAPSHOT</version>
     <relativePath>../maven-config</relativePath>
   </parent>
 
   <groupId>com.axonivy.ivy.test</groupId>
   <artifactId>test-bom</artifactId>
-  <version>13.3.0-SNAPSHOT</version>
+  <version>14.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <name>test-bom</name>
