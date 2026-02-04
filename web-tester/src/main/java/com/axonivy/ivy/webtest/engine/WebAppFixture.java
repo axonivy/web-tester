@@ -163,7 +163,7 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   * &nbsp;&nbsp;fixture.config("RestClients.MyRestClient.Url", "${ivy.app.baseurl}/api/myCoolMockService");
+   * &nbsp;&nbsp;fixture.config("RestClients.MyRestClient.Url", "{ivy.app.baseurl}/api/myCoolMockService");
    * }
    * </code></pre>
    */
@@ -197,7 +197,7 @@ public class WebAppFixture {
    * <pre><code>
    * {@literal @Test}
    * void test(WebAppFixture fixture) {
-   * &nbsp;&nbsp;fixture.config("RestClients.MyRestClient.Url", "${ivy.app.baseurl}/api/myCoolMockService");
+   * &nbsp;&nbsp;fixture.config("RestClients.MyRestClient.Url", "{ivy.app.baseurl}/api/myCoolMockService");
    * &nbsp;&nbsp;//do some tests
    * &nbsp;&nbsp;fixture.resetConfig("RestClients.MyRestClient.Url");
    * }
