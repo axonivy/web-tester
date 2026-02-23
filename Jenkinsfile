@@ -28,7 +28,7 @@ pipeline {
                 docker.build('maven').inside("--network ${networkName}") {
                   withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
                     sh "gpg --batch --import ${env.GPG_FILE}"
-                    def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
+                    def phase = isReleasingBranch() ? 'deploy' : 'verify'
                     maven cmd: "clean ${phase} " +
                       "-f pom.test.xml " +
                       "-Dmaven.test.failure.ignore=true " +
@@ -55,8 +55,4 @@ pipeline {
       }
     }
   }
-}
-
-def isReleaseOrMasterBranch() {
-  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
 }

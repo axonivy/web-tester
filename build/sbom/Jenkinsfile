@@ -13,7 +13,7 @@ pipeline {
     stage('build') {
       steps {
         script {
-          if (isReleaseOrMasterBranch()) {
+          if (isReleasingBranch()) {
             docker.build('maven').inside() {
               maven cmd: "org.cyclonedx:cyclonedx-maven-plugin:makeBom -DincludeLicenseText=true -DoutputFormat=json"
               withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
@@ -29,8 +29,4 @@ pipeline {
       }
     }
   }
-}
-
-def isReleaseOrMasterBranch() {
-  return env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('release/') 
 }
