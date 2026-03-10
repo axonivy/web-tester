@@ -258,7 +258,7 @@ public class EngineUrl {
    * @return true if tests are executed in vscode designer
    */
   public static Boolean isDesigner() {
-    return applicationName().startsWith("Developer-") && BaseEngineUrl.url().contains("~Developer-");
+    return BaseEngineUrl.url().contains("~Developer-");
   }
 
   private static record QueryParam(String key, String value) {}

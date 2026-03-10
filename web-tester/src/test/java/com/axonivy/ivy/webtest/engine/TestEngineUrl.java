@@ -61,7 +61,7 @@ class TestEngineUrl {
         .hasMessageStartingWith("No valid engine url provided.");
       assertThatThrownBy(() -> EngineUrl.isDesigner())
         .isInstanceOf(RuntimeException.class)
-        .hasMessageStartingWith("No valid test app provided.");
+        .hasMessageStartingWith("No valid engine url provided.");
     } finally {
       Configuration.remote = remote;
     }
