@@ -30,16 +30,38 @@ class TestEngineUrl {
   void designerUrls() {
     var remote = Configuration.remote;
     try {
+      var appName = "Developer-testee";
+      var engineUrl = "http://localhost:8080/~Developer-testee";
+      System.setProperty(EngineUrl.TEST_ENGINE_URL, engineUrl);
+      System.setProperty(EngineUrl.TEST_ENGINE_APP, appName);
+      Configuration.remote = null;
+      var baseUrl = engineUrl + "/" + appName;
+      assertThat(EngineUrl.createRestUrl("")).isEqualTo(baseUrl + "/api");
+      assertThat(EngineUrl.createWebServiceUrl("")).isEqualTo(baseUrl + "/ws");
+      assertThat(EngineUrl.createProcessUrl("")).isEqualTo(baseUrl + "/pro");
+      assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(baseUrl + "/faces/view");
+      assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(baseUrl + "/casemap");
+      assertThat(EngineUrl.isDesigner()).isEqualTo(true);
+    } finally {
+      System.clearProperty(EngineUrl.TEST_ENGINE_URL);
+      System.clearProperty(EngineUrl.TEST_ENGINE_APP);
+      Configuration.remote = remote;
+    }
+  }
+
+  @Test
+  void engineUrlNotSet() {
+    var remote = Configuration.remote;
+    try {
       System.clearProperty(EngineUrl.TEST_ENGINE_URL);
       System.clearProperty(EngineUrl.TEST_ENGINE_APP);
       Configuration.remote = null;
-      String baseUrl = "http://localhost:8081/";
-      assertThat(EngineUrl.createRestUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/api");
-      assertThat(EngineUrl.createWebServiceUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/ws");
-      assertThat(EngineUrl.createProcessUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/pro");
-      assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/faces/view");
-      assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(baseUrl + EngineUrl.DESIGNER + "/casemap");
-      assertThat(EngineUrl.isDesigner()).isEqualTo(true);
+      assertThatThrownBy(() -> EngineUrl.base())
+        .isInstanceOf(RuntimeException.class)
+        .hasMessageStartingWith("No valid engine url provided.");
+      assertThatThrownBy(() -> EngineUrl.isDesigner())
+        .isInstanceOf(RuntimeException.class)
+        .hasMessageStartingWith("No valid test app provided.");
     } finally {
       Configuration.remote = remote;
     }

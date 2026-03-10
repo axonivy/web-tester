@@ -1,6 +1,7 @@
 package com.axonivy.ivy.webtest.engine;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -24,10 +25,11 @@ class TestBaseEngineUrl {
   }
 
   @Test
-  void defaultValue() {
-    assertThat(BaseEngineUrl.url())
-        .as("Engine url is not configured using default value")
-        .isEqualTo("http://localhost:8081/");
+  void noEngineUrlSet() {
+    assertThatThrownBy(() -> BaseEngineUrl.url())
+        .as("Engine url is not configured throw an exception")
+        .isInstanceOf(RuntimeException.class)
+        .hasMessageStartingWith("No valid engine url provided.");
   }
 
   @Test
@@ -49,6 +51,7 @@ class TestBaseEngineUrl {
   @Test
   void driverRemote() throws UnknownHostException {
     Configuration.remote = "http://selenium:5678/wd/hub";
+    System.setProperty(BaseEngineUrl.TEST_ENGINE_URL, "http://localhost:8081/");
     assertThat(BaseEngineUrl.url())
         .as("Selenium is running remote therefore replace localhost in engine url with explicit host name")
         .isEqualTo("http://" + hostName() + ":8081/");
@@ -57,6 +60,7 @@ class TestBaseEngineUrl {
   @Test
   void driverRemote_invalidUri() {
     Configuration.remote = "hello world";
+    System.setProperty(BaseEngineUrl.TEST_ENGINE_URL, "http://localhost:8081/");
     assertThat(BaseEngineUrl.url())
         .as("Selenium remote config is invalid do not manipulate engine url")
         .isEqualTo("http://localhost:8081/");
@@ -83,6 +87,7 @@ class TestBaseEngineUrl {
   @Test
   void driverLocal() {
     Configuration.remote = "http://localhost:5678/wd/hub";
+    System.setProperty(BaseEngineUrl.TEST_ENGINE_URL, "http://localhost:8081/");
     assertThat(BaseEngineUrl.url())
         .as("Selenium is running local no need to replace localhost")
         .isEqualTo("http://localhost:8081/");

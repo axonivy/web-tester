@@ -21,7 +21,7 @@ import java.util.List;
 import javax.ws.rs.core.UriBuilder;
 
 /**
- * This is a Util to build URLs against the designer (localhost:8081) or a test
+ * This is a Util to build URLs against the vscode designer or a test
  * engine.
  *
  * To run a test engine have a look at the project-build-plugin:
@@ -41,6 +41,7 @@ public class EngineUrl {
 
   public static final String TEST_ENGINE_APP = "test.engine.app";
   public static final String TEST_ENGINE_URL = BaseEngineUrl.TEST_ENGINE_URL;
+  @Deprecated(since = "14.0.0", forRemoval = true)
   public static final String DESIGNER = "designer";
 
   private String base;
@@ -63,10 +64,8 @@ public class EngineUrl {
    * Default values:
    * </p>
    * <ul>
-   * <li>base: value of the system property {@value #TEST_ENGINE_URL} or
-   * 'http://localhost:8080/'</li>
-   * <li>app: value of the system property {@value #TEST_ENGINE_APP} or
-   * {@value #DESIGNER}</li>
+   * <li>base: value of the system property {@value #TEST_ENGINE_URL}
+   * <li>app: value of the system property {@value #TEST_ENGINE_APP}
    * </ul>
    * @return engine url build
    */
@@ -184,8 +183,7 @@ public class EngineUrl {
 
   /**
    * Gets base URL of a running engine. Returns URL of started
-   * project-build-plugin test engine ({@value #TEST_ENGINE_URL}) or
-   * 'http://localhost:8080/ivy/'
+   * project-build-plugin test engine ({@value #TEST_ENGINE_URL})
    * @return URL of engine
    */
   public static String base() {
@@ -248,15 +246,19 @@ public class EngineUrl {
    * @return application name
    */
   public static String applicationName() {
-    return System.getProperty(TEST_ENGINE_APP, DESIGNER);
+    var appName = System.getProperty(TEST_ENGINE_APP);
+    if (appName == null || appName.isBlank()) {
+      throw new RuntimeException("No valid test app provided. Please set the system property " + TEST_ENGINE_APP);
+    }
+    return appName;
   }
 
   /**
    * Check if the set application is the designer.
-   * @return true if application is designer
+   * @return true if tests are executed in vscode designer
    */
   public static Boolean isDesigner() {
-    return Boolean.valueOf(applicationName() == DESIGNER);
+    return applicationName().startsWith("Developer-") && BaseEngineUrl.url().contains("~Developer-");
   }
 
   private static record QueryParam(String key, String value) {}
