@@ -39,6 +39,7 @@ public class EngineUrl {
     }
   }
 
+  public static final String TEST_ENGINE_CONTEXT = "test.engine.context";
   public static final String TEST_ENGINE_APP = "test.engine.app";
   public static final String TEST_ENGINE_URL = BaseEngineUrl.TEST_ENGINE_URL;
   @Deprecated(since = "14.0.0", forRemoval = true)
@@ -251,6 +252,18 @@ public class EngineUrl {
       throw new RuntimeException("No valid test app provided. Please set the system property " + TEST_ENGINE_APP);
     }
     return appName;
+  }
+
+  /**
+   * Gets the name of the security context ({@value #TEST_ENGINE_CONTEXT}).
+   * @return security context name
+   */
+  public static String securityContextName() {
+    var securityContextName = System.getProperty(TEST_ENGINE_CONTEXT);
+    if (securityContextName == null || securityContextName.isBlank()) {
+      return "default";
+    }
+    return securityContextName;
   }
 
   /**

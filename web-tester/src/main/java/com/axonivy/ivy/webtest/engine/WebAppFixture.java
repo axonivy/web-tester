@@ -213,7 +213,7 @@ public class WebAppFixture {
   }
 
   private static UriBuilder configRestUrl() {
-    return EngineUrl.create().app("system").rest("apps").builder().path(EngineUrl.applicationName());
+    return EngineUrl.create().app("system").rest("apps").builder().path(EngineUrl.securityContextName()).path(EngineUrl.applicationName());
   }
 
   private void sendRequest(HttpRequest.Builder requestBuilder) throws Exception {
