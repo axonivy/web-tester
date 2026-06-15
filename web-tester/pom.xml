@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.axonivy.ivy.webtest</groupId>
     <artifactId>web-config</artifactId>
-    <version>14.0.0-SNAPSHOT</version>
+    <version>14.0.0-jakarta-SNAPSHOT</version>
     <relativePath>../maven-config</relativePath>
   </parent>
 
   <artifactId>web-tester</artifactId>
-  <version>14.0.0-SNAPSHOT</version>
+  <version>14.0.0-jakarta-SNAPSHOT</version>
   <packaging>jar</packaging>
   
   <name>web-tester</name>
@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-client</artifactId>
-      <version>2.48</version>
+      <version>4.0.2</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
