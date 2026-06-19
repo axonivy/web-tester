@@ -18,7 +18,7 @@ package com.axonivy.ivy.webtest.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 /**
  * This is a Util to build URLs against the vscode designer or a test
