@@ -10,7 +10,12 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url')
+    string(name: 'engineSource', 
+      defaultValue: 'https://product.ivyteam.io', 
+      description: 'Engine page url')
+    string(name: 'sprintQualifier',
+      description: "Optional sprint qualifier (e.g. m7 for Sprint 7). Empty keeps the original project version.",
+      defaultValue: '')
   }
 
   stages {
@@ -28,6 +33,10 @@ pipeline {
                 docker.build('maven').inside("--network ${networkName}") {
                   withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
                     sh "gpg --batch --import ${env.GPG_FILE}"
+                    def qualifier = params.sprintQualifier?.trim()
+                    if (qualifier) {
+                      applyVersionQualifier(qualifier)
+                    }
                     def phase = isReleasingBranch() ? 'deploy' : 'verify'
                     maven cmd: "clean ${phase} " +
                       "-f pom.test.xml " +
@@ -55,4 +64,11 @@ pipeline {
       }
     }
   }
+}
+
+def applyVersionQualifier(String qualifier) {
+  def currentVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+  def qualified  = currentVersion.replaceFirst(/-SNAPSHOT$/, "-${qualifier}")
+  echo "Using version '${qualified}' for this build."
+  maven cmd: "versions:set -DnewVersion=${qualified} -DgenerateBackupPoms=false"
 }
