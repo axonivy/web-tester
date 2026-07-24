@@ -33,20 +33,22 @@ pipeline {
                 docker.build('maven').inside("--network ${networkName}") {
                   withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
                     sh "gpg --batch --import ${env.GPG_FILE}"
-                    def qualifier = params.sprintQualifier?.trim()
-                    if (qualifier) {
-                      applyVersionQualifier(qualifier)
-                    }
-                    def phase = isReleasingBranch() ? 'deploy' : 'verify'
-                    maven cmd: "clean ${phase} " +
-                      "-f pom.test.xml " +
+                    def args = "" +
                       "-Dmaven.test.failure.ignore=true " +
                       "-Dengine.page.url=${params.engineSource} " +
                       "-Divy.engine.version.latest.minor=true " +
                       "-Dskip.gpg=false " +
                       "-Dgpg.passphraseEnvName=GPG_PWD " +
                       "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " + 
-                      "-Dshowcase.url=http://${showcaseName}:8080/"
+                      "-Dshowcase.url=http://${showcaseName}:8080/ "
+                    def qualifier = params.sprintQualifier?.trim()
+                    if (qualifier) {
+                      applyVersionQualifier(qualifier)
+                    } else {
+                      args += "-f pom.test.xml "
+                    }
+                    def phase = isReleasingBranch() ? 'deploy' : 'verify'
+                    maven cmd: "clean ${phase} ${args}"
                   }
                 }
               }
@@ -70,5 +72,5 @@ def applyVersionQualifier(String qualifier) {
   def currentVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
   def qualified  = currentVersion.replaceFirst(/-SNAPSHOT$/, "-${qualifier}")
   echo "Using version '${qualified}' for this build."
-  maven cmd: "versions:set -DnewVersion=${qualified} -DprocessAllModules=true -DgenerateBackupPoms=false -f pom.test.xml"
+  maven cmd: "versions:set -DnewVersion=${qualified} -DprocessAllModules=true -DgenerateBackupPoms=false"
 }
