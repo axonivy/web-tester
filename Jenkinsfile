@@ -70,5 +70,5 @@ def applyVersionQualifier(String qualifier) {
   def currentVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
   def qualified  = currentVersion.replaceFirst(/-SNAPSHOT$/, "-${qualifier}")
   echo "Using version '${qualified}' for this build."
-  maven cmd: "versions:set -DnewVersion=${qualified} -DgenerateBackupPoms=false"
+  maven cmd: "versions:set -DnewVersion=${qualified} -DprocessAllModules=true -DgenerateBackupPoms=false"
 }
