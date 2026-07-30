@@ -28,7 +28,7 @@ pipeline {
           def showcaseName = "showcase-" + random
           sh "docker network create ${networkName}"
           try {
-            docker.image("ghcr.io/primefaces/primefaces-showcase:14.X-latest").withRun("--name ${showcaseName} --network ${networkName}") {
+            docker.image("ghcr.io/primefaces/primefaces-showcase:15.X-latest").withRun("--name ${showcaseName} --network ${networkName}") {
               docker.image("selenium/standalone-firefox:4").withRun("-e START_XVFB=false --shm-size=2g --name ${seleniumName} --network ${networkName}") {
                 docker.build('maven').inside("--network ${networkName}") {
                   withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
