@@ -1,0 +1,28 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '30'))
+    disableConcurrentBuilds()
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('build') {
+      when {
+        branch 'master'
+      }
+      steps {
+        script {
+          docker.build('maven').inside {
+            sonar projectName: 'web-tester', mvnPhase: 'clean compile'
+          }
+        }
+      }
+    }
+  }
+}
+
