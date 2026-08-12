@@ -99,7 +99,7 @@ public class ShowcaseUtil {
     }
     try {
       Selenide.open(url);
-    } catch (TimeoutException ex) {
+    } catch (TimeoutException _) {
       System.out.println("Browser didn't respond in time, retry: " + retry);
       Selenide.closeWebDriver();
       open(url, retry++);
