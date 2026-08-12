@@ -45,7 +45,7 @@ class BaseEngineUrl {
     }
     try {
       return evaluate(engineUrl);
-    } catch (Exception ex) {
+    } catch (Exception _) {
       return engineUrl;
     }
   }
