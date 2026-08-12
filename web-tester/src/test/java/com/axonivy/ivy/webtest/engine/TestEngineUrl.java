@@ -56,12 +56,12 @@ class TestEngineUrl {
       System.clearProperty(EngineUrl.TEST_ENGINE_URL);
       System.clearProperty(EngineUrl.TEST_ENGINE_APP);
       Configuration.remote = null;
-      assertThatThrownBy(() -> EngineUrl.base())
-        .isInstanceOf(RuntimeException.class)
-        .hasMessageStartingWith("No valid engine url provided.");
-      assertThatThrownBy(() -> EngineUrl.isDesigner())
-        .isInstanceOf(RuntimeException.class)
-        .hasMessageStartingWith("No valid engine url provided.");
+      assertThatThrownBy(EngineUrl::base)
+          .isInstanceOf(RuntimeException.class)
+          .hasMessageStartingWith("No valid engine url provided.");
+      assertThatThrownBy(EngineUrl::isDesigner)
+          .isInstanceOf(RuntimeException.class)
+          .hasMessageStartingWith("No valid engine url provided.");
     } finally {
       Configuration.remote = remote;
     }
@@ -103,7 +103,8 @@ class TestEngineUrl {
 
   @Test
   void queryParamInPath() {
-    assertThatThrownBy(() -> EngineUrl.create().path("bla?embedInFrame")).isInstanceOf(IllegalArgumentException.class)
+    var url = EngineUrl.create();
+    assertThatThrownBy(() -> url.path("bla?embedInFrame")).isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("Adding query parameters via the path method will not work");
     assertThat(EngineUrl.createProcessUrl("start.ivp?locale=en&format=DE")).isEqualTo("http://www.axonivy.com:8080/ivy/test/pro/start.ivp?locale=en&format=DE");
     assertThat(EngineUrl.createRestUrl("variable/myVar?value=new")).isEqualTo("http://www.axonivy.com:8080/ivy/test/api/variable/myVar?value=new");
