@@ -13,8 +13,8 @@ pipeline {
     string(name: 'engineSource', 
       defaultValue: 'https://product.ivyteam.io', 
       description: 'Engine page url')
-    string(name: 'sprintQualifier',
-      description: "Optional sprint qualifier (e.g. m7 for Sprint 7). Empty keeps the original project version.",
+    string(name: 'qualifier',
+      description: "Optional qualifier (e.g. m7-SNAPSHOT for Sprint 7). Empty keeps the original project version.",
       defaultValue: '')
   }
 
@@ -41,7 +41,7 @@ pipeline {
                       "-Dgpg.passphraseEnvName=GPG_PWD " +
                       "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " + 
                       "-Dshowcase.url=http://${showcaseName}:8080/ "
-                    def qualifier = params.sprintQualifier?.trim()
+                    def qualifier = params.qualifier?.trim()
                     if (qualifier) {
                       applyVersionQualifier(qualifier)
                     } else {
