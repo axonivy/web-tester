@@ -41,7 +41,7 @@ class TestEngineUrl {
       assertThat(EngineUrl.createProcessUrl("")).isEqualTo(baseUrl + "/pro");
       assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(baseUrl + "/faces/view");
       assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(baseUrl + "/casemap");
-      assertThat(EngineUrl.isDesigner()).isEqualTo(true);
+      assertThat(EngineUrl.isDesigner()).isTrue();
     } finally {
       System.clearProperty(EngineUrl.TEST_ENGINE_URL);
       System.clearProperty(EngineUrl.TEST_ENGINE_APP);
@@ -74,7 +74,7 @@ class TestEngineUrl {
     assertThat(EngineUrl.createProcessUrl("")).isEqualTo(BASE_URL + APP + "/pro");
     assertThat(EngineUrl.createStaticViewUrl("")).isEqualTo(BASE_URL + APP + "/faces/view");
     assertThat(EngineUrl.createCaseMapUrl("")).isEqualTo(BASE_URL + APP + "/casemap");
-    assertThat(EngineUrl.isDesigner()).isEqualTo(false);
+    assertThat(EngineUrl.isDesigner()).isFalse();
   }
 
   @Test
