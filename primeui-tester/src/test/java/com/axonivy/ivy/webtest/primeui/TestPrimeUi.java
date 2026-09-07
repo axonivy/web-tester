@@ -22,10 +22,10 @@ import com.codeborne.selenide.Configuration;
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
  */
-public class TestPrimeUi {
+class TestPrimeUi {
 
   @BeforeAll
-  static void setup() {
+  static void beforeAll() {
     Configuration.browser = "firefox";
     Configuration.headless = true;
     Configuration.reportsFolder = "target/selenide/reports";
