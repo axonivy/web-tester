@@ -51,13 +51,9 @@ public class ShowcaseUtil {
       return PrimeUi.selectBooleanCheckbox(elementId($$(selector).find(text(label))));
     }
 
-    public SelectOneMenu oneMenu() {
-      return PrimeUi.selectOne(firstElement());
-    }
-
-    public SelectOneMenu oneMenuEditable() {
-      var oneMenuEditable = $$("label").find(exactText("Editable")).parent().find(".ui-selectonemenu");
-      return PrimeUi.selectOne(elementId(oneMenuEditable));
+    public SelectOneMenu oneMenu(String label) {
+      var oneMenu = $$("label").find(exactText(label)).parent().find(selector);
+      return PrimeUi.selectOne(elementId(oneMenu));
     }
 
     public SelectCheckboxMenu checkboxMenu() {

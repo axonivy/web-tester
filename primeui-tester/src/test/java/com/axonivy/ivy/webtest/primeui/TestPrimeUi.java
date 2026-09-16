@@ -33,7 +33,7 @@ class TestPrimeUi {
 
   @Test
   void selectOneMenu() {
-    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu()
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Basic")
         .selectedItemShould(exactText("Select One"))
         .selectItemByLabel("Option1")
         .selectedItemShould(exactText("Option1"))
@@ -43,8 +43,30 @@ class TestPrimeUi {
   }
 
   @Test
-  void selectOneMenuEditable() {
-    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenuEditable()
+  void selectOneMenu_lazy() {
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Lazy")
+        .selectedItemShould(exactText("Select One"))
+        .selectItemByLabel("Option 1")
+        .selectedItemShould(exactText("Option 1"))
+        .selectItemByValue("Option 19")
+        .selectedItemShould(exactText("Option 19"));
+    assertThat(menu.getSelectedItem()).isEqualTo("Option 19");
+  }
+
+  @Test
+  void selectOneMenu_grouping() {
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Grouping")
+        .selectedItemShould(exactText("Select One"))
+        .selectItemByLabel("Mexico")
+        .selectedItemShould(exactText("Mexico"))
+        .selectItemByValue("Germany")
+        .selectedItemShould(exactText("Germany"));
+    assertThat(menu.getSelectedItem()).isEqualTo("Germany");
+  }
+
+  @Test
+  void selectOneMenu_editable() {
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Editable")
         .selectedItemShould(Condition.empty)
         .selectItemByLabel("Barcelona")
         .selectedItemShould(exactValue("Barcelona"))
