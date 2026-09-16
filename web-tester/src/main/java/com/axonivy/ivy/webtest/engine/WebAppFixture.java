@@ -212,8 +212,12 @@ public class WebAppFixture {
     }
   }
 
-  private static UriBuilder configRestUrl() {
-    return EngineUrl.create().app("system").rest("apps").builder().path(EngineUrl.securityContextName()).path(EngineUrl.applicationName());
+  static UriBuilder configRestUrl() {
+    String context = EngineUrl.securityContextName();
+    if (context == null || context.isBlank()) {
+      context = "default";
+    }
+    return EngineUrl.create().context("").app("system").rest("apps").builder().path(context).path(EngineUrl.applicationName());
   }
 
   private void sendRequest(HttpRequest.Builder requestBuilder) throws Exception {

@@ -47,6 +47,8 @@ public class EngineUrl {
 
   private String base;
   private String app;
+  private String context;
+
   private SERVLET servlet;
   private String path = "";
   private final List<QueryParam> queryParams = new ArrayList<>();
@@ -54,6 +56,7 @@ public class EngineUrl {
   private EngineUrl() {
     this.base = base();
     this.app = applicationName();
+    this.context = securityContextName();
   }
 
   /**
@@ -67,6 +70,7 @@ public class EngineUrl {
    * <ul>
    * <li>base: value of the system property {@value #TEST_ENGINE_URL}
    * <li>app: value of the system property {@value #TEST_ENGINE_APP}
+   * <li>context: value of the system property {@value #TEST_ENGINE_CONTEXT}
    * </ul>
    * @return engine url build
    */
@@ -106,6 +110,11 @@ public class EngineUrl {
 
   public EngineUrl app(String app) {
     this.app = app;
+    return this;
+  }
+
+  public EngineUrl context(String context) {
+    this.context = context;
     return this;
   }
 
@@ -153,6 +162,7 @@ public class EngineUrl {
 
   UriBuilder builder() {
     var builder = UriBuilder.fromUri(base)
+        .path(context)
         .path(app)
         .path(getServletPath())
         .path(path);
@@ -259,11 +269,7 @@ public class EngineUrl {
    * @return security context name
    */
   public static String securityContextName() {
-    var securityContextName = System.getProperty(TEST_ENGINE_CONTEXT);
-    if (securityContextName == null || securityContextName.isBlank()) {
-      return "default";
-    }
-    return securityContextName;
+    return System.getProperty(TEST_ENGINE_CONTEXT, "");
   }
 
   /**
@@ -271,7 +277,7 @@ public class EngineUrl {
    * @return true if tests are executed in vscode designer
    */
   public static Boolean isDesigner() {
-    return BaseEngineUrl.url().contains("~Developer-");
+    return securityContextName().contains("~Developer-");
   }
 
   private static record QueryParam(String key, String value) {}
