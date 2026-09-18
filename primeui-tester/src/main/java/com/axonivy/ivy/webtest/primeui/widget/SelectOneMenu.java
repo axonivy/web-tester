@@ -15,6 +15,7 @@
  */
 package com.axonivy.ivy.webtest.primeui.widget;
 
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
@@ -85,10 +86,12 @@ public class SelectOneMenu {
 
   private void selectItem(final String label) {
     $(By.id(oneMenuId)).find("span.ui-icon.ui-icon-triangle-1-s").shouldBe(visible).click();
-    $(By.id(oneMenuId + "_panel")).should(match("menupanel should not animate",
-        el -> !el.getAttribute("style").contains("opacity")));
+    // Wait for the opening transition instead of hovering the first item:
+    // hovering can scroll the page and cause PrimeFaces to close the panel.
+    $(By.id(oneMenuId + "_panel")).shouldBe(visible)
+        .shouldNotHave(cssClass("ui-connected-overlay-enter"), cssClass("ui-connected-overlay-enter-active"))
+        .should(match("menupanel should not animate", el -> !el.getAttribute("style").contains("opacity")));
     $(By.id(oneMenuId + "_items")).shouldBe(visible);
-    $(By.id(oneMenuId + "_items")).findAll("li").first().hover();
     $(By.id(oneMenuId + "_items")).findAll("li").find(exactText(label)).shouldBe(visible, enabled).click();
     $(By.id(oneMenuId + "_items")).shouldNotBe(visible);
     if ("input".equals(selectLabel().getTagName())) {

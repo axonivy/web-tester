@@ -77,6 +77,23 @@ class WebTest {
 }
 ```
 
+## Running tests
+
+Start the PrimeFaces Showcase used by the widget tests:
+
+```sh
+docker run --rm -p 18085:8080 ghcr.io/primefaces/primefaces-showcase:15.X-latest
+```
+
+Run the widget tests from the repository root:
+
+```sh
+mvnd -pl primeui-tester -am test \
+  -Dshowcase.url=http://localhost:18085/
+```
+
+Firefox is the default browser. Add `-Dselenide.browser=chrome` to use Chrome.
+
 ## Changelog
 
 * See the [Releases](https://github.com/axonivy/web-tester/releases)
