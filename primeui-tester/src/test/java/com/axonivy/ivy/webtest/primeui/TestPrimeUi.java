@@ -8,12 +8,15 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.exactValue;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
+import static com.codeborne.selenide.Selenide.webdriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Dimension;
 
 import com.axonivy.ivy.webtest.primeui.ShowcaseUtil.Showcase;
 import com.codeborne.selenide.Condition;
@@ -26,7 +29,7 @@ class TestPrimeUi {
 
   @BeforeAll
   static void beforeAll() {
-    Configuration.browser = "firefox";
+    Configuration.browser = System.getProperty("selenide.browser", "firefox");
     Configuration.headless = true;
     Configuration.reportsFolder = "target/selenide/reports";
   }
@@ -43,6 +46,34 @@ class TestPrimeUi {
   }
 
   @Test
+  void selectOneMenu_duringOpeningTransition() {
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Basic");
+    // A slow, translucent theme must work without relying on hover latency or a final opacity of 1.
+    executeJavaScript("""
+        const style = document.createElement('style');
+        style.textContent = `
+            .ui-selectonemenu-panel { opacity: .8; }
+            .ui-connected-overlay-enter-active { transition-duration: 1s !important; }
+            `;
+        document.head.appendChild(style);
+        """);
+    menu.selectItemByLabel("Option2")
+        .selectedItemShould(exactText("Option2"))
+        .selectItemByValue("Option1")
+        .selectedItemShould(exactText("Option1"));
+  }
+
+  @Test
+  void selectOneMenu_withoutAnimations() {
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Basic");
+    executeJavaScript("PrimeFaces.animationEnabled = false;");
+    menu.selectItemByLabel("Option2")
+        .selectedItemShould(exactText("Option2"))
+        .selectItemByValue("Option1")
+        .selectedItemShould(exactText("Option1"));
+  }
+
+  @Test
   void selectOneMenu_lazy() {
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Lazy")
         .selectedItemShould(exactText("Select One"))
@@ -51,6 +82,25 @@ class TestPrimeUi {
         .selectItemByValue("Option 19")
         .selectedItemShould(exactText("Option 19"));
     assertThat(menu.getSelectedItem()).isEqualTo("Option 19");
+  }
+
+  @Test
+  void selectOneMenu_reselectInScrollablePanel() {
+    var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Lazy");
+    var window = webdriver().driver().getWebDriver().manage().window();
+    var originalSize = window.getSize();
+    try {
+      window.setSize(new Dimension(800, 600));
+      executeJavaScript("document.querySelector('[id$=\":lazy\"]').scrollIntoView({block: 'center', behavior: 'instant'});");
+      menu.selectItemByLabel("Option 19")
+          .selectedItemShould(exactText("Option 19"))
+          .selectItemByValue("Option 10")
+          .selectedItemShould(exactText("Option 10"))
+          .selectItemByValue("Option 1")
+          .selectedItemShould(exactText("Option 1"));
+    } finally {
+      window.setSize(originalSize);
+    }
   }
 
   @Test
