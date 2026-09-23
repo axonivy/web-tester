@@ -142,13 +142,13 @@ Wait until the maven central release is available: this may take several hours u
 
 The Apache License, Version 2.0
 
-[web-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
+[web-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
 [web-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
 [web-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
+[prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
 [prime-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
 [prime-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[bom-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=test-bom&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
+[bom-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=test-bom&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
 [bom-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
 [bom-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/test-bom/
 
