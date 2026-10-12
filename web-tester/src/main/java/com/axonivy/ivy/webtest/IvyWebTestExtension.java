@@ -38,6 +38,9 @@ class IvyWebTestExtension implements BeforeEachCallback, BeforeAllCallback, Para
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
     IvyTestRuntimeProps.loadToSystem();
+    if (System.getProperty("webdriver.remote.enableTracing") == null) {
+      System.setProperty("webdriver.remote.enableTracing", "false");
+    }
     Configuration.browser = browser(context);
     Configuration.headless = headless(context);
   }
