@@ -15,7 +15,24 @@
   <properties>
     <engine.page.url>https://product.ivyteam.io</engine.page.url>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.axonivy.ivy.test</groupId>
+        <artifactId>test-bom</artifactId>
+        <version>${project.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
+    <dependency>
+      <groupId>com.axonivy.ivy.webtest</groupId>
+      <artifactId>web-tester</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>com.axonivy.ivy.api.test</groupId>
       <artifactId>ivy-web-test-api</artifactId>
