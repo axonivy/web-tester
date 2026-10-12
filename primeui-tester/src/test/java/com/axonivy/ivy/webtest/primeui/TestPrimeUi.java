@@ -26,6 +26,7 @@ public class TestPrimeUi {
 
   @BeforeAll
   static void setup() {
+    System.setProperty("webdriver.remote.enableTracing", "false");
     Configuration.browser = "firefox";
     Configuration.headless = true;
     Configuration.reportsFolder = "target/selenide/reports";
