@@ -31,11 +31,11 @@ import com.axonivy.ivy.webtest.primeui.widget.Table;
  * An API using a {@link org.openqa.selenium.WebDriver WebDriver} to interact
  * with Primefaces {@link org.openqa.selenium.WebElement WebElements}.
  */
-@SuppressWarnings("deprecation")
 public class PrimeUi {
 
   /**
    * Get a SelectOneMenu widget to test against
+   * 
    * @param locator e.g By.id("")
    * @return SelectOneMenu
    */
@@ -45,6 +45,7 @@ public class PrimeUi {
 
   /**
    * Get a SelectCheckboxMenu widget to test against
+   * 
    * @param locator e.g By.id("")
    * @return SelectCheckboxMenu
    */
@@ -54,6 +55,7 @@ public class PrimeUi {
 
   /**
    * Get a SelectBooleanCheckbox widget to test against
+   * 
    * @param checks e.g By.id("")
    * @return SelectBooleanCheckbox
    */
@@ -63,6 +65,7 @@ public class PrimeUi {
 
   /**
    * Get a SelectManyCheckbox widget to test against
+   * 
    * @param manyCheckbox e.g By.id("")
    * @return SelectManyCheckbox
    */
@@ -72,6 +75,7 @@ public class PrimeUi {
 
   /**
    * Get a SelectOneRadio widget to test against
+   * 
    * @param oneRadio e.g By.id("")
    * @return SelectOneRadio
    */
@@ -81,6 +85,7 @@ public class PrimeUi {
 
   /**
    * Get a Table widget to test against
+   * 
    * @param dataTable e.g By.id("")
    * @return Table
    */
@@ -90,6 +95,7 @@ public class PrimeUi {
 
   /**
    * Get a Dialog widget to test against
+   * 
    * @param dialog e.g By.id("")
    * @deprecated
    * @return Dialog
@@ -101,6 +107,7 @@ public class PrimeUi {
 
   /**
    * Get a Accordion widget to test against
+   * 
    * @param locator e.g By.id("")
    * @return Accordion
    */
@@ -110,6 +117,7 @@ public class PrimeUi {
 
   /**
    * Get a InputNumber widget to test against
+   * 
    * @param input e.g By.id("")
    * @return InputNumber
    */

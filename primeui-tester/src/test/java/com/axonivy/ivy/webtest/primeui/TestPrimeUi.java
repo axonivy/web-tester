@@ -16,6 +16,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.util.SetSystemProperty;
 import org.openqa.selenium.Dimension;
 
 import com.axonivy.ivy.webtest.primeui.ShowcaseUtil.Showcase;
@@ -25,6 +26,7 @@ import com.codeborne.selenide.Configuration;
 /**
  * Class to test PrimeUi. Tests on the official Primefaces Showcase.
  */
+@SetSystemProperty(key = "webdriver.remote.enableTracing", value = "false")
 class TestPrimeUi {
 
   @BeforeAll
@@ -48,7 +50,8 @@ class TestPrimeUi {
   @Test
   void selectOneMenu_duringOpeningTransition() {
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Basic");
-    // A slow, translucent theme must work without relying on hover latency or a final opacity of 1.
+    // A slow, translucent theme must work without relying on hover latency or a
+    // final opacity of 1.
     executeJavaScript("""
         const style = document.createElement('style');
         style.textContent = `
@@ -91,7 +94,8 @@ class TestPrimeUi {
     var originalSize = window.getSize();
     try {
       window.setSize(new Dimension(800, 600));
-      executeJavaScript("document.querySelector('[id$=\":lazy\"]').scrollIntoView({block: 'center', behavior: 'instant'});");
+      executeJavaScript(
+          "document.querySelector('[id$=\":lazy\"]').scrollIntoView({block: 'center', behavior: 'instant'});");
       menu.selectItemByLabel("Option 19")
           .selectedItemShould(exactText("Option 19"))
           .selectItemByValue("Option 10")
