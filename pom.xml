@@ -32,7 +32,6 @@
         <version>3.3.1</version>
         <configuration>
           <tagNameFormat>v@{project.version}</tagNameFormat>
-          <releaseProfiles>central.release</releaseProfiles>
         </configuration>
       </plugin>
     </plugins>
