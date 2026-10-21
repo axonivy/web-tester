@@ -128,6 +128,15 @@
         <configuration>
           <skip>${skip.publishing}</skip>
         </configuration>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <inherited>false</inherited>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
