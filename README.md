@@ -2,9 +2,9 @@
 
 
 
-[![web-tester version][web-lts] ![web-le][web-le]][web-central] <br/>
-[![primeui-tester version][prime-lts] ![prime-le][prime-le]][prime-central] <br/>
-[![test-bom version][bom-lts] ![bom-le][bom-le]][bom-central] <br/>
+[![web-tester version][web-lts] ![web-le][web-le]][web-releases] <br/>
+[![primeui-tester version][prime-lts] ![prime-le][prime-le]][prime-releases] <br/>
+[![test-bom version][bom-lts] ![bom-le][bom-le]][bom-releases] <br/>
 
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
@@ -141,14 +141,14 @@ Check that the release is available on [Axon Ivy Nexus](https://nexus.axonivy.co
 
 The Apache License, Version 2.0
 
-[web-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
-[web-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
-[web-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
-[prime-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
-[prime-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[bom-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=test-bom&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
-[bom-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
-[bom-central]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/test-bom/
+[web-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
+[web-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
+[web-releases]: https://nexus.axonivy.com/#browse/browse:maven-releases
+[prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
+[prime-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
+[prime-releases]: https://nexus.axonivy.com/#browse/browse:maven-releases
+[bom-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=test-bom&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
+[bom-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
+[bom-releases]: https://nexus.axonivy.com/#browse/browse:maven-releases
 
 [raise-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/
