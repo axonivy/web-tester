@@ -88,7 +88,6 @@ Since 9.4: Releasing is only possible on a release branch.
 
 * Create a release branch if it does not exist yet (e.g. release/10.0)
 * Run the [release build](build/release/Jenkinsfile) on the release branch
-* Confirm the publishing of the created release on the [Central Portal](https://central.sonatype.com/publishing/deployments)
 * Merge the Pull Request for next development iteration
 * If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project (adjust version number accordingly):
 
@@ -98,7 +97,7 @@ Since 9.4: Releasing is only possible on a release branch.
 
 ### Post-Release
 
-Wait until the maven central release is available: this may take several hours until it's fully distributed.
+Check that the release is available on [Axon Ivy Nexus](https://nexus.axonivy.com/).
 
 - Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
 - Publish the latest [draft release](https://github.com/axonivy/web-tester/releases) do preserve the current changelog.
