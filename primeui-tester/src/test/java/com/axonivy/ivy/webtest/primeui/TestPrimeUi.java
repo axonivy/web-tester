@@ -48,6 +48,30 @@ class TestPrimeUi {
   }
 
   @Test
+  void selectOneMenu_emptyItemLabel() {
+    var showcase = ShowcaseUtil.open(Showcase.ONEMENU);
+    var menu = showcase.oneMenu("Basic").selectItemByLabel("Option1");
+    var basicLabel = $$("label").find(exactText("Basic"));
+    var menuId = basicLabel.parent().find(".ui-selectonemenu").attr("id");
+    // Simulate an empty value, newer pf showcase versions have an example for this
+    executeJavaScript("""
+        const menu = document.getElementById(arguments[0]);
+        const option = menu.querySelector('select option[value=""]');
+        const items = document.getElementById(arguments[0] + '_items');
+        const item = items.querySelector('li.ui-selectonemenu-item');
+        const blank = String.fromCharCode(160);
+        option.textContent = blank;
+        item.textContent = blank;
+        item.setAttribute('data-label', blank);
+        item.setAttribute('aria-label', 'Not Selected');
+        """, menuId);
+
+    menu.selectItemByValue("")
+        .selectItemByLabel("Option1")
+        .selectItemByLabel("");
+  }
+
+  @Test
   void selectOneMenu_duringOpeningTransition() {
     var menu = ShowcaseUtil.open(Showcase.ONEMENU).oneMenu("Basic");
     // A slow, translucent theme must work without relying on hover latency or a

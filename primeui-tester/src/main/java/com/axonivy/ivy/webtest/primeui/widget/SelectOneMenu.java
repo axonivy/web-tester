@@ -44,8 +44,21 @@ public class SelectOneMenu {
     if (value == null) {
       throw new IllegalArgumentException("value must not be null!");
     }
-    var label = $(By.id(oneMenuId)).find("select option[value='" + value + "']").getAttribute("textContent");
-    return selectItemByLabel(label);
+    var options = $(By.id(oneMenuId)).findAll("select option");
+    for (int index = 0; index < options.size(); index++) {
+      var option = options.get(index);
+      if (value.equals(option.getAttribute("value"))) {
+        var label = option.getAttribute("textContent");
+        if (isBlankLabel(label)) {
+          // PrimeFaces renders blank labels as NBSP; newer versions add a separate aria-label.
+          // Select by the stable option/item order instead of round-tripping the rendered text.
+          selectItemByIndex(index, value);
+          return this;
+        }
+        return selectItemByLabel(label);
+      }
+    }
+    throw new IllegalArgumentException("No item with value '" + value + "' found in SelectOneMenu '" + oneMenuId + "'");
   }
 
   /**
@@ -56,6 +69,16 @@ public class SelectOneMenu {
   public SelectOneMenu selectItemByLabel(String label) {
     if (label == null) {
       throw new IllegalArgumentException("Label must not be null!");
+    }
+    if (isBlankLabel(label)) {
+      var options = $(By.id(oneMenuId)).findAll("select option");
+      for (int index = 0; index < options.size(); index++) {
+        var option = options.get(index);
+        if (isBlankLabel(option.getAttribute("textContent"))) {
+          selectItemByIndex(index, option.getAttribute("value"));
+          return this;
+        }
+      }
     }
     if (!label.equals(getSelectedItem())) {
       selectItem(label);
@@ -85,13 +108,7 @@ public class SelectOneMenu {
   }
 
   private void selectItem(final String label) {
-    $(By.id(oneMenuId)).find("span.ui-icon.ui-icon-triangle-1-s").shouldBe(visible).click();
-    // Wait for the opening transition instead of hovering the first item:
-    // hovering can scroll the page and cause PrimeFaces to close the panel.
-    $(By.id(oneMenuId + "_panel")).shouldBe(visible)
-        .shouldNotHave(cssClass("ui-connected-overlay-enter"), cssClass("ui-connected-overlay-enter-active"))
-        .should(match("menupanel should not animate", el -> !el.getAttribute("style").contains("opacity")));
-    $(By.id(oneMenuId + "_items")).shouldBe(visible);
+    openMenu();
     $(By.id(oneMenuId + "_items")).findAll("li").find(exactText(label)).shouldBe(visible, enabled).click();
     $(By.id(oneMenuId + "_items")).shouldNotBe(visible);
     if ("input".equals(selectLabel().getTagName())) {
@@ -99,6 +116,28 @@ public class SelectOneMenu {
     } else {
       selectLabel().shouldBe(exactText(label));
     }
+  }
+
+  private void selectItemByIndex(int index, String value) {
+    openMenu();
+    $(By.id(oneMenuId + "_panel")).findAll("li.ui-selectonemenu-item").get(index)
+        .shouldBe(visible, enabled).click();
+    $(By.id(oneMenuId + "_items")).shouldNotBe(visible);
+    $(By.id(oneMenuId + "_input")).shouldBe(exactValue(value));
+  }
+
+  private void openMenu() {
+    $(By.id(oneMenuId)).find("span.ui-icon.ui-icon-triangle-1-s").shouldBe(visible).click();
+    // Wait for the opening transition instead of hovering the first item:
+    // hovering can scroll the page and cause PrimeFaces to close the panel.
+    $(By.id(oneMenuId + "_panel")).shouldBe(visible)
+        .shouldNotHave(cssClass("ui-connected-overlay-enter"), cssClass("ui-connected-overlay-enter-active"))
+        .should(match("menupanel should not animate", el -> !el.getAttribute("style").contains("opacity")));
+    $(By.id(oneMenuId + "_items")).shouldBe(visible);
+  }
+
+  private boolean isBlankLabel(String label) {
+    return label == null || label.replace("&nbsp;", "").replace("&#160;", "").replace('\u00a0', ' ').isBlank();
   }
 
   private SelenideElement selectLabel() {
