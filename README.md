@@ -139,4 +139,3 @@ The Apache License, Version 2.0
 [raise-version-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/
 [release-build]: https://jenkins.ivyteam.io/job/web-tester_release/
 [axon-ivy-nexus]: https://nexus.axonivy.com/
-[releases]: https://github.com/axonivy/web-tester/releases
