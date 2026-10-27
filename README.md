@@ -1,6 +1,8 @@
 # web-tester
 
-[![web-tester version][0]][1] [![primeui-tester version][2]][3] [![unit-tester version][4]][5]
+[![web-tester version][web-lts] ![web-le][web-le]][web-releases] <br/>
+[![primeui-tester version][prime-lts] ![prime-le][prime-le]][prime-releases] <br/>
+[![test-bom version][bom-lts] ![bom-le][bom-le]][bom-releases] <br/>
 
 The `web-tester` artifact provides you a API which helps you test your JSF-Page.
 With this API it is easy to setup your test environment and send requests
@@ -20,8 +22,8 @@ widgets and check if it's in the condition you expected it to be.
 
 The `unit-tester` artifact provides you the following APIs for unit testing:
 
-* [JUnit 5](https://junit.org/junit5/) 
-* [AssertJ](https://assertj.github.io/doc/)
+- [JUnit 5](https://junit.org/junit5/)
+- [AssertJ](https://assertj.github.io/doc/)
 
 # How to use in your project
 
@@ -72,39 +74,30 @@ class WebTest {
 }
 ```
 
-## Changelog
-
-* See the [Releases](https://github.com/axonivy/web-tester/releases)
-
 ## Release new version
-
-### Preparation
-
-* Check/Update the changelog file above
 
 ### Release
 
-Since 9.4: Releasing is only possible on a release branch.
+- Verify:
+  - The consuming repos use the latest SNAPSHOT. To be sure, run the [raise version job][raise-version-job] providing the current SNAPSHOT.
+  - Renovate dependencies are accurate; especially jersey-client must be in sync with the current core!
+- Create a release branch if it does not exist yet (e.g. `release/13.2`).
+- Run the [release build][release-build] on the respective release branch.
+- Merge the pull request for the next development iteration.
+- If you have created a new release branch, manually raise the version on the `master` branch to the next major or minor version:
+  - Execute the following command in the root of this project (adjust version number accordingly):
 
-* Create a release branch if it does not exist yet (e.g. release/10.0)
-* Run the [release build](build/release/Jenkinsfile) on the release branch
-* Merge the Pull Request for next development iteration
-* If you have created a new release branch, then manually raise the version on the master branch to the next major or minor version by executing the following command in the root of this project (adjust version number accordingly):
+    ```bash
+    .ivy/manual-raise-version.sh 13.2.0-SNAPSHOT
+    ```
 
-```bash
-.ivy/raise-version.sh 10.0.0-SNAPSHOT
-```
+  - If this change reflects a major bump, update the `versionPrefix` query parameter in the badge URLs below.
+  - Add the appropriate label (`major` or `minor`) to the pull request so that the release drafter creates a separate, versioned release draft for the `master` branch and tracks changes appropriately.
 
-### Post-Release
+### Post Release
 
-Check that the release is available on [Axon Ivy Nexus](https://nexus.axonivy.com/).
-
-- Raise web-tester in other repos by triggering this [build](https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/)
-- Publish the latest [draft release](https://github.com/axonivy/web-tester/releases) do preserve the current changelog.
-  - Select the tag which was created for this release by the release-pipeline
-  - Verify that the title is correct
-  - Set the release as 'latest release'
-  - Publish it
+- Verify that the release is available on [Axon Ivy Nexus][axon-ivy-nexus].
+- Raise `web-tester` in consuming repos by triggering the [raise version job][raise-version-job].
 
 ## Authors
 
@@ -116,9 +109,16 @@ Check that the release is available on [Axon Ivy Nexus](https://nexus.axonivy.co
 
 The Apache License, Version 2.0
 
-[0]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
-[1]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/web-tester/
-[2]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
-[3]: https://repo1.maven.org/maven2/com/axonivy/ivy/webtest/primeui-tester/
-[4]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=unit-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Fcom%2Faxonivy%2Fivy%2Ftest%2Funit-tester%2Fmaven-metadata.xml
-[5]: https://repo1.maven.org/maven2/com/axonivy/ivy/test/unit-tester/
+[web-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=web-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
+[web-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fweb-tester%2Fmaven-metadata.xml
+[web-releases]: https://nexus.axonivy.com/#browse/browse:maven-releases
+[prime-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=primeui-tester&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
+[prime-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Fwebtest%2Fprimeui-tester%2Fmaven-metadata.xml
+[prime-releases]: https://nexus.axonivy.com/#browse/browse:maven-releases
+[bom-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=12&label=test-bom&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
+[bom-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
+[bom-releases]: https://nexus.axonivy.com/#browse/browse:maven-releases
+[raise-version-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/
+[release-build]: https://jenkins.ivyteam.io/job/web-tester_release/
+[axon-ivy-nexus]: https://nexus.axonivy.com/
+[releases]: https://github.com/axonivy/web-tester/releases
