@@ -116,12 +116,6 @@ Firefox is the default browser. Add `-Dselenide.browser=chrome` to use Chrome.
 
 - Verify that the release is available on [Axon Ivy Nexus][axon-ivy-nexus].
 - Raise `web-tester` in consuming repos by triggering the [raise version job][raise-version-job].
-- Publish the latest [release draft][releases].
-  - Verify and preserve the changelog.
-  - Select the tag which was created for this release by the [release build][release-build].
-  - Verify the title is correct (remove 🧪).
-  - Mark the release as 'latest'.
-  - Publish it.
 
 ## Authors
 

@@ -1,0 +1,21 @@
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - v*.*.*
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release draft tag to publish (e.g. v14.0.1)
+        type: string
+        required: true
+
+jobs:
+  publish_release_draft:
+    permissions:
+      contents: write
+      pull-requests: read
+    uses: ./.github/workflows/release-drafter.yml
+    with:
+      tag: ${{ inputs.tag || github.ref_name }}
