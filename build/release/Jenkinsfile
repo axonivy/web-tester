@@ -6,14 +6,24 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url')
+    string(name: 'version', description: 'Version to release.')
+    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url.')
   }
 
-  stages {    
-    stage('build') {
-      when {
-        expression { isReleaseBranch() }
+  stages {
+    stage('Validate preparations') {
+      steps {
+        script {
+          assertReleaseBranch()
+          assertReleaseVersionFormat()
+          assertReleaseVersionMatchesProjectVersion()
+          assertUnpublished()
+          currentBuild.description = params.version
+        }
       }
+    }
+
+    stage('Build') {
       steps {
         script {
           docker.build('maven').inside {
@@ -35,13 +45,13 @@ pipeline {
                                 "-DpushChanges=false " +
                                 "-DlocalCheckout=true"
               maven cmd: '--batch-mode -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
-              
+
               // Update web-tester-fixture version to match the next development version
-              def nextDevVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+              def nextDevVersion = evaluateProjectVersion()
               sh ".ivy/manual-raise-version.sh ${nextDevVersion}"
               sh "git add web-tester-fixture/pom.xml pom.test.xml && git commit --amend --no-edit"
             }
-            currentBuild.description = "<a href='${publishingUri}'>publishing</a>"
+            currentBuild.description = "<a href='${publishingUri}'>${params.version}</a>"
 
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
@@ -65,6 +75,52 @@ pipeline {
   }
 }
 
-def isReleaseBranch() {
-  return env.BRANCH_NAME.startsWith('release/') 
+def assertReleaseBranch() {
+  if (!isReleasingBranch()) {
+    error 'Releasing is only possible from a release branch.'
+  }
+}
+
+def assertReleaseVersionFormat() {
+  if (!(params.version ==~ /\d+\.\d+\.\d+/)) {
+    error "Expected a valid release version, got '${params.version}'."
+  }
+}
+
+def assertReleaseVersionMatchesProjectVersion() {
+  def sourceVersion
+  docker.build('maven').inside {
+    sourceVersion = evaluateProjectVersion()
+  }
+  def expectedVersion = sourceVersion.replaceFirst(/-SNAPSHOT$/, '')
+  if (params.version != expectedVersion) {
+    error "Requested release ${params.version}, but pom.xml resolves to ${expectedVersion}."
+  }
+}
+
+def evaluateProjectVersion() {
+  sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+}
+
+def assertUnpublished() {
+  def versionParts = params.version.tokenize('.')
+  if ((versionParts[2] as int) > 0) {
+    versionParts[2] = ((versionParts[2] as int) - 1).toString()
+    def previousVersion = versionParts.join('.')
+    def previousArtifact = mavenArtifactPomStatus(previousVersion)
+    if (previousArtifact.statusCode != '200') {
+      error "Expected ${previousArtifact.url} to be available (HTTP 200), got HTTP ${previousArtifact.statusCode}."
+    }
+  }
+
+  def artifact = mavenArtifactPomStatus(params.version)
+  if (artifact.statusCode != '404') {
+    error "Expected ${artifact.url} to be absent (HTTP 404), got HTTP ${artifact.statusCode}. ${artifact.url} might already be released."
+  }
+}
+
+def mavenArtifactPomStatus(def version) {
+  def url = "https://maven.axonivy.com/com/axonivy/ivy/webtest/web-tester/${version}/web-tester-${version}.pom"
+  def statusCode = sh(script: "curl --silent --show-error --location --connect-timeout 10 --max-time 60 --output /dev/null --write-out '%{http_code}' '${url}'", returnStdout: true).trim()
+  [url: url, statusCode: statusCode]
 }
