@@ -94,14 +94,22 @@ Firefox is the default browser. Add `-Dselenide.browser=chrome` to use Chrome.
 
 ## Release new version
 
-### Release
+### Preparation
 
 - Verify:
   - The consuming repos use the latest SNAPSHOT. To be sure, run the [raise version job][raise-version-job] providing the current SNAPSHOT.
   - Renovate dependencies are accurate; especially jersey-client must be in sync with the current core!
 - Create a release branch if it does not exist yet (e.g. `release/13.2`).
+
+### Release
+
 - Run the [release build][release-build] on the respective release branch.
+
+### Post Release
+
 - Merge the pull request for the next development iteration.
+  - Verify that the release is available on [Axon Ivy Nexus][axon-ivy-nexus].
+  - Verify that the release is published on GitHub. ([Releases][github-releases])
 - If you have created a new release branch, manually raise the version on the `master` branch to the next major or minor version:
   - Execute the following command in the root of this project (adjust version number accordingly):
 
@@ -109,12 +117,10 @@ Firefox is the default browser. Add `-Dselenide.browser=chrome` to use Chrome.
     .ivy/manual-raise-version.sh 13.2.0-SNAPSHOT
     ```
 
+  - Repeat the preparation steps on the `master` branch.
   - If this change reflects a major bump, update the `versionPrefix` query parameter in the badge URLs below.
   - Add the appropriate label (`major` or `minor`) to the pull request so that the release drafter creates a separate, versioned release draft for the `master` branch and tracks changes appropriately.
 
-### Post Release
-
-- Verify that the release is available on [Axon Ivy Nexus][axon-ivy-nexus].
 - Raise `web-tester` in consuming repos by triggering the [raise version job][raise-version-job].
 
 ## Authors
@@ -136,6 +142,7 @@ The Apache License, Version 2.0
 [bom-lts]: https://img.shields.io/maven-metadata/v.svg?versionPrefix=14&label=test-bom&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
 [bom-le]: https://img.shields.io/maven-metadata/v.svg?label=LE&color=yellow&logo=apachemaven&metadataUrl=https%3A%2F%2Fnexus.axonivy.com%2Frepository%2Fmaven-releases%2Fcom%2Faxonivy%2Fivy%2Ftest%2Ftest-bom%2Fmaven-metadata.xml
 [bom-releases]: https://nexus.axonivy.com/#browse/browse:maven-releases
-[raise-version-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/
 [release-build]: https://jenkins.ivyteam.io/job/web-tester_release/
 [axon-ivy-nexus]: https://nexus.axonivy.com/
+[github-releases]: https://github.com/axonivy/web-tester/releases
+[raise-version-job]: https://jenkins.ivyteam.io/view/jobs/job/github-repo-manager_raise-web-tester-version/job/master/
