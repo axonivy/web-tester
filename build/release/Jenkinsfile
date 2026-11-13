@@ -6,7 +6,8 @@ pipeline {
   }
 
   parameters {
-    string(name: 'version', description: 'Version to release.')
+    booleanParam(name: 'dryRun', defaultValue: true, description: 'Whether the build should publish the release.')
+    string(name: 'version', defaultValue: '', description: 'Version to release.')
     string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url.')
   }
 
@@ -14,10 +15,12 @@ pipeline {
     stage('Validate preparations') {
       steps {
         script {
-          assertReleaseBranch()
+          if (!params.dryRun) {
+            assertReleaseBranch()
+          }
           assertReleaseVersionFormat()
           assertReleaseVersionMatchesProjectVersion()
-          currentBuild.description = params.version
+          currentBuild.description = params.dryRun ? "Dry run (${params.version})" : params.version
         }
       }
     }
@@ -26,34 +29,56 @@ pipeline {
       steps {
         script {
           docker.build('maven').inside {
+            setVersion(params.version)
+            withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
+              sh "gpg --batch --import ${env.GPG_FILE}"
+              def args = [
+                '-Dmaven.test.skip=true',
+                "-Dengine.page.url=${params.engineSource}",
+                '-Divy.engine.version.latest.minor=true',
+                '-Dskip.gpg=false',
+                '-Dgpg.passphraseEnvName=GPG_PWD'
+              ]
+              if (params.dryRun) {
+                args.add('-DaltDeploymentRepository=local::file:./target/deploy')
+              }
+              maven cmd: 'clean deploy ' + args.join(' ')
+            }
+          }
+        }
+        script {
+          if (params.dryRun) {
+            archiveArtifacts 'target/deploy/**/*'
+          } else {
+            archiveArtifacts '**/target/*.jar'
+            archiveArtifacts '**/target/test-bom-*.pom'
+          }
+        }
+      }
+    }
+
+    stage('Publish to GitHub') {
+      when {
+        expression { !params.dryRun }
+      }
+      steps {
+        script {
+          docker.build('maven').inside {
             def publishingUri = "https://nexus.axonivy.com/#browse/browse:maven-releases"
+            currentBuild.description = "<a href='${publishingUri}'>${params.version}</a>"
+
             def targetBranch = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
             sh "git config --global user.name 'ivy-team'"
             sh "git config --global user.email 'info@ivyteam.ch'"
             sh "git checkout -b ${targetBranch}"
             sh "git tag -l | xargs git tag -d"
-
-            withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
-              sh "gpg --batch --import ${env.GPG_FILE}"
-              def reactorArgs = "-Dmaven.test.skip=true " +
-                                "-Dengine.page.url=${params.engineSource} " +
-                                "-Divy.engine.version.latest.minor=true " +
-                                "-Dskip.gpg=false " +
-                                "-Dgpg.passphrase='${env.GPG_PWD}'"
-              def releaseArgs = "-DautoVersionSubmodules=true " +
-                                "-DpushChanges=false " +
-                                "-DlocalCheckout=true"
-              maven cmd: '--batch-mode -Darguments="' + reactorArgs + '" ' + releaseArgs + ' release:prepare release:perform'
-
-              // Update web-tester-fixture version to match the next development version
-              def nextDevVersion = evaluateProjectVersion()
-              sh ".ivy/manual-raise-version.sh ${nextDevVersion}"
-              sh "git add web-tester-fixture/pom.xml pom.test.xml && git commit --amend --no-edit"
-            }
-            currentBuild.description = "<a href='${publishingUri}'>${params.version}</a>"
+            sh "git add . ;git commit -m 'update versions for release ${params.version}'"
+            sh "git tag \"v${params.version}\" -a -m \"Official release ${params.version}\""
 
             withEnv(['GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no']) {
               sshagent(credentials: ['github-axonivy']) {
+                def nextDevVersion = setNextSnapshotVersion(params.version)
+                sh "git add . ;git commit -m 'prepare next dev-cycle ${nextDevVersion}'"
                 sh "git push origin --tags"
                 sh "git push -u origin ${targetBranch}"
 
@@ -67,8 +92,6 @@ pipeline {
             }
           }
         }
-        archiveArtifacts '**/target/*.jar'
-        archiveArtifacts '**/target/test-bom-*.pom'
       }
     }
   }
@@ -99,4 +122,16 @@ def assertReleaseVersionMatchesProjectVersion() {
 
 def evaluateProjectVersion() {
   sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+}
+
+def setNextSnapshotVersion(def version) {
+  def versionParts = version.tokenize('.')
+  versionParts[2] = "${(versionParts[2] as int) + 1}-SNAPSHOT"
+  def nextVersion = versionParts.join('.')
+  sh ".ivy/manual-raise-version.sh ${nextVersion}"
+  return nextVersion
+}
+
+def setVersion(def version) {
+  maven cmd: "versions:set -DnewVersion=${version} -DprocessAllModules=true -DgenerateBackupPoms=false"
 }
