@@ -47,7 +47,7 @@ pipeline {
                 '-Dgpg.passphraseEnvName=GPG_PWD'
               ]
               if (params.dryRun) {
-                args.add('-DaltDeploymentRepository=local::file:./target/deploy')
+                args.add('-DaltDeploymentRepository=local::file:./deploy')
               }
               maven cmd: 'clean deploy ' + args.join(' ')
             }
@@ -55,7 +55,7 @@ pipeline {
         }
         script {
           if (params.dryRun) {
-            archiveArtifacts '**/target/deploy/**/*'
+            archiveArtifacts 'deploy/**/*'
           } else {
             archiveArtifacts '**/target/*.jar'
             archiveArtifacts '**/target/test-bom-*.pom'

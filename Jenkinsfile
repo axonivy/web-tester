@@ -46,7 +46,7 @@ pipeline {
                       args.add('-f pom.test.xml')
                     }
                     if (params.dryRun) {
-                      args.add('-DaltDeploymentRepository=local::file:./target/deploy')
+                      args.add('-DaltDeploymentRepository=local::file:./deploy')
                     }
                     def phase = isReleasingBranch() ? 'deploy' : 'verify'
                     maven cmd: "clean ${phase} " + args.join(' ')
@@ -60,7 +60,7 @@ pipeline {
         }
         script {
           if (params.dryRun) {
-            archiveArtifacts artifacts: '**/target/deploy/**/*', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'deploy/**/*', allowEmptyArchive: true
           } else {
             archiveArtifacts '**/target/*.jar'
           }
