@@ -55,7 +55,7 @@ pipeline {
         }
         script {
           if (params.dryRun) {
-            archiveArtifacts 'target/deploy/**/*'
+            archiveArtifacts '**/target/deploy/**/*'
           } else {
             archiveArtifacts '**/target/*.jar'
             archiveArtifacts '**/target/test-bom-*.pom'
