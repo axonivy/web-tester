@@ -10,12 +10,9 @@ pipeline {
   }
 
   parameters {
-    string(name: 'engineSource', 
-      defaultValue: 'https://product.ivyteam.io', 
-      description: 'Engine page url')
-    string(name: 'qualifier',
-      description: "Optional qualifier (e.g. m7-SNAPSHOT for Sprint 7). Empty keeps the original project version.",
-      defaultValue: '')
+    booleanParam(name: 'dryRun', defaultValue: false, description: 'Whether the build should publish the SNAPSHOT. Non-release branches never publish.')
+    string(name: 'qualifier', defaultValue: '', description: 'Optional version qualifier (e.g. \'m42\'). Will be appended with \'-SNAPSHOT\'.')
+    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io', description: 'Engine page url.')
   }
 
   stages {
@@ -33,22 +30,26 @@ pipeline {
                 docker.build('maven').inside("--network ${networkName}") {
                   withCredentials([string(credentialsId: 'gpg.password.axonivy', variable: 'GPG_PWD'), file(credentialsId: 'gpg.keystore.axonivy', variable: 'GPG_FILE')]) {
                     sh "gpg --batch --import ${env.GPG_FILE}"
-                    def args = "" +
-                      "-Dmaven.test.failure.ignore=true " +
-                      "-Dengine.page.url=${params.engineSource} " +
-                      "-Divy.engine.version.latest.minor=true " +
-                      "-Dskip.gpg=false " +
-                      "-Dgpg.passphraseEnvName=GPG_PWD " +
-                      "-Dselenide.remote=http://${seleniumName}:4444/wd/hub " + 
-                      "-Dshowcase.url=http://${showcaseName}:8080/ "
+                    def args = [
+                      '-Dmaven.test.failure.ignore=true',
+                      "-Dengine.page.url=${params.engineSource}",
+                      '-Divy.engine.version.latest.minor=true',
+                      '-Dskip.gpg=false',
+                      '-Dgpg.passphraseEnvName=GPG_PWD',
+                      "-Dselenide.remote=http://${seleniumName}:4444/wd/hub",
+                      "-Dshowcase.url=http://${showcaseName}:8080/"
+                    ]
                     def qualifier = params.qualifier?.trim()
                     if (qualifier) {
                       applyVersionQualifier(qualifier)
                     } else {
-                      args += "-f pom.test.xml "
+                      args.add('-f pom.test.xml')
+                    }
+                    if (params.dryRun) {
+                      args.add('-DaltDeploymentRepository=local::file:./target/deploy')
                     }
                     def phase = isReleasingBranch() ? 'deploy' : 'verify'
-                    maven cmd: "clean ${phase} ${args}"
+                    maven cmd: "clean ${phase} " + args.join(' ')
                   }
                 }
               }
@@ -57,7 +58,13 @@ pipeline {
             sh "docker network rm ${networkName}"
           }
         }
-        archiveArtifacts '**/target/*.jar'
+        script {
+          if (params.dryRun) {
+            archiveArtifacts artifacts: 'target/deploy/**/*', allowEmptyArchive: true
+          } else {
+            archiveArtifacts '**/target/*.jar'
+          }
+        }
         archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
         junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: '**/target/*-reports/**/*.xml'
         recordIssues tools: [mavenConsole(), eclipse(), javaDoc()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
@@ -70,7 +77,7 @@ pipeline {
 
 def applyVersionQualifier(String qualifier) {
   def currentVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
-  def qualified  = currentVersion.replaceFirst(/-SNAPSHOT$/, "-${qualifier}")
+  def qualified  = currentVersion.replaceFirst(/-SNAPSHOT$/, "-${qualifier}-SNAPSHOT")
   echo "Using version '${qualified}' for this build."
   maven cmd: "versions:set -DnewVersion=${qualified} -DprocessAllModules=true -DgenerateBackupPoms=false"
 }
