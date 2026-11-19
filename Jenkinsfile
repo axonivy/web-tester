@@ -60,7 +60,7 @@ pipeline {
         }
         script {
           if (params.dryRun) {
-            archiveArtifacts artifacts: 'target/deploy/**/*', allowEmptyArchive: true
+            archiveArtifacts artifacts: '**/target/deploy/**/*', allowEmptyArchive: true
           } else {
             archiveArtifacts '**/target/*.jar'
           }
