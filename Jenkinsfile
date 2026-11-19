@@ -58,10 +58,12 @@ pipeline {
             sh "docker network rm ${networkName}"
           }
         }
-        if (params.dryRun) {
-          archiveArtifacts artifacts: 'target/deploy/**/*', allowEmptyArchive: true
-        } else {
-          archiveArtifacts '**/target/*.jar'
+        script {
+          if (params.dryRun) {
+            archiveArtifacts artifacts: 'target/deploy/**/*', allowEmptyArchive: true
+          } else {
+            archiveArtifacts '**/target/*.jar'
+          }
         }
         archiveArtifacts artifacts: '**/target/selenide/reports/**/*', allowEmptyArchive: true
         junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: '**/target/*-reports/**/*.xml'
